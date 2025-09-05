@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../components/Header.jsx';
+import AnimatedSection from '../components/AnimatedSection.jsx';
 import Footer from '../components/Footer.jsx';
 import filipe from '../assets/filipe.jpg';
 import { experiences as experienceData } from '../data/experience.js';
@@ -7,6 +8,7 @@ import {
   FaLinkedin,
   FaGlobe,
   FaEnvelope,
+  FaFilePdf,
   FaCloud,
   FaCubes,
   FaDatabase,
@@ -40,38 +42,25 @@ import {
   SiAwslambda,
 } from 'react-icons/si';
 function Index() {
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-visible');
-        });
-      },
-      { threshold: 0.12 }
-    );
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  React.useEffect(() => {}, []);
 
   return (
     <>
       <Header />
       <div className="with-header-offset bg-white text-black">
-        <div className="page-container grid h-full gap-10 min-h-[calc(100vh-var(--header-height))] w-full grid-cols-1 items-center justify-items-center lg:grid-cols-2 reveal">
-          <div className="row-start-2 lg:row-auto">
-            <h1 className="mb-2 lg:text-5xl !leading-tight text-3xl text-center lg:text-left">
+        <AnimatedSection className="page-container grid min-h-[calc(100dvh-var(--header-height))] w-full place-content-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 sm:gap-12">
+          <div className="order-2 lg:order-1 justify-self-center lg:justify-self-start max-w-2xl text-center lg:text-left">
+            <h1 className="mb-2 lg:text-6xl !leading-tight text-4xl">
               Filipe Alves Cavalcante
             </h1>
-            <h2
-              variant="lead"
-              className="mb-6 md:pr-16 xl:pr-28 text-center lg:text-left"
-            >
+            <h2 className="mb-3 text-xl lg:text-2xl text-gray-700">
               Software Engineer
             </h2>
-            <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-start">
+            <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:flex-wrap lg:items-center lg:justify-start justify-center">
               <a
                 href="mailto:filipe.alvescavalcante@gmail.com"
-                className="px-4 py-2 rounded-md  w-full border border-black sm:w-auto text-center flex items-center justif-center gap-2 hover:bg-black/5"
+                className="px-4 py-2 rounded-md w-full border border-black sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/5"
               >
                 <FaEnvelope /> Email
               </a>
@@ -84,69 +73,55 @@ function Index() {
                 <FaLinkedin /> LinkedIn
               </a>
               <a
-                href="https://filipelab.com"
-                target="_blank"
-                rel="noreferrer"
-                className="px-4 py-2 rounded-md border border-black text-black w-full sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/5"
+                href={'/resume'}
+                className="px-4 py-2 rounded-md bg-black text-white w-full sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/80"
               >
-                <FaGlobe /> Website
+                <FaFilePdf /> Resume
               </a>
             </div>
           </div>
-          <img
-            alt="Filipe"
-            src={filipe}
-            className="h-[25rem] lg:h-[36rem] rounded-full w-full object-cover shadow-lg lg:h-[40rem] lg:w-[40rem] lg:rounded-lg"
-          />
-        </div>
+          <div className="order-1 lg:order-2 justify-self-center lg:justify-self-end">
+            <img
+              alt="Filipe"
+              src={filipe}
+              className="h-[16rem] w-[16rem] sm:h-[20rem] sm:w-[20rem] lg:h-[24rem] lg:w-[24rem] rounded-full object-cover shadow-lg"
+            />
+          </div>
+          </div>
+        </AnimatedSection>
       </div>
 
-      <section
-        id="about"
-        className="bg-gradient-to-r from-indigo-500 to-purple-500 reveal"
-      >
+      <AnimatedSection id="about" className="bg-gradient-to-r from-indigo-500 to-purple-500">
         <div className="page-container py-16 min-h-screen flex flex-col justify-center items-center text-center text-white">
           <h3 className="text-4xl font-semibold mb-4">About me</h3>
-          <div className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl">
-            <AboutSummary />
+          <div className="text-lg md:text-xl lg:text-2xl leading-relaxed">
+          <p className="text-white/90 text-left">
+            I am a software engineer focused on the backend with over 6 years of experience in web development. I have worked on a wide range of projects, including PHP, Node.js, Typescript, and frameworks such as Laravel, Express, and NestJS. I also have experience working with the frontend using React and VueJS.<br/>
+            Experience with scaling issues using AWS products such as SQS, DynamoDB, Lambda and also experience integrating with third-party systems such as Stripe, GoogleApi, Amplitude, Google Analytics, etc.
+          </p>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section
-        id="skills"
-        className="bg-gradient-to-r from-emerald-500 to-teal-500 reveal"
-      >
+      <AnimatedSection id="skills" className="bg-gradient-to-r from-emerald-500 to-teal-500">
         <div className="page-container py-16 min-h-screen flex flex-col justify-center items-center text-white">
           <h3 className="text-4xl font-semibold mb-6">Skills</h3>
           <SkillsFromCv />
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Projects section intentionally removed as requested */}
-
-      <section
-        id="experience"
-        className="bg-gradient-to-r from-fuchsia-500 to-rose-500 reveal"
-      >
+      <AnimatedSection id="experience" className="bg-gradient-to-r from-fuchsia-500 to-rose-500">
         <div className="page-container py-16 min-h-screen flex flex-col justify-center items-center text-white">
           <h3 className="text-4xl font-semibold mb-6">Work experience</h3>
           <ExperienceFromCv />
         </div>
-      </section>
-
+      </AnimatedSection>
       <Footer />
     </>
   );
 }
 
 export default Index;
-
-function AboutSummary() {
-  const summary =
-    'I am a software engineer focused on the backend with over 6 years of experience in web development. I have worked on a wide range of projects, including PHP, Node.js, Typescript, and frameworks such as Laravel, Express, and NestJS. I also have experience working with the frontend using React and VueJS. Experience with scaling issues using AWS products such as SQS, DynamoDB, Lambda and also experience integrating with third-party systems such as Stripe, GoogleApi, Amplitude, Google Analytics, etc';
-  return <p className="max-w-3xl text-white/90 text-center">{summary}</p>;
-}
 
 function SkillsFromCv() {
   const [skills] = useState([
@@ -303,20 +278,16 @@ function ExperienceFromCv() {
   const items = experienceData;
   return (
     <div className="relative">
-      <div
-        className="absolute left-3 top-0 bottom-0 w-px bg-white/40"
-        aria-hidden="true"
-      />
+      <div className="absolute left-3 top-0 bottom-0 w-px" aria-hidden="true" />
       <div className="space-y-6">
         {items.map((exp, idx) => (
-          <div key={idx} className="relative pl-10">
-            <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-white" />
+          <div key={idx} className="relative">
             <div className="rounded-lg border border-white p-5 text-white">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <h4 className="font-semibold">
                   {exp.title} · {exp.company}
                 </h4>
-                <span className="text-sm text-white/80">
+                <span className="text-sm text-white/90">
                   {exp.period}
                   {exp.location ? ` · ${exp.location}` : ''}
                 </span>
