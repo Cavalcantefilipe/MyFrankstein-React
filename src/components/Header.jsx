@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cv from '../assets/Filipe Alves Cavalcante - CV.pdf';
 
 function Header() {
@@ -6,7 +6,7 @@ function Header() {
     const fileUrl = cv;
     const link = document.createElement('a');
     link.href = fileUrl;
-    link.download = 'Filipe_Cavalcante_CV.pdf'; // Specify the desired filename for download
+    link.download = 'Filipe_Cavalcante_CV.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -19,18 +19,27 @@ function Header() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setHasScrolled(window.scrollY > 0);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="relative">
-      <div className="container mx-auto px-5 pt-5 lg:px-20">
+    <header className={`fixed top-0 left-0 w-full z-50 bg-white ${hasScrolled ? 'shadow-sm' : ''}`}>
+      <div className="page-container pt-5">
         <nav>
-          <div className="flex items-center justify-between pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-3">
             <a
               className="text-[15px] font-medium italic sm:text-base md:text-[24px] lg:font-bold"
               href="/"
             >
               &lt;Filipe
               <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-                Lab/&gt;.
+                Lab/&gt;
               </span>
             </a>
             <svg
@@ -51,6 +60,18 @@ function Header() {
                 href="/#about"
               >
                 About
+              </a>
+              <a
+                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                href="/#skills"
+              >
+                Skills
+              </a>
+              <a
+                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                href="/#experience"
+              >
+                Experience
               </a>
               <button
                 onClick={handleDownload}
@@ -83,13 +104,27 @@ function Header() {
               height: isMobileMenuOpen ? 'auto' : '0px',
             }}
           >
-            <div className="container mx-auto flex flex-col px-5 font-medium">
+            <div className="page-container flex flex-col font-medium">
               <a
                 className="my-5 transition-opacity duration-75 hover:opacity-50"
                 href="/#about"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
+              </a>
+              <a
+                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                href="/#skills"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Skills
+              </a>
+              <a
+                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                href="/#experience"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Experience
               </a>
               <button
                 className=" my-5 flex items-center gap-2 transition-opacity duration-75 hover:opacity-50"
