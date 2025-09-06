@@ -84,6 +84,7 @@ function Index() {
             <img
               alt="Filipe"
               src={filipe}
+              width="384" height="384" loading="lazy"
               className="h-[16rem] w-[16rem] sm:h-[20rem] sm:w-[20rem] lg:h-[24rem] lg:w-[24rem] rounded-full object-cover shadow-lg"
             />
           </div>
