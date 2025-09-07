@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cv from '../assets/Filipe Alves Cavalcante - CV.pdf';
 
-function Header() {
+function Header({ leftDownload = false }) {
   const handleDownload = () => {
     const fileUrl = cv;
     const link = document.createElement('a');
@@ -73,6 +73,12 @@ function Header() {
               >
                 Experience
               </a>
+              <a
+                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                href="/lab"
+              >
+                Lab
+              </a>
               <button
                 onClick={handleDownload}
                 className="my-5 flex items-center gap-3 transition-opacity duration-75 hover:opacity-50"
@@ -125,6 +131,12 @@ function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Experience
+              </a>
+              <a
+                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                href="/lab"
+              >
+                Lab
               </a>
               <button
                 className=" my-5 flex items-center gap-2 transition-opacity duration-75 hover:opacity-50"
