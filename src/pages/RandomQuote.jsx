@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchRandomQuote } from '../api/quotes.js';
+import { translateTextV2WithHeader } from '../api/translate.js';
 import { languages, normalizeLanguageCode } from '../data/languages.js';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
