@@ -1,12 +1,23 @@
-// Use relative proxy path by default so Amplify can forward it via Rewrites
-const QUOTES_API_URL = import.meta.env.VITE_QUOTES_API_URL || '/api/quotes/random';
+const RAW_QUOTES_API_URL = import.meta.env.VITE_QUOTES_API_URL;
+// Use same-origin path by default to avoid mixed content on HTTPS (proxy/rewrites needed)
+const DEFAULT_QUOTES_API_URL = '/api/quotes/random';
+
+function resolveQuotesUrl() {
+    const configured = RAW_QUOTES_API_URL || DEFAULT_QUOTES_API_URL;
+    const isAbsolute = /^https?:\/\//i.test(configured);
+    if (isAbsolute) {
+        const isHttp = configured.toLowerCase().startsWith('http://');
+        const isSecurePage = typeof window !== 'undefined' && window.location?.protocol === 'https:';
+        if (isHttp && isSecurePage) return DEFAULT_QUOTES_API_URL;
+        return configured;
+    }
+    // Relative paths are safe under HTTPS (same-origin)
+    return configured;
+}
 
 export async function fetchRandomQuote() {
-    if (!QUOTES_API_URL) {
-        throw new Error('Quotes API URL is not configured');
-    }
-
-    const response = await fetch(QUOTES_API_URL);
+    const endpoint = resolveQuotesUrl();
+    const response = await fetch(endpoint, { cache: 'no-store' });
     if (!response.ok) {
         throw new Error('Failed to fetch quote');
     }

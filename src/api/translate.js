@@ -1,35 +1,6 @@
 const TRANSLATE_API_URL = import.meta.env.VITE_TRANSLATE_API_URL;
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
-export async function translateTextViaBackend({ text, targetLanguage, sourceLanguage = 'en' }) {
-    if (!TRANSLATE_API_URL) {
-        throw new Error('Translate API URL is not configured');
-    }
-
-    const payload = {
-        text,
-        targetLanguage,
-        sourceLanguage
-    };
-
-    const response = await fetch(TRANSLATE_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to translate text');
-    }
-
-    const data = await response.json();
-    const translatedText = data?.translatedText;
-    if (!translatedText) {
-        throw new Error('No translation returned');
-    }
-    return translatedText;
-}
-
 export async function translateTextV2WithHeader({ text, targetLanguage, sourceLanguage = 'en' }) {
     if (!GOOGLE_API_KEY) {
         throw new Error('Google API key is not configured');
