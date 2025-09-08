@@ -1,4 +1,5 @@
-const QUOTES_API_URL = import.meta.env.VITE_QUOTES_API_URL;
+// Use relative proxy path by default so Amplify can forward it via Rewrites
+const QUOTES_API_URL = import.meta.env.VITE_QUOTES_API_URL || '/api/quotes/random';
 
 export async function fetchRandomQuote() {
     if (!QUOTES_API_URL) {

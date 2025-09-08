@@ -47,7 +47,6 @@ export const languages = [
     { code: 'dov', label: 'Dombe' },
     { code: 'nl', label: 'Dutch' },
     { code: 'dz', label: 'Dzongkha' },
-    { code: 'en', label: 'English' },
     { code: 'eo', label: 'Esperanto' },
     { code: 'et', label: 'Estonian' },
     { code: 'ee', label: 'Ewe' },
