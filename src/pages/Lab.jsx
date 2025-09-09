@@ -1,4 +1,5 @@
 import React from 'react';
+import randomQuotesImg from '../assets/randomquotes.png';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 
@@ -35,14 +36,14 @@ function Lab() {
       <div className="with-header-offset bg-white text-black">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
           <div className="max-w-6xl mx-auto">
-            <h1 className="mb-6 text-3xl font-semibold">Lab</h1>
-            <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(16rem,1fr))]">
+            <h1 className="mb-6 text-3xl font-semibold text-center md:text-left">Lab</h1>
+            <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] justify-items-center md:justify-items-stretch">
               <Card
                 title="Random Quotes"
                 subtitle="How about a random phrase translated into the language you want?"
                 date="Est. 2025"
                 href="/random-quote"
-                imageSrc="/vite.svg"
+                imageSrc={randomQuotesImg}
                 icon={
                   <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <title>Open</title>
