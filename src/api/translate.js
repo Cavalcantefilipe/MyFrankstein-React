@@ -1,4 +1,3 @@
-const TRANSLATE_API_URL = import.meta.env.VITE_TRANSLATE_API_URL;
 const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export async function translateTextV2WithHeader({ text, targetLanguage, sourceLanguage = 'en' }) {

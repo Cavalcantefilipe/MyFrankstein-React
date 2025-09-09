@@ -8,7 +8,7 @@ function Card({ title, subtitle, date, href, imageSrc, icon }) {
     <a href={href} className="flex flex-col h-96 w-64 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-400 p-4 shadow-lg overflow-hidden group">
       <div className="relative w-full aspect-square rounded-md overflow-hidden bg-white/20">
         {imageSrc ? (
-          <img src={imageSrc} alt={title} className="h-full w-full object-cover" loading="lazy" />
+          <img src={imageSrc} alt={title} className="h-full w-full object-fit" loading="lazy" />
         ) : null}
       </div>
       <div className="flex flex-col gap-0 mt-4 text-white">

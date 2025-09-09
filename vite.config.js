@@ -5,18 +5,5 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(),
   tailwindcss()
-  ],
-  server: {
-    host: true,
-    strictPort: false,
-    open: false,
-    proxy: {
-      '/api/quotes/random': {
-        target: 'https://api.quotable.io',
-        changeOrigin: true,
-        secure: true,
-        rewrite: (path) => path.replace(/^\/api\/quotes\/random$/, '/random')
-      }
-    }
-  }
+  ]
 })
