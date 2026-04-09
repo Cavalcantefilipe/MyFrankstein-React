@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header.jsx';
 import AnimatedSection from '../components/AnimatedSection.jsx';
 import Footer from '../components/Footer.jsx';
-import filipe from '../assets/filipe.jpg';
+import filipe from '../assets/filipe.png';
 import { experiences as experienceData } from '../data/experience.js';
 import {
   FaLinkedin,
