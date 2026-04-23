@@ -1,37 +1,17 @@
-const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+import { apiFetch } from './client.js';
 
-export async function translateTextV2WithHeader({ text, targetLanguage, sourceLanguage = 'en' }) {
-    if (!GOOGLE_API_KEY) {
-        throw new Error('Google API key is not configured');
-    }
-
-    const url = 'https://translation.googleapis.com/language/translate/v2';
-    const body = {
-        q: text,
-        target: targetLanguage,
-        source: sourceLanguage,
-        format: 'text'
-    };
-
-    const response = await fetch(url, {
+export async function translateText({ text, targetLanguage, sourceLanguage = 'en' }) {
+    const data = await apiFetch('/translate', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Goog-Api-Key': GOOGLE_API_KEY
-        },
-        body: JSON.stringify(body)
+        body: JSON.stringify({
+            text,
+            target_lang: targetLanguage,
+            source_lang: sourceLanguage,
+        }),
     });
-
-    if (!response.ok) {
-        throw new Error('Failed to translate text');
-    }
-
-    const data = await response.json();
-    const translated = data?.data?.translations?.[0]?.translatedText;
+    const translated = data?.translated_text;
     if (!translated) {
         throw new Error('No translation returned');
     }
     return translated;
 }
-
-

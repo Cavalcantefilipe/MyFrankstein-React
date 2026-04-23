@@ -1,21 +1,22 @@
+import { apiFetch } from './client.js';
+
 export async function fetchPokemonList() {
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
-    if (!response.ok) {
-        throw new Error('Failed to fetch Pokemon list');
-    }
-    const data = await response.json();
-    return data.results;
+    const data = await apiFetch('/pokemon?limit=100000');
+    return data.results || [];
 }
 
 export async function fetchPokemonDetails(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error('Failed to fetch Pokemon details');
-    }
-    const data = await response.json();
-    return data;
+    const match = url.match(/\/pokemon\/([^/]+)\/?$/);
+    const nameOrId = match ? match[1] : url;
+    return apiFetch(`/pokemon/${nameOrId}`);
 }
 
+export async function simulateBattle({ blueTeam, redTeam }) {
+    return apiFetch('/battles/simulate', {
+        method: 'POST',
+        body: JSON.stringify({ blueTeam, redTeam }),
+    });
+}
 
 export function getTypeColor(type) {
     const colors = {

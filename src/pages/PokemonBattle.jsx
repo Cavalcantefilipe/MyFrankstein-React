@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   fetchPokemonList,
   fetchPokemonDetails,
+  simulateBattle,
   getTypeColor,
 } from '../api/pokemon.js';
 import Header from '../components/Header.jsx';
@@ -145,6 +146,9 @@ function PokemonBattle() {
   const [isLoading, setIsLoading] = useState(false);
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [battleResult, setBattleResult] = useState(null);
+  const [battleError, setBattleError] = useState('');
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -249,6 +253,27 @@ function PokemonBattle() {
       setBlueTeam([]);
     } else {
       setRedTeam([]);
+    }
+  }
+
+  async function handleStartBattle() {
+    if (blueTeam.length === 0 || redTeam.length === 0) {
+      setBattleError('Both teams need at least 1 Pokemon');
+      return;
+    }
+    setBattleError('');
+    setIsSimulating(true);
+    setBattleResult(null);
+    try {
+      const result = await simulateBattle({
+        blueTeam: blueTeam.map((p) => ({ species: p.name })),
+        redTeam: redTeam.map((p) => ({ species: p.name })),
+      });
+      setBattleResult(result);
+    } catch (err) {
+      setBattleError(err?.message || 'Battle simulation failed');
+    } finally {
+      setIsSimulating(false);
     }
   }
 
@@ -448,6 +473,59 @@ function PokemonBattle() {
                   </div>
                 )}
               </div>
+            </div>
+
+            <div className="mt-8 flex flex-col items-center gap-4">
+              <button
+                onClick={handleStartBattle}
+                disabled={
+                  isSimulating ||
+                  blueTeam.length === 0 ||
+                  redTeam.length === 0
+                }
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-red-600 text-white text-xl font-bold rounded-full shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+              >
+                {isSimulating ? 'Simulating Battle…' : '⚔️ Start Battle'}
+              </button>
+
+              {battleError && (
+                <p className="text-red-600 font-medium">{battleError}</p>
+              )}
+
+              {battleResult && (
+                <div className="w-full bg-white rounded-xl shadow-md p-6 border border-black/10">
+                  <div className="text-center mb-4">
+                    {battleResult.winner === 'tie' ? (
+                      <h2 className="text-3xl font-bold text-gray-700">
+                        It's a tie!
+                      </h2>
+                    ) : (
+                      <h2
+                        className={`text-3xl font-bold ${
+                          battleResult.winner === 'blue'
+                            ? 'text-blue-600'
+                            : 'text-red-600'
+                        }`}
+                      >
+                        {battleResult.winner === 'blue' ? 'Blue' : 'Red'} Team
+                        wins!
+                      </h2>
+                    )}
+                    <p className="text-sm text-gray-500 mt-1">
+                      Battle #{battleResult.id} · {battleResult.turns} turns
+                    </p>
+                  </div>
+
+                  <details className="border-t border-black/10 pt-4">
+                    <summary className="cursor-pointer font-medium text-sm text-gray-700 hover:text-gray-900">
+                      Show battle log ({battleResult.log?.length || 0} events)
+                    </summary>
+                    <pre className="mt-3 text-xs bg-gray-50 rounded-md p-3 max-h-96 overflow-auto whitespace-pre-wrap break-all">
+                      {(battleResult.log || []).join('\n')}
+                    </pre>
+                  </details>
+                </div>
+              )}
             </div>
           </div>
         </div>
