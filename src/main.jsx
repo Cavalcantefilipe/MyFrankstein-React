@@ -6,7 +6,6 @@ import NotFound from './pages/NotFound.jsx';
 import RandomQuote from './pages/RandomQuote.jsx';
 import Lab from './pages/Lab.jsx';
 import PokemonBattle from './pages/PokemonBattle.jsx';
-import PlayBattle from './pages/PlayBattle.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -14,7 +13,6 @@ createRoot(document.getElementById('root')).render(
       <Route path="/" element={<Index />} />
       <Route path="/random-quote" element={<RandomQuote />} />
       <Route path="/pokemon-battle" element={<PokemonBattle />} />
-      <Route path="/play" element={<PlayBattle />} />
       <Route path="/lab" element={<Lab />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

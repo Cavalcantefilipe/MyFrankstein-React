@@ -7,6 +7,7 @@ import {
 } from '../api/pokemon.js';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
+import BattleArena from '../components/BattleArena.jsx';
 
 function TypeBadge({ type }) {
   const color = getTypeColor(type);
@@ -149,6 +150,8 @@ function PokemonBattle() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [battleResult, setBattleResult] = useState(null);
   const [battleError, setBattleError] = useState('');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playToken, setPlayToken] = useState(0);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -262,6 +265,7 @@ function PokemonBattle() {
       return;
     }
     setBattleError('');
+    setIsPlaying(false);
     setIsSimulating(true);
     setBattleResult(null);
     try {
@@ -275,6 +279,21 @@ function PokemonBattle() {
     } finally {
       setIsSimulating(false);
     }
+  }
+
+  function handlePlayBattle() {
+    if (blueTeam.length === 0 || redTeam.length === 0) {
+      setBattleError('Both teams need at least 1 Pokemon');
+      return;
+    }
+    setBattleError('');
+    setBattleResult(null);
+    setIsPlaying(true);
+    setPlayToken((t) => t + 1);
+  }
+
+  function handleClosePlay() {
+    setIsPlaying(false);
   }
 
   async function generateRandomTeam(team) {
@@ -319,18 +338,9 @@ function PokemonBattle() {
       <div className="with-header-offset bg-gradient-to-br from-purple-50 to-blue-50 text-black">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
           <div className="max-w-7xl mx-auto">
-            <h1 className="mb-2 text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
+            <h1 className="mb-6 text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
               Pokemon Battle Simulator
             </h1>
-            <p className="text-center text-sm text-gray-600 mb-6">
-              Simulate a full auto-battle, or{' '}
-              <a
-                href="/play"
-                className="text-indigo-600 underline hover:text-indigo-800 font-medium"
-              >
-                play turn-by-turn vs CPU →
-              </a>
-            </p>
 
             <div className="max-w-md mx-auto mb-8">
               <label className="block text-sm font-medium mb-2">
@@ -485,23 +495,43 @@ function PokemonBattle() {
             </div>
 
             <div className="mt-8 flex flex-col items-center gap-4">
-              <button
-                onClick={handleStartBattle}
-                disabled={
-                  isSimulating ||
-                  blueTeam.length === 0 ||
-                  redTeam.length === 0
-                }
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-red-600 text-white text-xl font-bold rounded-full shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
-              >
-                {isSimulating ? 'Simulating Battle…' : '⚔️ Start Battle'}
-              </button>
+              <div className="flex flex-wrap gap-3 justify-center">
+                <button
+                  onClick={handleStartBattle}
+                  disabled={
+                    isSimulating ||
+                    isPlaying ||
+                    blueTeam.length === 0 ||
+                    redTeam.length === 0
+                  }
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-red-600 text-white text-lg font-bold rounded-full shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                >
+                  {isSimulating ? 'Simulating…' : '⚔️ Auto Simulate'}
+                </button>
+                <button
+                  onClick={handlePlayBattle}
+                  disabled={
+                    isSimulating ||
+                    blueTeam.length === 0 ||
+                    redTeam.length === 0
+                  }
+                  className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-lg font-bold rounded-full shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                >
+                  🎮 Play Battle
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 text-center max-w-md">
+                <strong>Auto Simulate:</strong> the whole battle is resolved at
+                once.{' '}
+                <strong>Play Battle:</strong> you control the Blue team turn by
+                turn against an AI playing the Red team you picked.
+              </p>
 
               {battleError && (
                 <p className="text-red-600 font-medium">{battleError}</p>
               )}
 
-              {battleResult && (
+              {battleResult && !isPlaying && (
                 <div className="w-full bg-white rounded-xl shadow-md p-6 border border-black/10">
                   <div className="text-center mb-4">
                     {battleResult.winner === 'tie' ? (
@@ -536,6 +566,20 @@ function PokemonBattle() {
                 </div>
               )}
             </div>
+
+            {isPlaying && (
+              <div className="mt-10 pt-8 border-t-2 border-indigo-200">
+                <h2 className="text-2xl font-bold text-center mb-6 text-indigo-700">
+                  Battle Arena
+                </h2>
+                <BattleArena
+                  blueTeam={blueTeam}
+                  redTeam={redTeam}
+                  onReset={handleClosePlay}
+                  token={playToken}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
