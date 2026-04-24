@@ -13,15 +13,30 @@ import Footer from '../components/Footer.jsx';
 
 const EVENT_DELAY = 900;
 
-function spriteUrl(pokemonName) {
-  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonName}.png`;
+function getSprite(pokemon) {
+  return (
+    pokemon?.sprites?.other?.['official-artwork']?.front_default ||
+    pokemon?.sprites?.front_default ||
+    null
+  );
 }
 
 function capitalize(s = '') {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function HpBar({ hp, maxHp, side }) {
+function TypeBadge({ type }) {
+  return (
+    <span
+      className="px-2 py-0.5 rounded-md text-xs font-semibold text-white uppercase"
+      style={{ backgroundColor: getTypeColor(type) }}
+    >
+      {type}
+    </span>
+  );
+}
+
+function HpBar({ hp, maxHp }) {
   const pct = Math.max(0, Math.min(100, (hp / Math.max(1, maxHp)) * 100));
   const color =
     pct > 50 ? 'bg-green-500' : pct > 20 ? 'bg-yellow-500' : 'bg-red-500';
@@ -42,8 +57,13 @@ function HpBar({ hp, maxHp, side }) {
   );
 }
 
-function ActiveCard({ pokemon, side, isShaking }) {
-  if (!pokemon) return null;
+function ActiveCard({ active, teamSource, side, isShaking }) {
+  if (!active) return null;
+  const teamMatch = teamSource?.find(
+    (p) => p.name.toLowerCase() === active.name.toLowerCase()
+  );
+  const sprite = getSprite(teamMatch);
+  const types = teamMatch?.types?.map((t) => t.type.name) || [];
   const label = side === 'p1' ? 'You' : 'Opponent';
   const labelColor = side === 'p1' ? 'text-blue-600' : 'text-red-600';
 
@@ -52,25 +72,27 @@ function ActiveCard({ pokemon, side, isShaking }) {
       <p className={`text-xs font-bold uppercase tracking-wide ${labelColor}`}>
         {label}
       </p>
-      <h3 className="text-lg font-semibold capitalize mb-2">
-        {pokemon.name}
-      </h3>
-      <motion.img
-        src={spriteUrl(pokemon.name.toLowerCase())}
-        alt={pokemon.name}
-        className="w-32 h-32 object-contain"
-        animate={
-          isShaking
-            ? { x: [-8, 8, -6, 6, -3, 3, 0], opacity: [1, 0.4, 1, 0.4, 1] }
-            : { x: 0, opacity: 1 }
-        }
-        transition={{ duration: 0.4 }}
-        onError={(e) => {
-          e.currentTarget.style.visibility = 'hidden';
-        }}
-      />
+      <h3 className="text-lg font-semibold capitalize mb-1">{active.name}</h3>
+      <div className="flex gap-1 mb-2 flex-wrap justify-center">
+        {types.map((t) => (
+          <TypeBadge key={t} type={t} />
+        ))}
+      </div>
+      {sprite && (
+        <motion.img
+          src={sprite}
+          alt={active.name}
+          className="w-32 h-32 object-contain"
+          animate={
+            isShaking
+              ? { x: [-8, 8, -6, 6, -3, 3, 0], opacity: [1, 0.4, 1, 0.4, 1] }
+              : { x: 0, opacity: 1 }
+          }
+          transition={{ duration: 0.4 }}
+        />
+      )}
       <div className="w-full mt-3">
-        <HpBar hp={pokemon.hp} maxHp={pokemon.maxHp} side={side} />
+        <HpBar hp={active.hp} maxHp={active.maxHp} />
       </div>
     </div>
   );
@@ -79,12 +101,13 @@ function ActiveCard({ pokemon, side, isShaking }) {
 function MoveButton({ move, onClick, disabled }) {
   const label = move.move || capitalize(move.id || '');
   const ppLow = move.pp !== undefined && move.pp <= 2;
+  const isDisabled = disabled || move.disabled || move.pp === 0;
   return (
     <button
       onClick={onClick}
-      disabled={disabled || move.disabled || move.pp === 0}
+      disabled={isDisabled}
       className={`px-3 py-3 rounded-lg border-2 font-semibold text-left transition-all ${
-        disabled || move.disabled || move.pp === 0
+        isDisabled
           ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
           : 'bg-white border-indigo-300 hover:bg-indigo-50 hover:border-indigo-500'
       }`}
@@ -92,28 +115,12 @@ function MoveButton({ move, onClick, disabled }) {
       <div className="flex items-center justify-between">
         <span className="truncate">{label}</span>
         <span
-          className={`text-xs ml-2 ${
-            ppLow ? 'text-red-500' : 'text-gray-500'
-          }`}
+          className={`text-xs ml-2 ${ppLow ? 'text-red-500' : 'text-gray-500'}`}
         >
           {move.pp !== undefined ? `${move.pp}/${move.maxpp}` : ''}
         </span>
       </div>
     </button>
-  );
-}
-
-function EventLine({ event }) {
-  const text = describeEvent(event);
-  if (!text) return null;
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="text-sm py-1 border-b border-black/5 last:border-0"
-    >
-      {text}
-    </motion.div>
   );
 }
 
@@ -152,41 +159,28 @@ function describeEvent(e) {
   }
 }
 
-function useActivePokemonState(initialSnapshot) {
-  const [blue, setBlue] = useState(null);
-  const [red, setRed] = useState(null);
-
-  function applyEvents(events, { onShake } = {}) {
-    events.forEach((e) => {
-      if (e.type === 'switch') {
-        const next = {
-          name: capitalize(e.name),
-          hp: e.hp,
-          maxHp: e.maxHp,
-        };
-        if (e.side === 'p1') setBlue(next);
-        else if (e.side === 'p2') setRed(next);
-      } else if (e.type === 'damage' || e.type === 'heal') {
-        if (e.side === 'p1') {
-          setBlue((p) => (p ? { ...p, hp: e.hp, maxHp: e.maxHp } : p));
-          if (onShake && e.type === 'damage') onShake('p1');
-        } else if (e.side === 'p2') {
-          setRed((p) => (p ? { ...p, hp: e.hp, maxHp: e.maxHp } : p));
-          if (onShake && e.type === 'damage') onShake('p2');
-        }
-      }
-    });
-  }
-
-  return { blue, red, applyEvents };
+function EventLine({ event }) {
+  const text = describeEvent(event);
+  if (!text) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="text-sm py-1 border-b border-black/5 last:border-0"
+    >
+      {text}
+    </motion.div>
+  );
 }
 
 export default function PlayBattle() {
-  const [phase, setPhase] = useState('setup');
   const [pokemonList, setPokemonList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [isSelectLoading, setIsSelectLoading] = useState(false);
   const [blueTeam, setBlueTeam] = useState([]);
+  const [redTeamDetails, setRedTeamDetails] = useState([]);
   const [isStarting, setIsStarting] = useState(false);
   const [error, setError] = useState('');
   const dropdownRef = useRef(null);
@@ -197,7 +191,8 @@ export default function PlayBattle() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [winner, setWinner] = useState(null);
   const [shakeSide, setShakeSide] = useState(null);
-  const { blue, red, applyEvents } = useActivePokemonState();
+  const [blueActive, setBlueActive] = useState(null);
+  const [redActive, setRedActive] = useState(null);
 
   useEffect(() => {
     fetchPokemonList()
@@ -220,17 +215,26 @@ export default function PlayBattle() {
     return pokemonList.filter((p) => p.name.toLowerCase().includes(q));
   }, [pokemonList, searchQuery]);
 
-  async function addToTeam(pokemon) {
-    if (blueTeam.length >= 6) return;
-    if (blueTeam.find((p) => p.name === pokemon.name)) return;
+  async function handleSelectPokemon(pokemon) {
+    setIsSelectLoading(true);
+    setIsDropdownOpen(false);
+    setSearchQuery('');
     try {
       const details = await fetchPokemonDetails(pokemon.url);
-      setBlueTeam((t) => [...t, details]);
-      setSearchQuery('');
-      setIsDropdownOpen(false);
+      setSelectedPokemon(details);
     } catch (e) {
-      console.error(e);
+      console.error('Failed to fetch details:', e);
+    } finally {
+      setIsSelectLoading(false);
     }
+  }
+
+  function addSelectedToTeam() {
+    if (!selectedPokemon) return;
+    if (blueTeam.length >= 6) return;
+    if (blueTeam.find((p) => p.id === selectedPokemon.id)) return;
+    setBlueTeam((t) => [...t, selectedPokemon]);
+    setSelectedPokemon(null);
   }
 
   function removeFromTeam(idx) {
@@ -245,13 +249,13 @@ export default function PlayBattle() {
     setIsStarting(true);
     setError('');
     try {
-      const redTeam = await generateRandomRedTeam(blueTeam.length);
+      const redDetails = await generateRandomRedTeam(blueTeam.length);
+      setRedTeamDetails(redDetails);
       const snapshot = await startPlayBattle({
         blueTeam: blueTeam.map((p) => ({ species: p.name })),
-        redTeam: redTeam.map((n) => ({ species: n })),
+        redTeam: redDetails.map((p) => ({ species: p.name })),
       });
       setBattleId(snapshot.id);
-      setPhase('battle');
       await playEvents(snapshot);
     } catch (e) {
       setError(e?.message || 'Failed to start battle');
@@ -261,12 +265,44 @@ export default function PlayBattle() {
   }
 
   async function generateRandomRedTeam(size) {
-    if (pokemonList.length === 0) return ['pikachu'];
+    if (pokemonList.length === 0) return [];
     const chosen = new Set();
-    while (chosen.size < size) {
-      chosen.add(pokemonList[Math.floor(Math.random() * pokemonList.length)].name);
+    const result = [];
+    while (chosen.size < size && chosen.size < pokemonList.length) {
+      const pick = pokemonList[Math.floor(Math.random() * pokemonList.length)];
+      if (chosen.has(pick.name)) continue;
+      chosen.add(pick.name);
+      try {
+        const details = await fetchPokemonDetails(pick.url);
+        result.push(details);
+      } catch (e) {
+        // skip on error
+      }
     }
-    return [...chosen];
+    return result;
+  }
+
+  function applyEventsToActive(events) {
+    for (const e of events) {
+      if (e.type === 'switch') {
+        const next = { name: capitalize(e.name), hp: e.hp, maxHp: e.maxHp };
+        if (e.side === 'p1') setBlueActive(next);
+        else if (e.side === 'p2') setRedActive(next);
+      } else if (e.type === 'damage' || e.type === 'heal') {
+        if (e.side === 'p1') {
+          setBlueActive((p) => (p ? { ...p, hp: e.hp, maxHp: e.maxHp } : p));
+          if (e.type === 'damage') triggerShake('p1');
+        } else if (e.side === 'p2') {
+          setRedActive((p) => (p ? { ...p, hp: e.hp, maxHp: e.maxHp } : p));
+          if (e.type === 'damage') triggerShake('p2');
+        }
+      }
+    }
+  }
+
+  function triggerShake(side) {
+    setShakeSide(side);
+    setTimeout(() => setShakeSide(null), 400);
   }
 
   async function playEvents(snapshot) {
@@ -274,12 +310,7 @@ export default function PlayBattle() {
     const events = snapshot.newEvents || [];
     for (const evt of events) {
       setLog((l) => [...l, evt]);
-      applyEvents([evt], {
-        onShake: (side) => {
-          setShakeSide(side);
-          setTimeout(() => setShakeSide(null), 400);
-        },
-      });
+      applyEventsToActive([evt]);
       await sleep(EVENT_DELAY);
     }
     setIsAnimating(false);
@@ -319,12 +350,13 @@ export default function PlayBattle() {
   }
 
   function resetBattle() {
-    setPhase('setup');
     setBattleId(null);
     setRequest(null);
     setLog([]);
     setWinner(null);
-    setBlueTeam([]);
+    setRedTeamDetails([]);
+    setBlueActive(null);
+    setRedActive(null);
   }
 
   const moves = request?.active?.[0]?.moves || [];
@@ -336,20 +368,19 @@ export default function PlayBattle() {
       <Header />
       <div className="with-header-offset bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 text-black">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <h1 className="mb-6 text-4xl font-bold text-center bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
               Play vs CPU
             </h1>
 
-            {phase === 'setup' && (
-              <div>
-                <p className="text-center text-gray-600 mb-6">
-                  Pick 1–6 Pokémon. Red team will be randomly generated.
-                </p>
+            <div>
+              <p className="text-center text-gray-600 mb-6">
+                Pick 1–6 Pokémon. Red team is generated randomly.
+              </p>
 
-                <div className="max-w-md mx-auto mb-6">
+                <div className="max-w-md mx-auto mb-8">
                   <label className="block text-sm font-medium mb-2">
-                    Add Pokémon to your team ({blueTeam.length}/6)
+                    Search Pokémon
                   </label>
                   <div className="relative" ref={dropdownRef}>
                     <input
@@ -362,11 +393,11 @@ export default function PlayBattle() {
                     />
                     {isDropdownOpen && filteredPokemon.length > 0 && (
                       <div className="absolute z-20 mt-2 w-full rounded-lg border border-black/20 bg-white shadow-lg max-h-64 overflow-auto">
-                        {filteredPokemon.slice(0, 50).map((p) => (
+                        {filteredPokemon.slice(0, 100).map((p) => (
                           <button
                             key={p.name}
                             type="button"
-                            onClick={() => addToTeam(p)}
+                            onClick={() => handleSelectPokemon(p)}
                             className="block w-full text-left px-4 py-3 hover:bg-indigo-50 capitalize border-b border-black/5 last:border-b-0"
                           >
                             {p.name}
@@ -377,31 +408,99 @@ export default function PlayBattle() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-8">
-                  {blueTeam.map((p, i) => (
-                    <div
-                      key={p.id}
-                      className="relative p-3 bg-white rounded-lg border border-blue-300"
-                    >
-                      <button
-                        onClick={() => removeFromTeam(i)}
-                        className="absolute top-1 right-1 bg-black/30 hover:bg-black/60 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
-                      >
-                        ✕
-                      </button>
-                      <img
-                        src={spriteUrl(p.name)}
-                        alt={p.name}
-                        className="w-16 h-16 mx-auto object-contain"
-                        onError={(e) => {
-                          e.currentTarget.style.visibility = 'hidden';
-                        }}
-                      />
-                      <p className="text-xs text-center capitalize mt-1 truncate">
-                        {p.name}
-                      </p>
+                {isSelectLoading && (
+                  <p className="text-center mb-4 text-gray-600">
+                    Loading Pokémon…
+                  </p>
+                )}
+
+                {selectedPokemon && !isSelectLoading && (
+                  <div className="max-w-sm mx-auto mb-8">
+                    <h2 className="text-xl font-semibold mb-3 text-center">
+                      Selected Pokémon
+                    </h2>
+                    <div className="border border-black/10 rounded-lg p-4 bg-white shadow-sm">
+                      <div className="flex flex-col items-center">
+                        <img
+                          src={getSprite(selectedPokemon)}
+                          alt={selectedPokemon.name}
+                          className="w-32 h-32 object-contain"
+                        />
+                        <h3 className="text-lg font-semibold capitalize mt-2">
+                          {selectedPokemon.name}
+                        </h3>
+                        <div className="flex gap-2 mt-2 flex-wrap justify-center">
+                          {selectedPokemon.types.map((t) => (
+                            <TypeBadge key={t.type.name} type={t.type.name} />
+                          ))}
+                        </div>
+                        <button
+                          onClick={addSelectedToTeam}
+                          disabled={
+                            blueTeam.length >= 6 ||
+                            !!blueTeam.find((p) => p.id === selectedPokemon.id)
+                          }
+                          className="mt-4 w-full px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                        >
+                          {blueTeam.find((p) => p.id === selectedPokemon.id)
+                            ? 'Already in team'
+                            : blueTeam.length >= 6
+                            ? 'Team is full'
+                            : 'Add to team'}
+                        </button>
+                      </div>
                     </div>
-                  ))}
+                  </div>
+                )}
+
+                <div className="bg-white rounded-xl shadow-md p-6 border-2 border-indigo-500 mb-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h2 className="text-2xl font-bold text-indigo-600">
+                        Your Team
+                      </h2>
+                      <span className="text-sm font-medium text-gray-600">
+                        {blueTeam.length}/6
+                      </span>
+                    </div>
+                  </div>
+                  {blueTeam.length === 0 ? (
+                    <p className="text-gray-400 text-center py-8">
+                      No Pokémon yet
+                    </p>
+                  ) : (
+                    <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                      {blueTeam.map((p, i) => (
+                        <div
+                          key={p.id}
+                          className="border border-indigo-200 rounded-lg p-3 bg-indigo-50 flex flex-col items-center relative"
+                        >
+                          <div className="absolute top-1 left-1 bg-black/70 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                            #{i + 1}
+                          </div>
+                          <button
+                            onClick={() => removeFromTeam(i)}
+                            className="absolute top-1 right-1 bg-black/30 hover:bg-black/60 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                          >
+                            ✕
+                          </button>
+                          <img
+                            src={getSprite(p)}
+                            alt={p.name}
+                            className="w-20 h-20 object-contain"
+                          />
+                          <h4 className="font-semibold capitalize text-sm text-center truncate w-full mt-1">
+                            {p.name}
+                          </h4>
+                          <div className="flex gap-1 mt-2 flex-wrap justify-center">
+                            {p.types.map((t) => (
+                              <TypeBadge key={t.type.name} type={t.type.name} />
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {error && (
@@ -411,25 +510,35 @@ export default function PlayBattle() {
                 <div className="text-center">
                   <button
                     onClick={handleStart}
-                    disabled={isStarting || blueTeam.length === 0}
+                    disabled={isStarting || blueTeam.length === 0 || (!!battleId && !winner)}
                     className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-xl font-bold rounded-full shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
-                    {isStarting ? 'Starting…' : '⚔️ Fight!'}
+                    {isStarting
+                      ? 'Starting…'
+                      : battleId && !winner
+                      ? 'Battle in progress…'
+                      : battleId && winner
+                      ? '⚔️ New Battle'
+                      : '⚔️ Fight!'}
                   </button>
                 </div>
-              </div>
-            )}
+            </div>
 
-            {phase === 'battle' && (
-              <div>
+            {battleId && (
+              <div className="mt-10 pt-8 border-t-2 border-indigo-200">
+                <h2 className="text-2xl font-bold text-center mb-6 text-indigo-700">
+                  Battle Arena
+                </h2>
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <ActiveCard
-                    pokemon={blue}
+                    active={blueActive}
+                    teamSource={blueTeam}
                     side="p1"
                     isShaking={shakeSide === 'p1'}
                   />
                   <ActiveCard
-                    pokemon={red}
+                    active={redActive}
+                    teamSource={redTeamDetails}
                     side="p2"
                     isShaking={shakeSide === 'p2'}
                   />
@@ -438,7 +547,10 @@ export default function PlayBattle() {
                 <div className="bg-white rounded-xl border border-black/10 p-4 mb-4 h-48 overflow-auto font-mono">
                   <AnimatePresence initial={false}>
                     {log.slice(-12).map((e, i) => (
-                      <EventLine key={`${i}-${e.type}-${e.name||e.actorName||''}`} event={e} />
+                      <EventLine
+                        key={`${i}-${e.type}-${e.name || e.actorName || ''}`}
+                        event={e}
+                      />
                     ))}
                   </AnimatePresence>
                 </div>
@@ -474,27 +586,31 @@ export default function PlayBattle() {
                     <p className="font-semibold mb-2">
                       Your Pokémon fainted. Choose the next one:
                     </p>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
                       {switchOptions.map((p, i) => {
                         const idx = i + 1;
                         const fainted = p.condition.endsWith(' fnt');
                         if (p.active || fainted) return null;
                         const name = p.details.split(',')[0].toLowerCase();
+                        const match = blueTeam.find(
+                          (bp) => bp.name === name
+                        );
                         return (
                           <button
                             key={p.ident}
                             onClick={() => handleForceSwitch(idx)}
                             className="p-2 bg-white border border-indigo-300 rounded-lg hover:bg-indigo-50"
                           >
-                            <img
-                              src={spriteUrl(name)}
-                              alt={name}
-                              className="w-12 h-12 mx-auto"
-                              onError={(e) => {
-                                e.currentTarget.style.visibility = 'hidden';
-                              }}
-                            />
-                            <p className="text-xs capitalize">{name}</p>
+                            {match && (
+                              <img
+                                src={getSprite(match)}
+                                alt={name}
+                                className="w-12 h-12 mx-auto object-contain"
+                              />
+                            )}
+                            <p className="text-xs capitalize text-center">
+                              {name}
+                            </p>
                           </button>
                         );
                       })}
