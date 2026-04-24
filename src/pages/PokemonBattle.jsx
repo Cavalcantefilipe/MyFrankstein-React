@@ -319,9 +319,18 @@ function PokemonBattle() {
       <div className="with-header-offset bg-gradient-to-br from-purple-50 to-blue-50 text-black">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
           <div className="max-w-7xl mx-auto">
-            <h1 className="mb-6 text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
+            <h1 className="mb-2 text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
               Pokemon Battle Simulator
             </h1>
+            <p className="text-center text-sm text-gray-600 mb-6">
+              Simulate a full auto-battle, or{' '}
+              <a
+                href="/play"
+                className="text-indigo-600 underline hover:text-indigo-800 font-medium"
+              >
+                play turn-by-turn vs CPU →
+              </a>
+            </p>
 
             <div className="max-w-md mx-auto mb-8">
               <label className="block text-sm font-medium mb-2">

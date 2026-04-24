@@ -18,6 +18,27 @@ export async function simulateBattle({ blueTeam, redTeam }) {
     });
 }
 
+export async function startPlayBattle({ blueTeam, redTeam }) {
+    return apiFetch('/play/start', {
+        method: 'POST',
+        body: JSON.stringify({ blueTeam, redTeam }),
+    });
+}
+
+export async function chooseMove({ battleId, moveIndex }) {
+    return apiFetch(`/play/${battleId}/choose`, {
+        method: 'POST',
+        body: JSON.stringify({ move: moveIndex }),
+    });
+}
+
+export async function chooseSwitch({ battleId, switchIndex }) {
+    return apiFetch(`/play/${battleId}/choose`, {
+        method: 'POST',
+        body: JSON.stringify({ switch: switchIndex }),
+    });
+}
+
 export function getTypeColor(type) {
     const colors = {
         normal: '#A8A878',
