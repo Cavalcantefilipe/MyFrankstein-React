@@ -123,7 +123,7 @@ function MoveButton({ move, onClick, disabled }) {
 function describeEvent(e) {
   switch (e.type) {
     case 'turn':
-      return `--- Turn ${e.number} ---`;
+      return null;
     case 'switch':
       return `${e.side === 'p1' ? 'You sent out' : 'Opponent sent out'} ${e.name}!`;
     case 'move':
@@ -178,6 +178,7 @@ export default function BattleArena({ blueTeam, redTeam, onReset, token = 0 }) {
   const [shakeSide, setShakeSide] = useState(null);
   const [blueActive, setBlueActive] = useState(null);
   const [redActive, setRedActive] = useState(null);
+  const [turnNumber, setTurnNumber] = useState(0);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -190,6 +191,7 @@ export default function BattleArena({ blueTeam, redTeam, onReset, token = 0 }) {
       setRedActive(null);
       setRequest(null);
       setBattleId(null);
+      setTurnNumber(0);
       try {
         const snapshot = await startPlayBattle({
           blueTeam: blueTeam.map((p) => ({ species: p.name })),
@@ -210,8 +212,10 @@ export default function BattleArena({ blueTeam, redTeam, onReset, token = 0 }) {
 
   function applyEventsToActive(events) {
     for (const e of events) {
-      if (e.type === 'switch') {
-        const next = { name: capitalize(e.name), hp: e.hp, maxHp: e.maxHp };
+      if (e.type === 'turn') {
+        setTurnNumber(e.number);
+      } else if (e.type === 'switch') {
+        const next = { name: e.name, hp: e.hp, maxHp: e.maxHp };
         if (e.side === 'p1') setBlueActive(next);
         else if (e.side === 'p2') setRedActive(next);
       } else if (e.type === 'damage' || e.type === 'heal') {
@@ -283,6 +287,13 @@ export default function BattleArena({ blueTeam, redTeam, onReset, token = 0 }) {
 
   return (
     <div>
+      {turnNumber > 0 && !winner && (
+        <div className="flex justify-center mb-3">
+          <div className="px-4 py-1 bg-indigo-600 text-white text-sm font-bold rounded-full shadow">
+            Turn {turnNumber}
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <ActiveCard
           active={blueActive}
