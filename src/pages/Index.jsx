@@ -3,7 +3,7 @@ import Header from '../components/Header.jsx';
 import AnimatedSection from '../components/AnimatedSection.jsx';
 import Footer from '../components/Footer.jsx';
 import filipe from '../assets/filipe.webp';
-import cv from '../assets/Filipe_Cavalcante_CV.pdf';
+import cv from '../assets/filipe-cavalcante-en.pdf';
 import { experiences as experienceData } from '../data/experience.js';
 import {
   FaLinkedin,
