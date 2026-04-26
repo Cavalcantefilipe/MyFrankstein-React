@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import cv from '../assets/filipe-cavalcante-en.pdf';
 
 function Header({ leftDownload = false }) {
   const handleDownload = () => {
-    const fileUrl = cv;
     const link = document.createElement('a');
-    link.href = fileUrl;
+    link.href = '/filipe-cavalcante-en.pdf';
     link.download = 'Filipe_Cavalcante_CV.pdf';
     document.body.appendChild(link);
     link.click();

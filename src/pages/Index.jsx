@@ -3,7 +3,6 @@ import Header from '../components/Header.jsx';
 import AnimatedSection from '../components/AnimatedSection.jsx';
 import Footer from '../components/Footer.jsx';
 import filipe from '../assets/filipe.webp';
-import cv from '../assets/filipe-cavalcante-en.pdf';
 import { experiences as experienceData } from '../data/experience.js';
 import {
   FaLinkedin,
@@ -74,7 +73,7 @@ function Index() {
                 <FaLinkedin /> LinkedIn
               </a>
               <a
-                href={cv}
+                href="/filipe-cavalcante-en.pdf"
                 download="Filipe_Cavalcante_CV.pdf"
                 className="px-4 py-2 rounded-md bg-black text-white w-full sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/80"
               >
