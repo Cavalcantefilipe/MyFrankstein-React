@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import cv from '../assets/Filipe Alves Cavalcante - CV.pdf';
+import cv from '../assets/Filipe_Cavalcante_CV.pdf';
 
 function Header({ leftDownload = false }) {
   const handleDownload = () => {
