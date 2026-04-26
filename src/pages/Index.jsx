@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header.jsx';
 import AnimatedSection from '../components/AnimatedSection.jsx';
 import Footer from '../components/Footer.jsx';
-import filipe from '../assets/filipe.png';
+import filipe from '../assets/filipe.webp';
 import { experiences as experienceData } from '../data/experience.js';
 import {
   FaLinkedin,
@@ -84,7 +84,7 @@ function Index() {
             <img
               alt="Filipe"
               src={filipe}
-              width="384" height="384" loading="lazy"
+              width="384" height="384" fetchpriority="high" decoding="async"
               className="h-[16rem] w-[16rem] sm:h-[20rem] sm:w-[20rem] lg:h-[24rem] lg:w-[24rem] rounded-full object-cover shadow-lg"
             />
           </div>
