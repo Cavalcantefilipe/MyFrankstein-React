@@ -1,0 +1,23 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # NEXT_PUBLIC_API_URL precisa estar nas variáveis de ambiente da app
+        # no console da Amplify. O Next.js a inlina em tempo de build, então
+        # defini-la só em runtime não adianta — sem ela, as páginas do Lab
+        # sobem chamando o próprio domínio. Falhar aqui dá a mensagem certa
+        # em vez de um erro obscuro no meio do build.
+        - 'test -n "$NEXT_PUBLIC_API_URL" -o -n "$VITE_API_URL" || { echo "ERRO - defina NEXT_PUBLIC_API_URL (ou VITE_API_URL) nas variaveis de ambiente da app na Amplify"; exit 1; }'
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*

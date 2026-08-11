@@ -9,9 +9,22 @@ lerna-debug.log*
 
 .env
 node_modules
-dist
-dist-ssr
+# Resíduos do Vite / artefatos de teste
+dist/
+yarn.lock
+.next/
+next-env.d.ts
+*.tsbuildinfo
 *.local
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Scratch de orquestração de agentes (ledger, briefs, review packages)
+.superpowers/
 
 # Editor directories and files
 .vscode/*
