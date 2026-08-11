@@ -13,6 +13,7 @@ dist
 dist-ssr
 .next/
 next-env.d.ts
+*.tsbuildinfo
 *.local
 
 # Scratch de orquestração de agentes (ledger, briefs, review packages)
