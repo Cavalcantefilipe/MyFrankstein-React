@@ -28,6 +28,7 @@ Estas regras valem para **todas** as tarefas. Os requisitos de cada tarefa inclu
 - **Preservar arquivos existentes:** `src/data/experience.js`, `src/data/languages.js`, `src/assets/*`, `src/api/*` são copiados, não reescritos.
 - **Idioma do código:** nomes de variáveis, funções e componentes em inglês (segue o padrão atual do repositório). Apenas o conteúdo visível ao usuário é bilíngue.
 - **Commits:** formato conventional commits (`feat:`, `fix:`, `test:`, `chore:`), como no histórico atual.
+- **Caminho do App Router:** todas as rotas ficam em **`src/app/`**, não em `app/`. O Next.js exige que `pages` e `app` tenham o mesmo diretório-pai, e o app Vite legado ocupa `src/pages/` até a Task 11. Onde este plano escrever `app/layout.tsx`, `app/sitemap.ts`, `app/[lang]/…`, leia `src/app/layout.tsx`, `src/app/sitemap.ts`, `src/app/[lang]/…`. (Estabelecido na Task 1; ver `next.config.ts`.)
 
 ---
 
@@ -2159,7 +2160,26 @@ git rm index.html vite.config.js src/main.jsx src/index.css \
   src/components/Footer.jsx src/components/AnimatedSection.jsx
 ```
 
-- [ ] **Step 3: Desinstalar as dependências do Vite**
+- [ ] **Step 3: Reverter os dois desvios da Task 1 (obrigatório, falha em silêncio)**
+
+A Task 1 precisou de dois ajustes para conviver com o Vite. Com o Vite removido,
+ambos devem sair. Nenhum dos dois gera erro se for esquecido — por isso são
+passos obrigatórios, não faxina opcional.
+
+**3a — Remover `pageExtensions` do `next.config.ts`:**
+
+Existia só para impedir que `src/pages/*.jsx` virasse rota. Sem os `.jsx`, ele
+apenas restringe o projeto sem motivo (bloquearia `.md`/`.mdx` no futuro).
+Apagar a linha `pageExtensions: ['ts', 'tsx'],` e o comentário acima dela.
+
+**3b — Decidir sobre `src/app/`:**
+
+A Task 1 colocou o App Router em `src/app/` porque `app/` na raiz conflitava com
+`src/pages/`. Com `src/pages/` removido, `src/app/` continua sendo um layout
+oficialmente suportado pelo Next.js. **Manter como está** é válido e evita um
+diff grande de movimentação. Não mover sem motivo.
+
+- [ ] **Step 4: Desinstalar as dependências do Vite**
 
 `@vitejs/plugin-react` **permanece**, porque `vitest.config.ts` depende dele.
 
@@ -2167,7 +2187,7 @@ git rm index.html vite.config.js src/main.jsx src/index.css \
 npm uninstall vite @tailwindcss/vite react-router react-router-dom
 ```
 
-- [ ] **Step 4: Atualizar o `.gitignore`**
+- [ ] **Step 5: Atualizar o `.gitignore`**
 
 Substituir a entrada `dist` por:
 
@@ -2176,23 +2196,23 @@ Substituir a entrada `dist` por:
 out/
 ```
 
-- [ ] **Step 5: Remover o `dist/` versionado**
+- [ ] **Step 6: Remover o `dist/` versionado**
 
 ```bash
 git rm -r --cached dist 2>/dev/null || true
 rm -rf dist
 ```
 
-- [ ] **Step 6: Atualizar o `README.md`**
+- [ ] **Step 7: Atualizar o `README.md`**
 
 Substituir as instruções do Vite pelas do Next.js: `npm run dev`, `npm run build`, `npm start`, `npm test`, `npm run test:seo`. Documentar a estrutura de URL: `/` serve inglês, `/pt` serve português.
 
-- [ ] **Step 7: Verificar que tudo ainda passa**
+- [ ] **Step 8: Verificar que tudo ainda passa**
 
 Run: `npm run build && npm test && npm run test:seo`
 Expected: build OK, todos os testes passam
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
 git add -A
