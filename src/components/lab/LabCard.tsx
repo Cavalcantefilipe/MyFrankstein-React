@@ -10,7 +10,14 @@ type Props = {
   icon?: ReactNode;
 };
 
-export function LabCard({ title, subtitle, date, href, imageSrc, icon }: Props) {
+export function LabCard({
+  title,
+  subtitle,
+  date,
+  href,
+  imageSrc,
+  icon,
+}: Props) {
   return (
     <a
       href={href}

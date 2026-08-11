@@ -265,7 +265,11 @@ export function PokemonBattleClient() {
     }
   }
 
-  function moveInTeam(team: 'blue' | 'red', index: number, direction: 'left' | 'right') {
+  function moveInTeam(
+    team: 'blue' | 'red',
+    index: number,
+    direction: 'left' | 'right'
+  ) {
     const currentTeam = team === 'blue' ? blueTeam : redTeam;
     const setTeam = team === 'blue' ? setBlueTeam : setRedTeam;
     const newIndex = direction === 'left' ? index - 1 : index + 1;
@@ -361,9 +365,7 @@ export function PokemonBattleClient() {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="max-w-md mx-auto mb-8">
-        <label className="block text-sm font-medium mb-2">
-          Search Pokemon
-        </label>
+        <label className="block text-sm font-medium mb-2">Search Pokemon</label>
         <div className="relative" ref={dropdownRef}>
           <input
             type="text"
@@ -526,9 +528,9 @@ export function PokemonBattleClient() {
           </button>
         </div>
         <p className="text-xs text-gray-500 text-center max-w-md">
-          <strong>Auto Simulate:</strong> the whole battle is resolved at
-          once. <strong>Play Battle:</strong> you control the Blue team turn
-          by turn against an AI playing the Red team you picked.
+          <strong>Auto Simulate:</strong> the whole battle is resolved at once.{' '}
+          <strong>Play Battle:</strong> you control the Blue team turn by turn
+          against an AI playing the Red team you picked.
         </p>
 
         {battleError && (

@@ -4,12 +4,16 @@
 // (/random-quote, /pokemon-battle) iam para produção chamando o próprio
 // domínio — 4 das 10 URLs do sitemap quebradas, sem nenhum sinal.
 // Falhar o build é o único momento em que isso ainda é barato de corrigir.
+// VITE_API_URL é aceita porque é o nome já configurado na Amplify, herdado do
+// setup do Vite. Ambas precisam ser lidas como acessos literais e completos a
+// process.env — o Next.js substitui a expressão inteira no build, então
+// process.env[algumaVariavel] NÃO funcionaria aqui.
 const RAW_BASE = process.env.NEXT_PUBLIC_API_URL;
 if (!RAW_BASE) {
   throw new Error(
-    'NEXT_PUBLIC_API_URL não está definida. O Next.js a inlina no build, ' +
-      'então ela precisa existir no ambiente de build (na Amplify: variáveis ' +
-      'de ambiente da app, não só em runtime). Sem ela, as páginas do Lab ' +
+    'Nem NEXT_PUBLIC_API_URL nem VITE_API_URL estão definidas. O Next.js as ' +
+      'inlina no build, então precisam existir no ambiente de BUILD (na ' +
+      'Amplify: variáveis de ambiente da app). Sem elas, as páginas do Lab ' +
       'chamam o próprio domínio e falham.'
   );
 }

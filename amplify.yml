@@ -8,7 +8,7 @@ frontend:
         # defini-la só em runtime não adianta — sem ela, as páginas do Lab
         # sobem chamando o próprio domínio. Falhar aqui dá a mensagem certa
         # em vez de um erro obscuro no meio do build.
-        - 'test -n "$NEXT_PUBLIC_API_URL" || { echo "ERRO - defina NEXT_PUBLIC_API_URL nas variaveis de ambiente da app na Amplify"; exit 1; }'
+        - 'test -n "$NEXT_PUBLIC_API_URL" -o -n "$VITE_API_URL" || { echo "ERRO - defina NEXT_PUBLIC_API_URL (ou VITE_API_URL) nas variaveis de ambiente da app na Amplify"; exit 1; }'
         - npm ci
     build:
       commands:

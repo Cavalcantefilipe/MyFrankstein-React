@@ -185,9 +185,7 @@ export function RandomQuoteClient() {
 
           {translatedContent && targetLanguage !== 'none' ? (
             <blockquote className="rounded-md border border-black/10 bg-black/[0.01] p-4">
-              <p className="m-0 text-lg">
-                &ldquo;{translatedContent}&rdquo;
-              </p>
+              <p className="m-0 text-lg">&ldquo;{translatedContent}&rdquo;</p>
               {original.author ? (
                 <cite className="block mt-2 not-italic text-black/70">
                   — {original.author}

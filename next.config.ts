@@ -3,6 +3,17 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 
+  // A Amplify já tem a URL da API configurada como VITE_API_URL (herdado do
+  // setup do Vite). O Next.js só expõe ao navegador variáveis com prefixo
+  // NEXT_PUBLIC_ — uma VITE_API_URL lida direto de process.env compila, mas
+  // sai como undefined no bundle do cliente. A chave `env` abaixo é a ponte
+  // documentada: o que estiver aqui é sempre inlinado, com ou sem prefixo.
+  // Assim o build funciona com qualquer um dos dois nomes.
+  env: {
+    NEXT_PUBLIC_API_URL:
+      process.env.NEXT_PUBLIC_API_URL ?? process.env.VITE_API_URL ?? '',
+  },
+
   async redirects() {
     return [
       // www é duplicata do apex — consolidar em https://filipelab.com.

@@ -123,7 +123,13 @@ function MoveButton({
   onClick,
   disabled,
 }: {
-  move: { id?: string; move?: string; pp?: number; maxpp?: number; disabled?: boolean };
+  move: {
+    id?: string;
+    move?: string;
+    pp?: number;
+    maxpp?: number;
+    disabled?: boolean;
+  };
   onClick: () => void;
   disabled?: boolean;
 }) {
