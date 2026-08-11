@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "test": "vitest run --passWithNoTests",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:seo": "playwright test"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.1.7",

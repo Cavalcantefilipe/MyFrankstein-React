@@ -16,6 +16,12 @@ next-env.d.ts
 *.tsbuildinfo
 *.local
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # Scratch de orquestração de agentes (ledger, briefs, review packages)
 .superpowers/
 
