@@ -1,5 +1,37 @@
 import { expect, test } from '@playwright/test';
 
+test.describe('estilos', () => {
+  // Regressão real: ao remover o Vite, o plugin que processava o Tailwind saiu
+  // junto e nada assumiu o lugar. O build passava, o CSS era servido com 200,
+  // mas continha apenas o CSS escrito à mão — nenhuma classe utilitária. O
+  // site subiu sem estilo e nenhum teste percebeu.
+  test('o CSS servido contém as classes do Tailwind que as páginas usam', async ({
+    page,
+    request,
+  }) => {
+    await page.goto('/pt/servicos');
+
+    const href = await page
+      .locator('link[rel="stylesheet"]')
+      .first()
+      .getAttribute('href');
+    expect(href, 'nenhuma folha de estilo no HTML').toBeTruthy();
+
+    const css = await (await request.get(href!)).text();
+
+    // Utilitárias do Tailwind de fato usadas nas páginas. Se o pipeline do
+    // Tailwind quebrar, elas somem do CSS mesmo com o build verde.
+    for (const cls of [
+      'bg-black',
+      'rounded-md',
+      'font-semibold',
+      'text-4xl',
+    ]) {
+      expect(css, `classe "${cls}" ausente do CSS servido`).toContain(cls);
+    }
+  });
+});
+
 test.describe('HTML servido ao crawler', () => {
   test('a home em pt tem conteúdo sem executar JavaScript', async ({
     request,
