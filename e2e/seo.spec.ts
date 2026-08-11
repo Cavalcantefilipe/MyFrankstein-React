@@ -175,8 +175,19 @@ test.describe('crawlabilidade', () => {
     expect(xml).toContain('https://filipelab.com/services');
     expect(xml).not.toContain('/404');
 
-    const urlCount = (xml.match(/<url>/g) ?? []).length;
-    expect(urlCount).toBe(4);
+    // Toda URL listada precisa existir de fato. Uma contagem fixa envelhece a
+    // cada página nova; esta asserção não, e pega o defeito que importa —
+    // sitemap apontando o crawler para uma URL morta.
+    const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    expect(urls.length).toBeGreaterThan(0);
+
+    for (const url of urls) {
+      const path = new URL(url).pathname;
+      const res = await request.get(path, { maxRedirects: 0 });
+      expect(res.status(), `sitemap aponta ${path}, que não responde 200`).toBe(
+        200
+      );
+    }
   });
 
   test('o robots.txt aponta para o sitemap', async ({ request }) => {
