@@ -9,8 +9,6 @@ lerna-debug.log*
 
 .env
 node_modules
-dist
-dist-ssr
 .next/
 next-env.d.ts
 *.tsbuildinfo
