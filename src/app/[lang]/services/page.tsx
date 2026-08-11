@@ -7,6 +7,8 @@ import { buildMetadata } from '@/seo/metadata';
 import { getDictionary } from '@/i18n/get-dictionary';
 import { services } from '@/data/services';
 import type { Locale } from '@/i18n/config';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { buildProfessionalServiceJsonLd } from '@/seo/json-ld';
 
 const paths = { en: '/services', pt: '/pt/servicos' } as const;
 
@@ -35,6 +37,7 @@ export default async function ServicesPage({
 
   return (
     <>
+      <JsonLd data={buildProfessionalServiceJsonLd('en')} />
       <Header locale="en" dict={dict} alternatePath={paths.pt} />
       <main className="bg-white text-black with-header-offset">
         <div className="page-container py-16">

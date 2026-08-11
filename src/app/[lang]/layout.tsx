@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import { isLocale, locales } from '@/i18n/config';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { buildPersonJsonLd } from '@/seo/json-ld';
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -17,7 +19,10 @@ export default async function LangLayout({
 
   return (
     <html lang={lang === 'pt' ? 'pt-BR' : 'en'}>
-      <body>{children}</body>
+      <body>
+        <JsonLd data={buildPersonJsonLd()} />
+        {children}
+      </body>
     </html>
   );
 }
