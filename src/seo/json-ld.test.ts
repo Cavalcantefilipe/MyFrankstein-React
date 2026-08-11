@@ -8,7 +8,7 @@ describe('buildPersonJsonLd', () => {
     expect(data.name).toBe('Filipe Alves Cavalcante');
     expect(data.url).toBe('https://filipelab.com');
     expect(data.sameAs).toContain(
-      'https://www.linkedin.com/in/cavalcante-filipe/',
+      'https://www.linkedin.com/in/cavalcante-filipe/'
     );
   });
 });

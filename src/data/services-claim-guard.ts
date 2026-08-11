@@ -1,4 +1,4 @@
-import type { Experience } from './experience'
+import type { Experience } from './experience';
 
 // Guard utilities that back the "no invented claims" test in
 // services.test.ts. Extracted into their own module so the fabricated-claim
@@ -8,57 +8,123 @@ import type { Experience } from './experience'
 // specific CV bullet. Without this, a fabricated "500 clients" would match
 // any bullet that happens to mention "clients" for an unrelated reason.
 const STOPWORDS = new Set([
-  'the', 'and', 'for', 'with', 'that', 'from', 'this', 'was', 'were', 'has',
-  'have', 'had', 'built', 'a', 'an', 'to', 'of', 'in', 'on', 'at', 'by', 'or',
-  'is', 'as', 'it', 'its', 'their', 'them', 'they', 'i', 'my', 'me', 'per',
-  'across', 'more', 'than', 'about', 'into', 'now', 'also', 'up',
-  'clients', 'client', 'customers', 'customer', 'users', 'projects', 'project',
-  'team', 'teams', 'company', 'companies', 'business', 'work', 'month',
-  'months', 'year', 'years', 'week', 'weeks', 'day', 'days', 'hour', 'hours',
-  'system', 'systems', 'platform', 'platforms', 'product', 'products',
-  'sales', 'result', 'results',
-])
+  'the',
+  'and',
+  'for',
+  'with',
+  'that',
+  'from',
+  'this',
+  'was',
+  'were',
+  'has',
+  'have',
+  'had',
+  'built',
+  'a',
+  'an',
+  'to',
+  'of',
+  'in',
+  'on',
+  'at',
+  'by',
+  'or',
+  'is',
+  'as',
+  'it',
+  'its',
+  'their',
+  'them',
+  'they',
+  'i',
+  'my',
+  'me',
+  'per',
+  'across',
+  'more',
+  'than',
+  'about',
+  'into',
+  'now',
+  'also',
+  'up',
+  'clients',
+  'client',
+  'customers',
+  'customer',
+  'users',
+  'projects',
+  'project',
+  'team',
+  'teams',
+  'company',
+  'companies',
+  'business',
+  'work',
+  'month',
+  'months',
+  'year',
+  'years',
+  'week',
+  'weeks',
+  'day',
+  'days',
+  'hour',
+  'hours',
+  'system',
+  'systems',
+  'platform',
+  'platforms',
+  'product',
+  'products',
+  'sales',
+  'result',
+  'results',
+]);
 
 export function normalizeNumber(raw: string): string {
   // Strips trailing punctuation stuck to a number by sentence structure
   // (e.g. "76," or "95.") and strips thousands/decimal separators so
   // 4,854 (en) and 4.854 (pt) compare equal.
-  return raw.replace(/[.,]+$/, '').replace(/[.,]/g, '')
+  return raw.replace(/[.,]+$/, '').replace(/[.,]/g, '');
 }
 
 export function numbersIn(text: string): string[] {
-  return text.match(/\d[\d.,]*/g) ?? []
+  return text.match(/\d[\d.,]*/g) ?? [];
 }
 
 function tokenize(text: string): string[] {
-  const out: string[] = []
-  const re = /\d[\d.,]*|[a-zà-ÿ]+/gi
-  let match: RegExpExecArray | null
+  const out: string[] = [];
+  const re = /\d[\d.,]*|[a-zà-ÿ]+/gi;
+  let match: RegExpExecArray | null;
   while ((match = re.exec(text)) !== null) {
-    out.push(match[0].toLowerCase())
+    out.push(match[0].toLowerCase());
   }
-  return out
+  return out;
 }
 
 function sentences(text: string): string[] {
-  return text.split(/(?<=[.!?])\s+/).filter(Boolean)
+  return text.split(/(?<=[.!?])\s+/).filter(Boolean);
 }
 
 function distinctiveWords(text: string): Set<string> {
   return new Set(
-    tokenize(text).filter((w) => w.length >= 4 && !STOPWORDS.has(w) && !/^\d/.test(w)),
-  )
+    tokenize(text).filter(
+      (w) => w.length >= 4 && !STOPWORDS.has(w) && !/^\d/.test(w)
+    )
+  );
 }
 
 function sentenceNumbers(sentence: string): string[] {
-  return numbersIn(sentence).map(normalizeNumber)
+  return numbersIn(sentence).map(normalizeNumber);
 }
 
 export type CorroborationResult = {
-  ok: boolean
-  matchedSentence?: string
-  sharedTokens?: string[]
-}
+  ok: boolean;
+  matchedSentence?: string;
+  sharedTokens?: string[];
+};
 
 /**
  * Checks that `number`, as it appears in `claimText`, corresponds to the
@@ -77,27 +143,29 @@ export type CorroborationResult = {
 export function numberHasCorroboratingBullet(
   number: string,
   claimText: string,
-  experiences: readonly Experience[],
+  experiences: readonly Experience[]
 ): CorroborationResult {
-  const target = normalizeNumber(number)
-  const claimSentence = sentences(claimText).find((s) => sentenceNumbers(s).includes(target))
-  if (!claimSentence) return { ok: false }
+  const target = normalizeNumber(number);
+  const claimSentence = sentences(claimText).find((s) =>
+    sentenceNumbers(s).includes(target)
+  );
+  if (!claimSentence) return { ok: false };
 
-  const claimWords = distinctiveWords(claimSentence)
+  const claimWords = distinctiveWords(claimSentence);
 
   for (const experience of experiences) {
     for (const responsibility of experience.responsibilities) {
       for (const sentence of sentences(responsibility)) {
-        if (!sentenceNumbers(sentence).includes(target)) continue
+        if (!sentenceNumbers(sentence).includes(target)) continue;
 
-        const bulletWords = distinctiveWords(sentence)
-        const shared = [...claimWords].filter((t) => bulletWords.has(t))
+        const bulletWords = distinctiveWords(sentence);
+        const shared = [...claimWords].filter((t) => bulletWords.has(t));
         if (shared.length > 0) {
-          return { ok: true, matchedSentence: sentence, sharedTokens: shared }
+          return { ok: true, matchedSentence: sentence, sharedTokens: shared };
         }
       }
     }
   }
 
-  return { ok: false }
+  return { ok: false };
 }

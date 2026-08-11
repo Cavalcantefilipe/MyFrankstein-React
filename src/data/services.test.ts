@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { services } from './services';
 import { experiences, type Experience } from './experience';
-import { numbersIn, normalizeNumber, numberHasCorroboratingBullet } from './services-claim-guard';
+import {
+  numbersIn,
+  normalizeNumber,
+  numberHasCorroboratingBullet,
+} from './services-claim-guard';
 
 describe('services data', () => {
   it('tem exatamente os 5 serviços acordados', () => {
@@ -34,7 +38,7 @@ describe('services data', () => {
         const variants = [n, n.replace(/\./g, ','), n.replace(/,/g, '.')];
         expect(
           variants.some((v) => cv.includes(v)),
-          `número "${n}" em "${service.slug}" não existe em experience.ts`,
+          `número "${n}" em "${service.slug}" não existe em experience.ts`
         ).toBe(true);
       }
     }
@@ -47,9 +51,10 @@ describe('services data', () => {
     for (const service of services) {
       const ptNumbers = numbersIn(service.proof.pt).map(normalizeNumber).sort();
       const enNumbers = numbersIn(service.proof.en).map(normalizeNumber).sort();
-      expect(enNumbers, `números de proof.en devem bater com proof.pt em "${service.slug}"`).toEqual(
-        ptNumbers,
-      );
+      expect(
+        enNumbers,
+        `números de proof.en devem bater com proof.pt em "${service.slug}"`
+      ).toEqual(ptNumbers);
     }
   });
 
@@ -64,10 +69,14 @@ describe('services data', () => {
     // duas — ou seja, correspondência número+contexto, não só número.
     for (const service of services) {
       for (const n of numbersIn(service.proof.en)) {
-        const result = numberHasCorroboratingBullet(n, service.proof.en, experiences);
+        const result = numberHasCorroboratingBullet(
+          n,
+          service.proof.en,
+          experiences
+        );
         expect(
           result.ok,
-          `número "${n}" em "${service.slug}" (proof.en) não corresponde a nenhuma frase específica de experience.ts — presença solta não basta`,
+          `número "${n}" em "${service.slug}" (proof.en) não corresponde a nenhuma frase específica de experience.ts — presença solta não basta`
         ).toBe(true);
       }
     }
@@ -79,13 +88,19 @@ describe('services data', () => {
     // relacionados. Sem este teste, não saberíamos se o guard realmente
     // guarda — ele poderia estar tão frouxo quanto a checagem antiga.
     // A fixture é local a este teste, não é injetada em services.ts.
-    const fabricatedClaim = 'Served 500 clients across multiple industries with custom platforms.';
+    const fabricatedClaim =
+      'Served 500 clients across multiple industries with custom platforms.';
 
     for (const n of numbersIn(fabricatedClaim)) {
-      const result = numberHasCorroboratingBullet(n, fabricatedClaim, experiences);
-      expect(result.ok, `guard deveria rejeitar "${n}" na alegação fabricada, mas aceitou`).toBe(
-        false,
+      const result = numberHasCorroboratingBullet(
+        n,
+        fabricatedClaim,
+        experiences
       );
+      expect(
+        result.ok,
+        `guard deveria rejeitar "${n}" na alegação fabricada, mas aceitou`
+      ).toBe(false);
     }
   });
 
@@ -93,10 +108,15 @@ describe('services data', () => {
     // Complementa o teste anterior: mostra que o mesmo guard aceita uma
     // frase nova (não presente em services.ts) quando o número e uma
     // palavra distintiva realmente correspondem à mesma frase do histórico.
-    const legitimateClaim = 'The edtech platform now has 4,854 users and 6,415 enrollments.';
+    const legitimateClaim =
+      'The edtech platform now has 4,854 users and 6,415 enrollments.';
     const fixtureExperiences: Experience[] = experiences;
 
-    const result = numberHasCorroboratingBullet('4,854', legitimateClaim, fixtureExperiences);
+    const result = numberHasCorroboratingBullet(
+      '4,854',
+      legitimateClaim,
+      fixtureExperiences
+    );
     expect(result.ok).toBe(true);
   });
 });

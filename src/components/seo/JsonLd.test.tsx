@@ -13,7 +13,9 @@ describe('JsonLd', () => {
     const escapedLessThan = `${backslash}u003c`;
 
     expect(html).not.toContain('</script><script>alert(1)</script>');
-    expect(html).toContain(`${escapedLessThan}/script>${escapedLessThan}script>`);
+    expect(html).toContain(
+      `${escapedLessThan}/script>${escapedLessThan}script>`
+    );
   });
 
   it('serializa os dados como JSON válido dentro do script', () => {

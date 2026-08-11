@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
       // /en/* é duplicata da raiz — consolidar
       { source: '/en', destination: '/', permanent: true },
       { source: '/en/:path*', destination: '/:path*', permanent: true },
-    ]
+    ];
   },
 
   async rewrites() {
@@ -49,10 +49,13 @@ const nextConfig: NextConfig = {
         // a raiz já foi reescrita para /en pela regra beforeFiles acima, e o
         // Next.js reavalia afterFiles sobre o destino reescrito — sem essa
         // exclusão, /en cairia de novo aqui e viraria /en/en (404).
-        { source: '/:path((?!pt|en|_next|api|.*\\..*).*)', destination: '/en/:path' },
+        {
+          source: '/:path((?!pt|en|_next|api|.*\\..*).*)',
+          destination: '/en/:path',
+        },
       ],
       fallback: [],
-    }
+    };
   },
 
   async headers() {
@@ -67,7 +70,7 @@ const nextConfig: NextConfig = {
       "frame-src 'self' blob:",
       "frame-ancestors 'none'",
       "base-uri 'self'",
-    ].join('; ')
+    ].join('; ');
 
     return [
       {
@@ -89,8 +92,8 @@ const nextConfig: NextConfig = {
           { key: 'Content-Disposition', value: 'attachment' },
         ],
       },
-    ]
+    ];
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

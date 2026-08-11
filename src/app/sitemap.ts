@@ -1,11 +1,11 @@
-import type { MetadataRoute } from 'next'
-import { site } from '@/seo/site'
+import type { MetadataRoute } from 'next';
+import { site } from '@/seo/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
     { en: '/', pt: '/pt', priority: 1.0 },
     { en: '/services', pt: '/pt/servicos', priority: 0.9 },
-  ]
+  ];
 
   return pages.flatMap(({ en, pt, priority }) =>
     [en, pt].map((path) => ({
@@ -18,6 +18,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
           'pt-BR': `${site.url}${pt}`,
         },
       },
-    })),
-  )
+    }))
+  );
 }
