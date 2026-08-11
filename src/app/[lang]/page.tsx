@@ -258,18 +258,7 @@ export default async function HomePage({
             {dict.home.aboutTitle}
           </h2>
           <div className="text-lg md:text-xl lg:text-2xl leading-relaxed">
-            <p className="text-white/90 text-left">
-              I am a software engineer focused on the backend with over 6 years
-              of experience in web development. I have worked on a wide range of
-              projects, including PHP, Node.js, Typescript, and frameworks such
-              as Laravel, Express, and NestJS. I also have experience working
-              with the frontend using React and VueJS.
-              <br />
-              Experience with scaling issues using AWS products such as SQS,
-              DynamoDB, Lambda and also experience integrating with third-party
-              systems such as Stripe, GoogleApi, Amplitude, Google Analytics,
-              etc.
-            </p>
+            <p className="text-white/90 text-left">{dict.home.aboutBody}</p>
           </div>
         </div>
       </AnimatedSection>
@@ -320,17 +309,22 @@ export default async function HomePage({
           <div className="space-y-6">
             {experiences.map((exp) => (
               <article
-                key={`${exp.company}-${exp.period}`}
+                key={`${exp.company}-${exp.period[lang]}`}
                 className="rounded-lg border border-white p-5 text-white"
               >
                 <h3 className="font-semibold">
-                  {exp.title} · {exp.company}
+                  {exp.title[lang]} · {exp.company}
                 </h3>
                 <p className="text-sm text-white/90">
-                  {exp.period} · {exp.location}
+                  {exp.period[lang]} · {exp.location[lang]}
                 </p>
+                {exp.context ? (
+                  <p className="mt-2 text-white/80 italic">
+                    {exp.context[lang]}
+                  </p>
+                ) : null}
                 <ul className="list-disc pl-5 mt-3 space-y-1 text-white/90">
-                  {exp.responsibilities.map((r) => (
+                  {exp.responsibilities[lang].map((r) => (
                     <li key={r}>{r}</li>
                   ))}
                 </ul>

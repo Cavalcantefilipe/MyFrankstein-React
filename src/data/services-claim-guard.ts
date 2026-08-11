@@ -154,7 +154,14 @@ export function numberHasCorroboratingBullet(
   const claimWords = distinctiveWords(claimSentence);
 
   for (const experience of experiences) {
-    for (const responsibility of experience.responsibilities) {
+    // Os dois idiomas afirmam os mesmos fatos, então corroborar contra ambos
+    // amplia a base de comparação: uma alegação em português pode casar com a
+    // frase em português do CV, e não só com a versão em inglês.
+    const allResponsibilities = [
+      ...experience.responsibilities.pt,
+      ...experience.responsibilities.en,
+    ];
+    for (const responsibility of allResponsibilities) {
       for (const sentence of sentences(responsibility)) {
         if (!sentenceNumbers(sentence).includes(target)) continue;
 

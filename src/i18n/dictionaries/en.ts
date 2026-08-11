@@ -11,6 +11,8 @@ export const en = {
   home: {
     role: 'Software Engineer',
     aboutTitle: 'About me',
+    aboutBody:
+      "I'm a full-stack engineer with my own software company and 6 years in the field. Most of that time I've been the only developer on a project, which means I take care of everything: database design, backend, frontend, deployment. I work with PHP and Laravel, Node.js, TypeScript, NestJS, React, Next.js and Vue.js, plus AWS (Lambda, SQS, DynamoDB, S3) and databases like PostgreSQL, MySQL and Redis. I've been using Claude Code daily for the past year and it's genuinely cut my delivery time in half.",
     skillsTitle: 'Skills',
     experienceTitle: 'Work experience',
     email: 'Email',

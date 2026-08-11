@@ -21,12 +21,7 @@ test.describe('estilos', () => {
 
     // Utilitárias do Tailwind de fato usadas nas páginas. Se o pipeline do
     // Tailwind quebrar, elas somem do CSS mesmo com o build verde.
-    for (const cls of [
-      'bg-black',
-      'rounded-md',
-      'font-semibold',
-      'text-4xl',
-    ]) {
+    for (const cls of ['bg-black', 'rounded-md', 'font-semibold', 'text-4xl']) {
       expect(css, `classe "${cls}" ausente do CSS servido`).toContain(cls);
     }
   });
@@ -62,6 +57,22 @@ test.describe('HTML servido ao crawler', () => {
   test('a página de serviços em inglês responde 200', async ({ request }) => {
     const res = await request.get('/services');
     expect(res.status()).toBe(200);
+  });
+
+  // A experiência profissional vem dos currículos do usuário nos dois idiomas.
+  // Antes ela existia só em inglês, e /pt renderizava títulos em português com
+  // o corpo em inglês — sinal de idioma misto, que enfraquece a página nas
+  // buscas em português.
+  test('cada locale renderiza a experiência no seu próprio idioma', async ({
+    request,
+  }) => {
+    const pt = await (await request.get('/pt')).text();
+    expect(pt).toContain('Reconstruí a plataforma edtech');
+    expect(pt).not.toContain('Rebuilt BrasilTec');
+
+    const en = await (await request.get('/')).text();
+    expect(en).toContain('Rebuilt BrasilTec');
+    expect(en).not.toContain('Reconstruí a plataforma');
   });
 });
 

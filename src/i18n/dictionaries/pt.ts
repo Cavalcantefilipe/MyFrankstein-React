@@ -11,6 +11,8 @@ export const pt = {
   home: {
     role: 'Desenvolvedor Web',
     aboutTitle: 'Sobre mim',
+    aboutBody:
+      'Sou engenheiro full-stack com minha própria empresa de software e 6 anos de experiência. Na maior parte desse tempo trabalhei como único desenvolvedor nos projetos: banco de dados, backend, frontend, deploy. Trabalho com PHP e Laravel, Node.js, TypeScript, NestJS, React, Next.js e Vue.js, além de AWS (Lambda, SQS, DynamoDB, S3) e bancos como PostgreSQL, MySQL e Redis. Nos últimos tempos uso Claude Code todo dia e isso cortou meu tempo de entrega pela metade.',
     skillsTitle: 'Tecnologias',
     experienceTitle: 'Experiência profissional',
     email: 'E-mail',
