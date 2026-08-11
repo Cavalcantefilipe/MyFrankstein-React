@@ -1,10 +1,13 @@
-const RAW_BASE = import.meta.env.VITE_API_URL;
+const RAW_BASE = process.env.NEXT_PUBLIC_API_URL;
 if (!RAW_BASE) {
-  console.warn('VITE_API_URL is not set. API calls will fail.');
+  console.warn('NEXT_PUBLIC_API_URL is not set. API calls will fail.');
 }
 const API_BASE = (RAW_BASE || '').replace(/\/$/, '');
 
-export async function apiFetch(path, options = {}) {
+export async function apiFetch<T = unknown>(
+  path: string,
+  options: RequestInit = {}
+): Promise<T> {
   const url = `${API_BASE}${path.startsWith('/') ? path : `/${path}`}`;
   const response = await fetch(url, {
     ...options,
