@@ -215,14 +215,6 @@ export const experiences: Experience[] = [
         'Replaced a manual spreadsheet reporting process with backend-generated reports. Before: run at night, results next morning. After: on demand and 50% faster.',
       ],
     },
-    tech: [
-      'PHPUnit',
-      'Laravel',
-      'TDD',
-      'PHP',
-      'Java',
-      'Node.js',
-      'PostgreSQL',
-    ],
+    tech: ['PHPUnit', 'Laravel', 'TDD', 'PHP', 'Java', 'Node.js', 'PostgreSQL'],
   },
 ];
