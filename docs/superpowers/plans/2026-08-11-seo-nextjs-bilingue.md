@@ -395,7 +395,13 @@ import type { Locale } from './config'
 import { en } from './dictionaries/en'
 import { pt } from './dictionaries/pt'
 
-export type Dictionary = typeof en
+// Os dicionários usam `as const`, então `typeof en` significa "literalmente as
+// strings em inglês" — e `pt` não seria atribuível a esse tipo. Widen preserva
+// a estrutura de chaves (que a paridade en/pt exige) e relaxa só os valores
+// folha para `string`.
+type Widen<T> = { [K in keyof T]: T[K] extends object ? Widen<T[K]> : string }
+
+export type Dictionary = Widen<typeof en>
 
 const dictionaries: Record<Locale, Dictionary> = { en, pt }
 
@@ -692,8 +698,11 @@ const nextConfig: NextConfig = {
         { source: '/', destination: '/en' },
       ],
       afterFiles: [
-        // Caminhos sem prefixo de locale servem inglês
-        { source: '/:path((?!pt|_next|api|.*\\..*).*)', destination: '/en/:path' },
+        // Caminhos sem prefixo de locale servem inglês. O `en` no lookahead é
+        // obrigatório: a regra beforeFiles acima reescreve / -> /en, o Next.js
+        // reavalia afterFiles sobre o destino reescrito, e sem essa exclusão
+        // /en cairia aqui de novo virando /en/en (404).
+        { source: '/:path((?!pt|en|_next|api|.*\\..*).*)', destination: '/en/:path' },
       ],
       fallback: [],
     }
