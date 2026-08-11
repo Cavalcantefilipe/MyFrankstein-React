@@ -37,7 +37,7 @@ export function Header({ locale, dict, alternatePath }: Props) {
       className={`fixed top-0 left-0 w-full z-50 bg-white ${hasScrolled ? 'shadow-sm' : ''}`}
     >
       <div className="page-container pt-5">
-        <nav aria-label={dict.nav.services}>
+        <nav aria-label={dict.nav.mainLabel}>
           <div className="flex flex-wrap items-center justify-between gap-3 pb-3">
             <Link
               className="text-[15px] font-medium italic sm:text-base md:text-[24px] lg:font-bold"

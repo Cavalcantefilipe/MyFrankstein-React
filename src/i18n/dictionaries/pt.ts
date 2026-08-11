@@ -1,5 +1,6 @@
 export const pt = {
   nav: {
+    mainLabel: 'Navegação principal',
     about: 'Sobre',
     skills: 'Tecnologias',
     experience: 'Experiência',
