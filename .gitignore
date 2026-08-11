@@ -13,6 +13,9 @@ dist
 dist-ssr
 *.local
 
+# Scratch de orquestração de agentes (ledger, briefs, review packages)
+.superpowers/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
