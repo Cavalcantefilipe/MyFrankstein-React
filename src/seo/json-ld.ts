@@ -1,5 +1,6 @@
 import type { Locale } from '@/i18n/config';
 import { services } from '@/data/services';
+import type { ServiceFaqItem } from '@/data/services';
 import { site } from './site';
 
 export function buildPersonJsonLd() {
@@ -39,5 +40,24 @@ export function buildProfessionalServiceJsonLd(locale: Locale) {
         },
       })),
     },
+  };
+}
+
+/**
+ * FAQPage structured data for a single service page. Only include questions
+ * actually rendered on that page — the schema must match visible content.
+ */
+export function buildFaqJsonLd(faq: ServiceFaqItem[], locale: Locale) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question[locale],
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer[locale],
+      },
+    })),
   };
 }
