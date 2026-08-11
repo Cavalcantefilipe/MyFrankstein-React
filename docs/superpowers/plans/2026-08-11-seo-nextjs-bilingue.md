@@ -1760,38 +1760,20 @@ export default function robots(): MetadataRoute.Robots {
 }
 ```
 
-- [ ] **Step 3: Adicionar a verificação do Google Search Console**
+- [ ] **Step 3: (removido) Verificação do Google Search Console**
 
-Token fornecido pelo usuário: `MBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44`
+O usuário optou pelo método de **registro TXT no DNS**, que é feito no painel de
+DNS do domínio e não envolve o código do site. Nada a implementar aqui.
 
-Sem isso, não é possível enviar o sitemap nem pedir indexação. Instalar por dois caminhos, porque o método exato selecionado no Search Console não foi confirmado e uma verificação falha bloqueia todo o resto.
-
-**3a — Meta tag (funciona para o método "Tag HTML"):**
-
-Em `app/layout.tsx`, adicionar ao objeto `metadata`:
-
-```tsx
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  verification: {
-    google: 'MBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44',
-  },
-}
-```
-
-Renderiza `<meta name="google-site-verification" content="..." />` no `<head>`.
-
-**3b — Arquivo estático (funciona para o método "Arquivo HTML"):**
-
-Criar `public/googleMBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44.html` com exatamente esta linha e nada mais:
+Valor do TXT (para referência, a ser criado pelo usuário em `filipelab.com`):
 
 ```
-google-site-verification: MBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44
+google-site-verification=MBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44
 ```
 
-**Atenção ao nome do arquivo:** o Google verifica um nome exato, que aparece no botão de download do Search Console. O nome acima é o padrão (`google` + token + `.html`). Se a verificação falhar, conferir o nome real no Search Console e renomear — o conteúdo permanece o mesmo.
-
-**Atenção ao separador:** dentro do arquivo o Google usa `:` (dois-pontos), enquanto o valor colado pelo usuário usava `=`. Se a verificação por arquivo falhar, tentar com `=`.
+Verificação por DNS cobre o domínio inteiro, inclusive subdomínios, e é o método
+mais robusto dos três. O registro deve permanecer no DNS permanentemente — o
+Google revalida, e removê-lo faz perder o acesso à propriedade.
 
 - [ ] **Step 4: Criar `app/not-found.tsx`**
 
@@ -1836,18 +1818,15 @@ curl -s http://localhost:3000/sitemap.xml | grep -c "pt/servicos"
 curl -s http://localhost:3000/sitemap.xml | grep -c "/404"
 curl -s -o /dev/null -w "404-status:%{http_code}\n" http://localhost:3000/pagina-que-nao-existe-123
 curl -s http://localhost:3000/robots.txt
-curl -s http://localhost:3000/ | grep -c "google-site-verification"
-curl -s -o /dev/null -w "arquivo-verificacao:%{http_code}\n" \
-  http://localhost:3000/googleMBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44.html
 ```
 
-Expected: `1`, `0`, `404-status:404`, robots citando o sitemap, `1` para a meta tag e `arquivo-verificacao:200`
+Expected: `1`, `0`, `404-status:404`, robots citando o sitemap
 
 - [ ] **Step 7: Commit**
 
 ```bash
-git add app/sitemap.ts app/robots.ts app/not-found.tsx app/layout.tsx public/google*.html
-git commit -m "feat: gera sitemap e robots, corrige soft 404 e adiciona verificação do Search Console"
+git add app/sitemap.ts app/robots.ts app/not-found.tsx
+git commit -m "feat: gera sitemap e robots; corrige soft 404"
 ```
 
 ---
@@ -2236,9 +2215,13 @@ Itens que exigem decisão ou acesso que só o usuário tem.
 
 1. **Rotas do Lab não portadas.** `/lab`, `/random-quote` e `/pokemon-battle` seguem em JSX do react-router e não foram migradas neste plano — elas não afetam o objetivo de SEO. Consequência: essas URLs **deixam de existir** após o deploy. Como hoje `/lab` está no sitemap e é linkada no menu, decidir antes de publicar: portar as rotas, ou aceitar a remoção. O plano já as removeu do sitemap (Task 8) e do menu (Task 5) para não apontar para 404.
 
-2. **Google Search Console.** A Task 8 já instala o token de verificação (`MBeTK8nV…`) por meta tag e por arquivo estático. O que resta, e só você pode fazer, é **depois do deploy**: clicar em "Verificar" no Search Console, enviar `https://filipelab.com/sitemap.xml` e pedir indexação de `/pt/servicos`. A verificação só funciona contra o site publicado — rodando local ela falha, porque o Google precisa alcançar `filipelab.com`.
-
-   Se a verificação por arquivo falhar, conferir no Search Console o nome exato do arquivo a baixar e renomear `public/google*.html` para bater. O meta tag serve de segundo caminho independente.
+2. **Google Search Console — registro TXT no DNS (ação sua, fora do código).**
+   Criar no DNS de `filipelab.com` um registro `TXT` com valor
+   `google-site-verification=MBeTK8nVT5YUAK-uM6Ht57jF6yNDYjLNuyy6VkMN_44`,
+   esperar a propagação (`dig +short TXT filipelab.com` para conferir) e clicar
+   em "Verificar" no Search Console. Manter o registro permanentemente — o
+   Google revalida. Depois de verificado: enviar
+   `https://filipelab.com/sitemap.xml` e pedir indexação de `/pt/servicos`.
 
 3. **Domínio na Amplify.** Apontar `filipelab.com` para a app da Amplify e configurar `www`. O redirect no `next.config.ts` cobre o nível de aplicação, mas o registro DNS de `www` precisa existir para que a requisição chegue.
 
