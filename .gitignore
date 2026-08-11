@@ -9,6 +9,9 @@ lerna-debug.log*
 
 .env
 node_modules
+# Resíduos do Vite / artefatos de teste
+dist/
+yarn.lock
 .next/
 next-env.d.ts
 *.tsbuildinfo
