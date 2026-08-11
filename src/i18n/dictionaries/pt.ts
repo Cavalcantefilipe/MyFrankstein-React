@@ -29,4 +29,4 @@ export const pt = {
     emailCta: 'Mandar um e-mail',
     switchLanguage: 'English',
   },
-} as const
+} as const;

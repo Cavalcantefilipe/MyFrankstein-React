@@ -1,10 +1,10 @@
-import { FaWhatsapp } from 'react-icons/fa'
-import { site } from '@/seo/site'
-import { getDictionary } from '@/i18n/get-dictionary'
-import type { Locale } from '@/i18n/config'
+import { FaWhatsapp } from 'react-icons/fa';
+import { site } from '@/seo/site';
+import { getDictionary } from '@/i18n/get-dictionary';
+import type { Locale } from '@/i18n/config';
 
 export function WhatsAppCta({ locale }: { locale: Locale }) {
-  const dict = getDictionary(locale)
+  const dict = getDictionary(locale);
   return (
     <a
       href={site.whatsappUrl}
@@ -14,5 +14,5 @@ export function WhatsAppCta({ locale }: { locale: Locale }) {
     >
       <FaWhatsapp aria-hidden="true" /> {dict.common.whatsappCta}
     </a>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { FaEnvelope, FaGlobe, FaLinkedin, FaWhatsapp } from 'react-icons/fa'
-import { site } from '@/seo/site'
+import { FaEnvelope, FaGlobe, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
+import { site } from '@/seo/site';
 
 export function Footer() {
   return (
@@ -10,7 +10,11 @@ export function Footer() {
             © {new Date().getFullYear()} {site.authorName}. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-black/80 mx-auto sm:mx-0">
-            <a href={`mailto:${site.email}`} aria-label="Email" className="hover:text-black">
+            <a
+              href={`mailto:${site.email}`}
+              aria-label="Email"
+              className="hover:text-black"
+            >
               <FaEnvelope />
             </a>
             <a
@@ -31,12 +35,16 @@ export function Footer() {
             >
               <FaLinkedin />
             </a>
-            <a href={site.url} aria-label="Website" className="hover:text-black">
+            <a
+              href={site.url}
+              aria-label="Website"
+              className="hover:text-black"
+            >
               <FaGlobe />
             </a>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

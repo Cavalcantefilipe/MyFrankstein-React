@@ -1,11 +1,11 @@
-import type { Locale } from '@/i18n/config'
+import type { Locale } from '@/i18n/config';
 
 export type Service = {
-  slug: string
-  title: Record<Locale, string>
-  body: Record<Locale, string>
-  proof: Record<Locale, string>
-}
+  slug: string;
+  title: Record<Locale, string>;
+  body: Record<Locale, string>;
+  proof: Record<Locale, string>;
+};
 
 export const services: Service[] = [
   {
@@ -83,4 +83,4 @@ export const services: Service[] = [
       en: 'Integrations with Stripe, Instagram Graph API, TikTok API and Google APIs. On one anti-fraud integration, chargebacks dropped 40%.',
     },
   },
-]
+];
