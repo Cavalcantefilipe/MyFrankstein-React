@@ -54,6 +54,7 @@ export default async function LabPage({
   return (
     <>
       <Header locale={lang} dict={dict} alternatePath={alternatePath} />
+      <main>
       <div className="with-header-offset bg-white text-black">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
           <div className="max-w-6xl mx-auto">
@@ -82,6 +83,7 @@ export default async function LabPage({
           </div>
         </div>
       </div>
+      </main>
       <Footer />
     </>
   );

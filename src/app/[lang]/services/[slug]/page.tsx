@@ -64,7 +64,10 @@ export default async function ServiceDetailPage({
       <Header locale={locale} dict={dict} alternatePath={routePaths.pt} />
       <main className="bg-white text-black with-header-offset">
         <div className="page-container py-16">
-          <Link href="/services" className="text-sm text-black/60 hover:text-black">
+          <Link
+            href="/services"
+            className="text-sm text-black/60 hover:text-black"
+          >
             &larr; All services
           </Link>
 
@@ -100,14 +103,20 @@ export default async function ServiceDetailPage({
 
           <section className="mt-16 rounded-lg bg-black/5 p-8">
             <h2 className="text-2xl font-semibold">Real result</h2>
-            <p className="mt-3 max-w-2xl text-black/80">{service.proof[locale]}</p>
+            <p className="mt-3 max-w-2xl text-black/80">
+              {service.proof[locale]}
+            </p>
           </section>
 
-          <h2 className="mt-16 text-3xl font-semibold">Frequently asked questions</h2>
+          <h2 className="mt-16 text-3xl font-semibold">
+            Frequently asked questions
+          </h2>
           <div className="mt-6 max-w-3xl space-y-8">
             {service.faq.map((item) => (
               <div key={item.question[locale]}>
-                <h3 className="text-xl font-semibold">{item.question[locale]}</h3>
+                <h3 className="text-xl font-semibold">
+                  {item.question[locale]}
+                </h3>
                 <p className="mt-2 text-black/80">{item.answer[locale]}</p>
               </div>
             ))}

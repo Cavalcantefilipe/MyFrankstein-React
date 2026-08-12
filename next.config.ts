@@ -42,7 +42,7 @@ const nextConfig: NextConfig = {
         // Next.js reavalia afterFiles sobre o destino reescrito — sem essa
         // exclusão, /en cairia de novo aqui e viraria /en/en (404).
         {
-          source: '/:path((?!pt|en|_next|api|.*\\..*).*)',
+          source: '/:path((?!pt|en|_next|api).*)',
           destination: '/en/:path',
         },
       ],

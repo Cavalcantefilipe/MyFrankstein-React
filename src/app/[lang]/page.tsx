@@ -196,6 +196,7 @@ export default async function HomePage({
   return (
     <>
       <Header locale={lang} dict={dict} alternatePath={alternatePath} />
+      <main>
       <div className="with-header-offset bg-white text-black">
         <AnimatedSection className="page-container grid min-h-[calc(100dvh-var(--header-height))] w-full place-content-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 sm:gap-12">
@@ -333,6 +334,7 @@ export default async function HomePage({
           </div>
         </div>
       </AnimatedSection>
+      </main>
 
       <Footer />
     </>

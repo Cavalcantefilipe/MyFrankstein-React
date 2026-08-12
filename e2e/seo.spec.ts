@@ -187,6 +187,31 @@ test.describe('crawlabilidade', () => {
     expect(res.status()).toBe(404);
   });
 
+  // Regressão real: o lookahead do rewrite excluía caminhos com ponto, então
+  // qualquer URL com extensão (/llms.txt, /qualquer.json) não encontrava rota
+  // e o servidor devolvia 500 em vez de 404. Para um crawler, 500 significa
+  // "erro temporário, tente de novo"; 404 significa "não existe". A diferença
+  // muda como o Google trata a URL.
+  test('URL inexistente com extensão retorna 404, não 500', async ({
+    request,
+  }) => {
+    for (const path of ['/llms.txt', '/qualquer.json', '/teste.xml']) {
+      const res = await request.get(path, { maxRedirects: 0 });
+      expect(res.status(), `${path} deveria ser 404`).toBe(404);
+    }
+  });
+
+  test('arquivos estáticos reais continuam servidos', async ({ request }) => {
+    for (const path of [
+      '/sitemap.xml',
+      '/robots.txt',
+      '/filipe-cavalcante-en.pdf',
+    ]) {
+      const res = await request.get(path);
+      expect(res.status(), `${path} deveria ser 200`).toBe(200);
+    }
+  });
+
   test('caminhos cruzados entre idiomas não existem', async ({ request }) => {
     const servicos = await request.get('/servicos', { maxRedirects: 0 });
     expect(servicos.status()).toBe(404);

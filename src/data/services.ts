@@ -98,7 +98,7 @@ export const services: Service[] = [
         },
         answer: {
           pt: 'Eu configuro a hospedagem e o domínio para você, mas a assinatura fica no seu nome — assim você tem controle total sobre o site mesmo se decidir trocar de desenvolvedor no futuro.',
-          en: "I set up hosting and the domain for you, but the subscription stays in your name — that way you keep full control of the site even if you decide to switch developers later.",
+          en: 'I set up hosting and the domain for you, but the subscription stays in your name — that way you keep full control of the site even if you decide to switch developers later.',
         },
       },
       {
@@ -151,7 +151,7 @@ export const services: Service[] = [
     },
     intro: {
       pt: 'Construo sistemas web sob medida quando uma planilha, um ERP genérico ou um sistema legado já não dão conta do seu processo. Trabalho como desenvolvedor NestJS e React/TypeScript, cuidando de backend, frontend, banco de dados e painel administrativo — sozinho ou junto com o seu time.',
-      en: "I build custom web systems when a spreadsheet, a generic ERP or a legacy system can no longer keep up with your process. I work as a NestJS and React/TypeScript developer, handling backend, frontend, database and admin panel — solo or alongside your team.",
+      en: 'I build custom web systems when a spreadsheet, a generic ERP or a legacy system can no longer keep up with your process. I work as a NestJS and React/TypeScript developer, handling backend, frontend, database and admin panel — solo or alongside your team.',
     },
     problems: {
       pt: [
@@ -161,8 +161,8 @@ export const services: Service[] = [
         'Um sistema pronto do mercado quase resolve, mas força seu processo a se adaptar a ele, e não o contrário.',
       ],
       en: [
-        "Your company still runs important processes in a spreadsheet, and people are already making data entry mistakes or losing track of versions.",
-        "The current system is legacy, hard to change, and nobody can fully explain how it works internally anymore.",
+        'Your company still runs important processes in a spreadsheet, and people are already making data entry mistakes or losing track of versions.',
+        'The current system is legacy, hard to change, and nobody can fully explain how it works internally anymore.',
         'You need an admin panel so the team can manage customers, orders or content without depending on engineering.',
         'An off-the-shelf system almost fits, but forces your process to adapt to it instead of the other way around.',
       ],
@@ -211,7 +211,7 @@ export const services: Service[] = [
         },
         answer: {
           pt: 'Normalmente uso AWS (Lambda, S3, bancos gerenciados), mas a escolha depende do volume esperado e do orçamento. Defino isso junto com você antes de começar.',
-          en: "I typically use AWS (Lambda, S3, managed databases), but the choice depends on expected volume and budget. We define that together before starting.",
+          en: 'I typically use AWS (Lambda, S3, managed databases), but the choice depends on expected volume and budget. We define that together before starting.',
         },
       },
       {
@@ -221,7 +221,7 @@ export const services: Service[] = [
         },
         answer: {
           pt: 'Sim, sistema web sob medida é para isso: o código é seu e a arquitetura fica documentada para que novas features sejam adicionadas sem reescrever tudo.',
-          en: 'Yes, that\'s the point of a custom web system: the code is yours and the architecture is documented so new features can be added without rewriting everything.',
+          en: "Yes, that's the point of a custom web system: the code is yours and the architecture is documented so new features can be added without rewriting everything.",
         },
       },
     ],
@@ -254,7 +254,7 @@ export const services: Service[] = [
     },
     intro: {
       pt: 'Se o seu site demora para carregar ou some do Google de um dia para o outro, o problema quase sempre está na parte técnica, não no conteúdo. Faço consultoria de SEO técnico para achar a causa raiz — performance, indexação, dados estruturados — e também construo landing pages novas já otimizadas desde o início.',
-      en: "If your site takes too long to load or drops out of Google overnight, the problem is almost always technical, not content. I do technical SEO consulting to find the root cause — performance, indexing, structured data — and also build new landing pages optimized from day one.",
+      en: 'If your site takes too long to load or drops out of Google overnight, the problem is almost always technical, not content. I do technical SEO consulting to find the root cause — performance, indexing, structured data — and also build new landing pages optimized from day one.',
     },
     problems: {
       pt: [
@@ -264,7 +264,7 @@ export const services: Service[] = [
         'A landing page da campanha converte pouco, mesmo com tráfego pago chegando nela.',
       ],
       en: [
-        "Your site takes too long to load and people leave before the page finishes opening.",
+        'Your site takes too long to load and people leave before the page finishes opening.',
         "Google Search Console is full of errors and nobody knows where they're coming from.",
         'A page that used to show up in search results has simply disappeared from them.',
         'The campaign landing page converts poorly, even with paid traffic reaching it.',
@@ -294,7 +294,7 @@ export const services: Service[] = [
         },
         answer: {
           pt: 'Os sinais mais comuns são: nota baixa no Lighthouse, erros acumulando no Google Search Console, ou páginas que pararam de aparecer na busca sem nenhuma mudança de conteúdo. Faço um diagnóstico inicial para confirmar a causa.',
-          en: "The most common signs are: a low Lighthouse score, errors piling up in Google Search Console, or pages that stopped showing up in search with no content changes. I run an initial diagnostic to confirm the cause.",
+          en: 'The most common signs are: a low Lighthouse score, errors piling up in Google Search Console, or pages that stopped showing up in search with no content changes. I run an initial diagnostic to confirm the cause.',
         },
       },
       {
@@ -347,7 +347,7 @@ export const services: Service[] = [
     },
     intro: {
       pt: 'Coloco IA para resolver trabalho repetitivo de verdade: transcrever áudio e vídeo automaticamente, resumir conteúdo longo, buscar dentro de transcrições e gerar rascunhos que antes exigiam horas de uma pessoa. O foco é sempre integrar isso ao sistema que você já usa, não entregar um protótipo solto.',
-      en: "I put AI to work on real repetitive tasks: transcribing audio and video automatically, summarizing long content, searching inside transcripts and generating drafts that used to take a person hours. The focus is always integrating this into the system you already use, not shipping a standalone prototype.",
+      en: 'I put AI to work on real repetitive tasks: transcribing audio and video automatically, summarizing long content, searching inside transcripts and generating drafts that used to take a person hours. The focus is always integrating this into the system you already use, not shipping a standalone prototype.',
     },
     problems: {
       pt: [
@@ -358,8 +358,8 @@ export const services: Service[] = [
       ],
       en: [
         'Someone on your team spends hours manually transcribing meetings, lessons or interviews.',
-        "You have a lot of video or audio content, but nobody can search inside it.",
-        'Summarizing long reports, lessons or documents takes too much of the team\'s time.',
+        'You have a lot of video or audio content, but nobody can search inside it.',
+        "Summarizing long reports, lessons or documents takes too much of the team's time.",
         "You've heard about AI automation, but don't know how it would fit into your system.",
       ],
     },
@@ -397,7 +397,7 @@ export const services: Service[] = [
         },
         answer: {
           pt: 'Não necessariamente. O objetivo é integrar os recursos de IA ao que você já tem, do jeito que fiz numa plataforma edtech: transcrição, busca e resumo automático rodando dentro do sistema existente.',
-          en: "Not necessarily. The goal is integrating AI features into what you already have, the way I did on an edtech platform: transcription, search and automatic summaries running inside the existing system.",
+          en: 'Not necessarily. The goal is integrating AI features into what you already have, the way I did on an edtech platform: transcription, search and automatic summaries running inside the existing system.',
         },
       },
       {
@@ -440,7 +440,7 @@ export const services: Service[] = [
     },
     intro: {
       pt: 'Faço a integração com API entre o seu sistema e as ferramentas que a sua empresa já usa: gateway de pagamento, Instagram, TikTok, marketplaces ou qualquer serviço de terceiros com API. O objetivo é sempre dado sincronizado de verdade, sem planilha exportada na mão nem retrabalho manual.',
-      en: "I integrate your system with the tools your company already uses via third-party API: payment gateways, Instagram, TikTok, marketplaces or any service with an API. The goal is always data that actually stays in sync, no manually exported spreadsheets, no duplicated manual work.",
+      en: 'I integrate your system with the tools your company already uses via third-party API: payment gateways, Instagram, TikTok, marketplaces or any service with an API. The goal is always data that actually stays in sync, no manually exported spreadsheets, no duplicated manual work.',
     },
     problems: {
       pt: [
@@ -452,7 +452,7 @@ export const services: Service[] = [
       en: [
         'Your team exports data from one system and manually imports it into another every week.',
         "You need to accept online payments but the current system doesn't talk to any gateway.",
-        "The marketing team posts manually to Instagram and TikTok because nothing is automated.",
+        'The marketing team posts manually to Instagram and TikTok because nothing is automated.',
         "You've tried an integration before and it broke or never worked properly.",
       ],
     },

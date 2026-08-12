@@ -38,6 +38,7 @@ export default async function RandomQuotePage({
   return (
     <>
       <Header locale={lang} dict={dict} alternatePath={alternatePath} />
+      <main>
       <div className="with-header-offset bg-white text-black">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
           <div className="max-w-3xl mx-auto">
@@ -48,6 +49,7 @@ export default async function RandomQuotePage({
           <RandomQuoteClient />
         </div>
       </div>
+      </main>
       <Footer />
     </>
   );
