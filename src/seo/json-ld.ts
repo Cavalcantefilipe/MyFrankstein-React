@@ -18,13 +18,31 @@ export function buildPersonJsonLd() {
 export function buildProfessionalServiceJsonLd(locale: Locale) {
   return {
     '@context': 'https://schema.org',
+    // ProfessionalService é subtipo de LocalBusiness no schema.org, então este
+    // bloco já satisfaz os requisitos de LocalBusiness (name + address) sem
+    // precisar declarar um segundo tipo.
     '@type': 'ProfessionalService',
     name: site.authorName,
     url: `${site.url}${locale === 'pt' ? '/pt/servicos' : '/services'}`,
     telephone: `+${site.whatsapp}`,
     email: `mailto:${site.email}`,
-    // Atendimento remoto: área de serviço, sem endereço físico
-    areaServed: { '@type': 'Country', name: 'Brasil' },
+    priceRange: '$$',
+    // O Google exige `address` no LocalBusiness. Publicamos apenas cidade,
+    // estado e país: é o mínimo aceito e não expõe o endereço residencial.
+    // A rua fica só no Google Business Profile, onde o dono controla o que
+    // aparece publicamente.
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: site.city,
+      addressRegion: site.region,
+      addressCountry: site.country,
+    },
+    // Atende presencialmente na região e remotamente no Brasil e no exterior.
+    areaServed: [
+      { '@type': 'City', name: site.city },
+      { '@type': 'Country', name: locale === 'pt' ? 'Brasil' : 'Brazil' },
+      { '@type': 'Place', name: locale === 'pt' ? 'Remoto' : 'Worldwide' },
+    ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name:

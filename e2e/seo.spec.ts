@@ -180,7 +180,9 @@ test.describe('sinais de SEO', () => {
     }
   });
 
-  test('o JSON-LD é válido e não declara LocalBusiness', async ({ page }) => {
+  test('o JSON-LD é válido e traz o endereço exigido pelo Google', async ({
+    page,
+  }) => {
     await page.goto('/pt/servicos');
     const blocks = await page
       .locator('script[type="application/ld+json"]')
@@ -190,10 +192,19 @@ test.describe('sinais de SEO', () => {
     const types = blocks.map((b) => JSON.parse(b)['@type']);
     expect(types).toContain('Person');
     expect(types).toContain('ProfessionalService');
-    expect(types).not.toContain('LocalBusiness');
 
+    // ProfessionalService é subtipo de LocalBusiness, e o Google exige
+    // `address` para os rich results locais.
+    const business = blocks
+      .map((b) => JSON.parse(b))
+      .find((j) => j['@type'] === 'ProfessionalService');
+    expect(business.address['@type']).toBe('PostalAddress');
+    expect(business.address.addressLocality).toBe('Caraguatatuba');
+
+    // O endereço residencial não pode vazar para o HTML público.
     const rawJson = blocks.join('\n');
-    expect(rawJson).not.toContain('PostalAddress');
+    expect(rawJson).not.toContain('streetAddress');
+    expect(rawJson).not.toContain('Victor Augusto');
   });
 
   test('a página de serviços é alcançável a partir da home', async ({

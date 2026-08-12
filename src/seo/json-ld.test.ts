@@ -23,16 +23,43 @@ describe('buildProfessionalServiceJsonLd', () => {
     expect(data.hasOfferCatalog.itemListElement).toHaveLength(5);
   });
 
-  it('nunca usa LocalBusiness, porque o atendimento é remoto', () => {
-    const json = JSON.stringify(buildProfessionalServiceJsonLd('pt'));
-    expect(json).not.toContain('LocalBusiness');
-    expect(json).not.toContain('PostalAddress');
+  // O Google exige `address` no LocalBusiness (ProfessionalService é subtipo).
+  // Sem ele, o bloco é ignorado para rich results locais.
+  it('inclui o endereço mínimo exigido pelo Google', () => {
+    const data = buildProfessionalServiceJsonLd('pt') as {
+      address: Record<string, string>;
+    };
+    expect(data.address['@type']).toBe('PostalAddress');
+    expect(data.address.addressLocality).toBe('Caraguatatuba');
+    expect(data.address.addressRegion).toBe('SP');
+    expect(data.address.addressCountry).toBe('BR');
   });
 
-  it('declara área de atendimento como Brasil', () => {
+  // O endereço residencial nunca deve chegar ao HTML público: cidade e estado
+  // bastam para o Google, e a rua só pertence ao Business Profile.
+  it('não publica rua nem número', () => {
+    const json = JSON.stringify(buildProfessionalServiceJsonLd('pt'));
+    expect(json).not.toContain('streetAddress');
+    expect(json).not.toContain('Victor Augusto');
+    expect(json).not.toContain('postalCode');
+  });
+
+  it('declara atendimento local, nacional e remoto', () => {
     const data = buildProfessionalServiceJsonLd('pt') as {
-      areaServed: { name: string };
+      areaServed: { '@type': string; name: string }[];
     };
-    expect(data.areaServed.name).toBe('Brasil');
+    const names = data.areaServed.map((a) => a.name);
+    expect(names).toContain('Caraguatatuba');
+    expect(names).toContain('Brasil');
+    expect(names).toContain('Remoto');
+  });
+
+  it('usa os nomes em inglês no locale en', () => {
+    const data = buildProfessionalServiceJsonLd('en') as {
+      areaServed: { name: string }[];
+    };
+    const names = data.areaServed.map((a) => a.name);
+    expect(names).toContain('Brazil');
+    expect(names).toContain('Worldwide');
   });
 });
