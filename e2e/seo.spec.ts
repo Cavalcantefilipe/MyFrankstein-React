@@ -195,10 +195,31 @@ test.describe('crawlabilidade', () => {
   test('URL inexistente com extensão retorna 404, não 500', async ({
     request,
   }) => {
-    for (const path of ['/llms.txt', '/qualquer.json', '/teste.xml']) {
+    for (const path of ['/inexistente.txt', '/qualquer.json', '/teste.xml']) {
       const res = await request.get(path, { maxRedirects: 0 });
       expect(res.status(), `${path} deveria ser 404`).toBe(404);
     }
+  });
+
+  // llms.txt (llmstxt.org) descreve o site para agentes de IA. Não é sinal de
+  // ranqueamento — o Google afirma que não afeta a Busca — mas é lido por
+  // Claude, ChatGPT e Perplexity, e precisa seguir o formato da spec.
+  test('llms.txt é servido como texto e segue a estrutura da spec', async ({
+    request,
+  }) => {
+    const res = await request.get('/llms.txt');
+    expect(res.status()).toBe(200);
+    expect(res.headers()['content-type']).toContain('text/plain');
+
+    const body = await res.text();
+    // A spec exige um H1 na primeira linha e um blockquote de resumo.
+    expect(body.startsWith('# ')).toBe(true);
+    expect(body).toContain('\n> ');
+    expect(body).toMatch(/^## /m);
+
+    // Os links precisam apontar para o domínio real, não para localhost.
+    expect(body).toContain('https://filipelab.com/pt/servicos');
+    expect(body).not.toContain('localhost');
   });
 
   test('arquivos estáticos reais continuam servidos', async ({ request }) => {
