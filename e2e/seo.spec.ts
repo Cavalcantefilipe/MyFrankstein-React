@@ -27,6 +27,31 @@ test.describe('estilos', () => {
   });
 });
 
+test.describe('acessibilidade', () => {
+  // O react-icons emite role="img" em cada SVG. Como o nome da skill já
+  // aparece ao lado do ícone, esse role vira um "gráfico sem rótulo" na
+  // árvore de acessibilidade — reprovado por auditorias e confuso para quem
+  // usa leitor de tela.
+  test('nenhum SVG decorativo expõe role=img sem rótulo', async ({
+    request,
+  }) => {
+    for (const path of ['/pt', '/', '/pt/servicos']) {
+      const html = await (await request.get(path)).text();
+      const unlabeled = [...html.matchAll(/<svg[^>]*role="img"[^>]*>/g)].filter(
+        (m) => !m[0].includes('aria-label') && !m[0].includes('aria-hidden')
+      );
+      expect(unlabeled.length, `${path} tem SVG role=img sem rótulo`).toBe(0);
+    }
+  });
+
+  test('cada página tem o landmark <main>', async ({ request }) => {
+    for (const path of ['/pt', '/', '/pt/servicos', '/lab']) {
+      const html = await (await request.get(path)).text();
+      expect(html, `${path} sem <main>`).toContain('<main');
+    }
+  });
+});
+
 test.describe('HTML servido ao crawler', () => {
   test('a home em pt tem conteúdo sem executar JavaScript', async ({
     request,

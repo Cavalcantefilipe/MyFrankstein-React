@@ -15,7 +15,7 @@ export function Footer() {
               aria-label="Email"
               className="hover:text-black"
             >
-              <FaEnvelope />
+              <FaEnvelope aria-hidden="true" />
             </a>
             <a
               href={site.whatsappUrl}
@@ -24,7 +24,7 @@ export function Footer() {
               aria-label="WhatsApp"
               className="hover:text-black"
             >
-              <FaWhatsapp />
+              <FaWhatsapp aria-hidden="true" />
             </a>
             <a
               href={site.linkedin}
@@ -33,14 +33,14 @@ export function Footer() {
               aria-label="LinkedIn"
               className="hover:text-black"
             >
-              <FaLinkedin />
+              <FaLinkedin aria-hidden="true" />
             </a>
             <a
               href={site.url}
               aria-label="Website"
               className="hover:text-black"
             >
-              <FaGlobe />
+              <FaGlobe aria-hidden="true" />
             </a>
           </div>
         </div>

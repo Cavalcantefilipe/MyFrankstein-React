@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import type { ReactNode } from 'react';
+import { cloneElement, isValidElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import {
   FaClipboardCheck,
   FaCloud,
@@ -81,7 +82,7 @@ const skills: string[] = [
   'DynamoDB',
 ];
 
-function iconFor(skill: string): ReactNode {
+function iconForRaw(skill: string): ReactNode {
   const key = skill.toLowerCase();
   if (key.includes('node')) return <SiNodedotjs />;
   if (key.includes('nest')) return <SiNestjs />;
@@ -118,6 +119,22 @@ function iconFor(skill: string): ReactNode {
   if (key.includes('design patterns') || key.includes('solid'))
     return <FaPuzzlePiece />;
   return null;
+}
+
+/**
+ * react-icons emite role="img" em cada SVG. Como o nome da skill já aparece
+ * ao lado do ícone, esse role vira um "gráfico sem rótulo" para o leitor de
+ * tela. aria-hidden no <span> pai não basta: o role do filho continua na
+ * árvore. Marcar o próprio SVG resolve, e não muda nada visualmente.
+ */
+function iconFor(skill: string): ReactNode {
+  const icon = iconForRaw(skill);
+  if (!isValidElement(icon)) return icon;
+  return cloneElement(icon as ReactElement<Record<string, unknown>>, {
+    'aria-hidden': 'true',
+    focusable: 'false',
+    role: undefined,
+  });
 }
 
 function linkFor(skill: string): string | undefined {
@@ -242,7 +259,11 @@ export default async function HomePage({
                 src={filipe}
                 width={384}
                 height={384}
+                // priority já gera o <link rel="preload">, mas sem
+                // fetchpriority="high" o navegador trata a imagem LCP com
+                // prioridade padrão e ela concorre com os scripts.
                 priority
+                fetchPriority="high"
                 className="h-[16rem] w-[16rem] sm:h-[20rem] sm:w-[20rem] lg:h-[24rem] lg:w-[24rem] rounded-full object-cover shadow-lg"
               />
             </div>
@@ -277,7 +298,14 @@ export default async function HomePage({
               const href = linkFor(skill);
               const content = (
                 <div className="rounded-md border border-white p-3 text-sm flex items-center gap-2 text-white/95">
-                  <span className="text-lg">{iconFor(skill)}</span>
+                  {/* O ícone é decorativo: o nome da skill já está no <span>
+                      ao lado. O react-icons emite role="img" por padrão, o que
+                      faz o leitor de tela anunciar um gráfico sem rótulo.
+                      aria-hidden o remove da árvore de acessibilidade sem
+                      mudar nada visualmente, e evita a leitura duplicada. */}
+                  <span className="text-lg" aria-hidden="true">
+                    {iconFor(skill)}
+                  </span>
                   <span>{skill}</span>
                 </div>
               );
