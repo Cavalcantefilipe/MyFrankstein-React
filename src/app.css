@@ -14,7 +14,9 @@
   --color-fg: #e8ece9; /* texto principal */
   --color-fg-strong: #c3ccc6; /* corpo em superfícies elevadas */
   --color-muted: #9aa59e; /* texto secundário */
-  --color-faint: #5b665f; /* metadados, labels */
+  /* Clareado de #5b665f para passar 4.5:1 em texto pequeno sobre todas as
+     superfícies (o QA flagrou 3.08:1 em datas e rodapé). */
+  --color-faint: #78857c; /* metadados, labels */
 
   /* Acento */
   --color-accent: #34d28f;

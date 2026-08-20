@@ -17,15 +17,15 @@ export function ServiceCard({
   return (
     <article
       id={service.slug}
-      className="rounded-lg border border-black/15 p-6"
+      className="rounded-lg border border-white/[.08] bg-raised p-6 transition-colors hover:border-accent/40"
     >
-      <h3 className="text-xl font-semibold">
-        <Link href={href} className="hover:underline">
+      <h3 className="text-xl font-semibold text-fg">
+        <Link href={href} className="hover:text-accent">
           {service.title[locale]}
         </Link>
       </h3>
-      <p className="mt-3 text-black/80">{service.body[locale]}</p>
-      <p className="mt-3 text-sm text-black/60">{service.proof[locale]}</p>
+      <p className="mt-3 text-fg-strong">{service.body[locale]}</p>
+      <p className="mt-3 text-sm text-muted">{service.proof[locale]}</p>
     </article>
   );
 }

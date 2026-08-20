@@ -10,7 +10,7 @@ export function WhatsAppCta({ locale }: { locale: Locale }) {
       href={site.whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center justify-center gap-2 rounded-md bg-black px-6 py-3 text-white hover:bg-black/80"
+      className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 font-semibold text-ink transition-colors hover:bg-accent-hover"
     >
       <FaWhatsapp aria-hidden="true" /> {dict.common.whatsappCta}
     </a>
