@@ -268,18 +268,18 @@ export default async function HomePage({
             </p>
             <div className="flex flex-wrap gap-3">
               <a
+                href={`mailto:${site.email}`}
+                className="rounded bg-accent px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-hover"
+              >
+                {dict.common.emailCta}
+              </a>
+              <a
                 href={site.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded bg-accent px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-hover"
-              >
-                {dict.common.whatsappCta}
-              </a>
-              <a
-                href={`mailto:${site.email}`}
                 className="rounded border border-white/[.18] px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
               >
-                {dict.home.email}
+                {dict.common.whatsappCta}
               </a>
               <a
                 href={site.linkedin}
@@ -443,18 +443,26 @@ export default async function HomePage({
             </p>
             <div className="flex flex-wrap gap-3">
               <a
+                href={`mailto:${site.email}`}
+                className="rounded bg-accent px-6 py-3.5 text-[15px] font-semibold text-ink transition-colors hover:bg-accent-hover"
+              >
+                {site.email}
+              </a>
+              <a
+                href={site.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded border border-white/[.18] px-6 py-3.5 text-[15px] transition-colors hover:border-accent hover:text-accent"
+              >
+                LinkedIn
+              </a>
+              <a
                 href={site.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded bg-accent px-6 py-3.5 text-[15px] font-semibold text-ink transition-colors hover:bg-accent-hover"
-              >
-                WhatsApp
-              </a>
-              <a
-                href={`mailto:${site.email}`}
                 className="rounded border border-white/[.18] px-6 py-3.5 text-[15px] transition-colors hover:border-accent hover:text-accent"
               >
-                {site.email}
+                WhatsApp
               </a>
             </div>
           </div>
