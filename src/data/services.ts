@@ -134,8 +134,8 @@ export const services: Service[] = [
       en: 'Platforms, admin panels and REST APIs built around your process, not a generic template. Backend, frontend and database.',
     },
     proof: {
-      pt: 'Reconstruí uma plataforma edtech do zero em 6 semanas. Hoje tem 4.854 usuários e 6.415 matrículas. Também desenhei mais de 30 endpoints REST para tráfego alto.',
-      en: 'Rebuilt an edtech platform from scratch in 6 weeks. It now has 4,854 users and 6,415 enrollments. Also designed 30+ REST endpoints for high-volume traffic.',
+      pt: 'Reconstruí uma plataforma edtech do zero em 6 semanas. Hoje tem 5.143 usuários e 6.983 matrículas. Também desenhei mais de 30 endpoints REST para tráfego alto.',
+      en: 'Rebuilt an edtech platform from scratch in 6 weeks. It now has 5,143 users and 6,983 enrollments. Also designed 30+ REST endpoints for high-volume traffic.',
     },
     metaTitle: {
       pt: 'Sistema Web Sob Medida com NestJS | Filipe Cavalcante',

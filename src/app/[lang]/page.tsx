@@ -332,9 +332,18 @@ export default async function HomePage({
         {/* 002 — Sobre */}
         <AnimatedSection id="about" className="page-container pt-10 pb-20">
           <SectionLabel n="002">{dict.home.aboutTitle}</SectionLabel>
-          <p className="max-w-[760px] text-lg leading-[1.75] text-fg-strong">
-            {dict.home.aboutBody}
-          </p>
+          {/* O texto vem com \n\n do dicionário: um <p> por parágrafo, senão
+              o navegador colapsa as quebras e vira um bloco único. */}
+          <div className="flex max-w-[760px] flex-col gap-5">
+            {dict.home.aboutBody.split('\n\n').map((paragraph) => (
+              <p
+                key={paragraph.slice(0, 40)}
+                className="text-lg leading-[1.75] text-fg-strong"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </AnimatedSection>
 
         {/* 003 — Stack */}

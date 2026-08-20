@@ -12,11 +12,11 @@ export const en = {
   home: {
     role: 'Software Engineer',
     tagline:
-      'full-stack engineer · 6+ years building web systems from the database to the deploy — almost always as the only developer on the project',
+      'senior full-stack engineer · building software since 2018 — most of it shipped alone, from database design to deployment',
     available: 'available for projects · remote',
     aboutTitle: 'About me',
     aboutBody:
-      "I'm a full-stack engineer with my own software company and 6 years in the field. Most of that time I've been the only developer on a project, which means I take care of everything: database design, backend, frontend, deployment. I work with PHP and Laravel, Node.js, TypeScript, NestJS, React, Next.js and Vue.js, plus AWS (Lambda, SQS, DynamoDB, S3) and databases like PostgreSQL, MySQL and Redis. I've been using Claude Code daily for the past year and it's genuinely cut my delivery time in half.",
+      "I've been building software since 2018, most of it through my own consultancy, F A Cavalcante. Most of what I've shipped, I've shipped alone: database design, back-end, front-end, deployment. That was true of the university platform I rebuilt from scratch in 6 weeks, and it was true at the agency where I covered 13 clients at once.\n\nThe work I'm proudest of usually isn't the code. At Gran Cursos — a platform that grew from 300,000 to 800,000 paying students while I was there — I shipped the Black Friday campaign in 5 days against a 10-day deadline, and it closed its first day at R$16M against a R$10M target. The part that mattered more was building the re-skin as a theming layer, so marketing and design could keep changing things without engineering.\n\nLately a lot of my work is performance and multi-tenant infrastructure: cutting the heaviest query from 1.21s to 47ms, removing up to 99.7% of database round-trips, tuning PostgreSQL across 6 tenant databases. Plus AI in production — transcription with OpenAI Whisper across three languages, search over transcripts, and captions that made every lesson usable by deaf and hard-of-hearing students.\n\nTech I work with daily: TypeScript, NestJS, React, Next.js, Node.js, PHP, Laravel, Go, PostgreSQL, AWS, Docker.",
     skillsTitle: 'Skills',
     experienceTitle: 'Work experience',
     labTitle: 'The Lab',

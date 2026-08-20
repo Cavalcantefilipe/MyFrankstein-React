@@ -34,7 +34,7 @@ describe('services data', () => {
 
     for (const service of services) {
       for (const n of numbersIn(service.proof.pt)) {
-        // Normaliza separadores para comparar com o CV (4.854 vs 4,854)
+        // Normaliza separadores para comparar com o CV (5.143 vs 5,143)
         const variants = [n, n.replace(/\./g, ','), n.replace(/,/g, '.')];
         expect(
           variants.some((v) => cv.includes(v)),
@@ -109,11 +109,11 @@ describe('services data', () => {
     // frase nova (não presente em services.ts) quando o número e uma
     // palavra distintiva realmente correspondem à mesma frase do histórico.
     const legitimateClaim =
-      'The edtech platform now has 4,854 users and 6,415 enrollments.';
+      'The edtech platform now has 5,143 users and 6,983 enrollments.';
     const fixtureExperiences: Experience[] = experiences;
 
     const result = numberHasCorroboratingBullet(
-      '4,854',
+      '5,143',
       legitimateClaim,
       fixtureExperiences
     );

@@ -12,11 +12,11 @@ export const pt = {
   home: {
     role: 'Desenvolvedor Web',
     tagline:
-      'engenheiro full-stack · 6+ anos construindo sistemas web do banco de dados ao deploy — quase sempre como único dev do projeto',
+      'engenheiro full-stack sênior · construindo software desde 2018 — quase sempre sozinho, do desenho do banco ao deploy',
     available: 'disponível para projetos · remoto',
     aboutTitle: 'Sobre mim',
     aboutBody:
-      'Sou engenheiro full-stack com minha própria empresa de software e 6 anos de experiência. Na maior parte desse tempo trabalhei como único desenvolvedor nos projetos: banco de dados, backend, frontend, deploy. Trabalho com PHP e Laravel, Node.js, TypeScript, NestJS, React, Next.js e Vue.js, além de AWS (Lambda, SQS, DynamoDB, S3) e bancos como PostgreSQL, MySQL e Redis. Nos últimos tempos uso Claude Code todo dia e isso cortou meu tempo de entrega pela metade.',
+      'Construo software desde 2018, a maior parte pela minha própria consultoria, a F A Cavalcante. Quase tudo que entreguei, entreguei sozinho: desenho do banco, backend, frontend, deploy. Foi assim na plataforma universitária que reconstruí do zero em 6 semanas, e foi assim na agência onde atendi 13 clientes ao mesmo tempo.\n\nO trabalho de que mais me orgulho normalmente não é o código. No Gran Cursos — uma plataforma que passou de 300 mil para 800 mil alunos pagantes no período em que estive lá — entreguei a campanha de Black Friday em 5 dias, contra um prazo de 10, e ela fechou o primeiro dia em R$16 milhões, ante uma meta de R$10 milhões. O que importou mais foi construir o re-skin como uma camada de temas, para que marketing e design pudessem continuar mudando as coisas sem depender de engenharia.\n\nUltimamente trabalho bastante com performance e infraestrutura multi-tenant: baixei a query mais pesada de 1,21s para 47ms, eliminei até 99,7% das idas ao banco e fiz tuning de PostgreSQL em 6 bancos de tenants. Além de IA em produção — transcrição com OpenAI Whisper em três idiomas, busca dentro das transcrições e legendas que tornaram todas as aulas acessíveis a alunos surdos e com deficiência auditiva.\n\nTecnologias do dia a dia: TypeScript, NestJS, React, Next.js, Node.js, PHP, Laravel, Go, PostgreSQL, AWS, Docker.',
     skillsTitle: 'Tecnologias',
     experienceTitle: 'Experiência profissional',
     labTitle: 'O Laboratório',

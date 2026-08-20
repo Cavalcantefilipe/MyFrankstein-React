@@ -35,8 +35,8 @@ export const projects: Project[] = [
     title: 'Plataforma EdTech BrasilTec',
     featured: true,
     summary: {
-      pt: 'Plataforma de cursos reconstruída do zero em 6 semanas, com recursos de IA em produção. 4.854 usuários e 6.415 matrículas.',
-      en: 'Course platform rebuilt from scratch in 6 weeks, with AI features in production. 4,854 users and 6,415 enrollments.',
+      pt: 'Plataforma de cursos reconstruída do zero em 6 semanas, com recursos de IA em produção. 5.143 usuários e 6.983 matrículas.',
+      en: 'Course platform rebuilt from scratch in 6 weeks, with AI features in production. 5,143 users and 6,983 enrollments.',
     },
     stack: ['NestJS', 'React', 'TypeScript', 'OpenAI'],
     problem: {
