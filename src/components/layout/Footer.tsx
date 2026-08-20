@@ -3,17 +3,17 @@ import { site } from '@/seo/site';
 
 export function Footer() {
   return (
-    <footer className="bg-white">
-      <div className="page-container py-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 text-center">
-          <p className="text-sm text-black/80 w-full sm:w-auto">
-            © {new Date().getFullYear()} {site.authorName}. All rights reserved.
+    <footer className="border-t border-white/[.08] bg-surface">
+      <div className="page-container py-7">
+        <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-faint">
+          <p>
+            © {new Date().getFullYear()} {site.authorName}
           </p>
-          <div className="flex items-center gap-4 text-black/80 mx-auto sm:mx-0">
+          <div className="flex items-center gap-5 text-base">
             <a
               href={`mailto:${site.email}`}
               aria-label="Email"
-              className="hover:text-black"
+              className="transition-colors hover:text-accent"
             >
               <FaEnvelope aria-hidden="true" />
             </a>
@@ -22,7 +22,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
-              className="hover:text-black"
+              className="transition-colors hover:text-accent"
             >
               <FaWhatsapp aria-hidden="true" />
             </a>
@@ -31,18 +31,21 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="hover:text-black"
+              className="transition-colors hover:text-accent"
             >
               <FaLinkedin aria-hidden="true" />
             </a>
             <a
               href={site.url}
               aria-label="Website"
-              className="hover:text-black"
+              className="transition-colors hover:text-accent"
             >
               <FaGlobe aria-hidden="true" />
             </a>
           </div>
+          <p className="w-full text-center sm:w-auto sm:text-right">
+            ~/filipelab · {site.city}/{site.region}
+          </p>
         </div>
       </div>
     </footer>

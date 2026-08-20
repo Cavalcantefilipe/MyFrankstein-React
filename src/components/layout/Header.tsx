@@ -13,53 +13,56 @@ type Props = {
 
 export function Header({ locale, dict, alternatePath }: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
 
+  // Fecha o menu ao navegar por âncora ou apertar Escape: o drawer é
+  // position:fixed e continuaria cobrindo a seção de destino.
   useEffect(() => {
-    const onScroll = () => setHasScrolled(window.scrollY > 0);
-    onScroll();
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    if (!isMobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isMobileMenuOpen]);
 
   const base = locale === 'pt' ? '/pt' : '';
   const servicesPath = locale === 'pt' ? '/pt/servicos' : '/services';
+  const labPath = locale === 'pt' ? '/pt/lab' : '/lab';
 
   const links = [
+    { href: labPath, label: dict.nav.lab },
     { href: `${base}/#about`, label: dict.nav.about },
     { href: `${base}/#skills`, label: dict.nav.skills },
     { href: `${base}/#experience`, label: dict.nav.experience },
     { href: servicesPath, label: dict.nav.services },
   ];
 
+  const close = () => setIsMobileMenuOpen(false);
+
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 bg-white ${hasScrolled ? 'shadow-sm' : ''}`}
-    >
-      <div className="page-container pt-5">
+    <header className="fixed top-0 left-0 z-50 w-full border-b border-white/[.07] bg-ink/[.88] backdrop-blur-md">
+      <div className="page-container">
         <nav aria-label={dict.nav.mainLabel}>
-          <div className="flex flex-wrap items-center justify-between gap-3 pb-3">
+          <div className="flex h-16 items-center justify-between gap-6">
             <Link
-              className="text-[15px] font-medium italic sm:text-base md:text-[24px] lg:font-bold"
               href={base || '/'}
+              className="font-mono text-[15px] font-semibold text-fg"
             >
-              &lt;Filipe
-              <span className="bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-                Lab/&gt;
-              </span>
+              ~/filipe<span className="text-accent">lab</span>
             </Link>
 
             <button
               type="button"
               aria-expanded={isMobileMenuOpen}
               aria-label="Menu"
-              className="size-6 cursor-pointer md:size-8 lg:hidden"
+              className="size-6 cursor-pointer text-muted transition-colors hover:text-fg lg:hidden"
               onClick={() => setIsMobileMenuOpen((open) => !open)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
                 viewBox="0 0 16 16"
+                aria-hidden="true"
               >
                 <path
                   fillRule="evenodd"
@@ -68,66 +71,65 @@ export function Header({ locale, dict, alternatePath }: Props) {
               </svg>
             </button>
 
-            <div className="hidden gap-6 font-medium lg:flex xl:gap-8">
+            <div className="hidden items-center gap-7 font-mono text-[13px] lg:flex">
               {links.map((link) => (
                 <Link
                   key={link.href}
-                  className="my-5 transition-opacity duration-75 hover:opacity-50"
                   href={link.href}
+                  className="text-muted transition-colors hover:text-fg"
                 >
                   {link.label}
                 </Link>
               ))}
-              <a
-                className="my-5 transition-opacity duration-75 hover:opacity-50"
-                href="/filipe-cavalcante-en.pdf"
-                download="Filipe_Cavalcante_CV.pdf"
-              >
-                {dict.nav.downloadCv}
-              </a>
               <Link
                 href={alternatePath}
                 hrefLang={locale === 'en' ? 'pt-BR' : 'en'}
-                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                className="rounded border border-white/15 px-2.5 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-accent"
               >
-                {dict.common.switchLanguage}
+                {locale === 'pt' ? 'EN' : 'PT'}
               </Link>
+              <a
+                href="/filipe-cavalcante-en.pdf"
+                download="Filipe_Cavalcante_CV.pdf"
+                className="rounded bg-accent px-3.5 py-[7px] font-semibold text-ink transition-colors hover:bg-accent-hover"
+              >
+                cv.pdf
+              </a>
             </div>
           </div>
 
           <div
-            className={`absolute left-0 top-14 w-full bg-white shadow-lg transition-all duration-300 lg:hidden ${
-              isMobileMenuOpen
-                ? 'opacity-100 z-10 p-5'
-                : 'opacity-0 -z-10 p-0 overflow-hidden'
-            }`}
-            style={{ height: isMobileMenuOpen ? 'auto' : '0px' }}
+            id="mobile-menu"
+            hidden={!isMobileMenuOpen}
+            className="border-t border-white/[.07] bg-surface pb-6 lg:hidden"
           >
-            <div className="page-container flex flex-col font-medium">
+            <div className="flex flex-col font-mono text-sm">
               {links.map((link) => (
                 <Link
                   key={link.href}
-                  className="my-5 transition-opacity duration-75 hover:opacity-50"
                   href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={close}
+                  className="py-3 text-muted transition-colors hover:text-fg"
                 >
                   {link.label}
                 </Link>
               ))}
-              <a
-                className="my-5 transition-opacity duration-75 hover:opacity-50"
-                href="/filipe-cavalcante-en.pdf"
-                download="Filipe_Cavalcante_CV.pdf"
-              >
-                {dict.nav.downloadCv}
-              </a>
               <Link
                 href={alternatePath}
                 hrefLang={locale === 'en' ? 'pt-BR' : 'en'}
-                className="my-5 transition-opacity duration-75 hover:opacity-50"
+                onClick={close}
+                className="py-3 text-muted transition-colors hover:text-fg"
               >
                 {dict.common.switchLanguage}
               </Link>
+              <a
+                href="/filipe-cavalcante-en.pdf"
+                download="Filipe_Cavalcante_CV.pdf"
+                onClick={close}
+                className="mt-3 rounded bg-accent px-4 py-2.5 text-center font-semibold text-ink"
+              >
+                {dict.nav.downloadCv}
+              </a>
             </div>
           </div>
         </nav>

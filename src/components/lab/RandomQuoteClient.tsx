@@ -118,20 +118,20 @@ export function RandomQuoteClient() {
             <button
               type="button"
               onClick={() => setIsDropdownOpen((v) => !v)}
-              className="border border-black/20 rounded-md px-3 py-1 min-w-48 text-left"
+              className="rounded-md border border-white/[.12] px-3 py-1 min-w-48 text-left text-fg transition-colors hover:border-accent/50"
             >
               {selectedLabel}
             </button>
             {isDropdownOpen ? (
-              <div className="absolute z-20 mt-1 w-72 rounded-md border border-black/20 bg-white shadow-sm">
-                <div className="p-2 border-b border-black/10">
+              <div className="absolute z-20 mt-1 w-72 rounded-md border border-white/[.08] bg-raised shadow-lg">
+                <div className="p-2 border-b border-white/[.08]">
                   <input
                     autoFocus
                     type="text"
                     placeholder="Search language..."
                     value={languageSearch}
                     onChange={(e) => setLanguageSearch(e.target.value)}
-                    className="w-full border border-black/20 rounded px-2 py-1"
+                    className="w-full rounded border border-white/[.12] bg-ink px-2 py-1 text-fg placeholder:text-faint focus:border-accent focus:outline-none"
                   />
                 </div>
                 <div className="max-h-64 overflow-auto py-1">
@@ -146,8 +146,10 @@ export function RandomQuoteClient() {
                           setLanguageSearch('');
                           setIsDropdownOpen(false);
                         }}
-                        className={`block w-full text-left px-3 py-2 hover:bg-black/5 ${
-                          opt.code === targetLanguage ? 'bg-black/5' : ''
+                        className={`block w-full px-3 py-2 text-left transition-colors hover:bg-white/[.06] ${
+                          opt.code === targetLanguage
+                            ? 'bg-accent/15 text-accent'
+                            : 'text-fg'
                         }`}
                       >
                         {opt.label}
@@ -162,32 +164,32 @@ export function RandomQuoteClient() {
         <button
           onClick={handleGenerate}
           disabled={isLoading}
-          className="px-4 py-2 rounded-md border border-black hover:bg-black/5 disabled:opacity-50"
+          className="rounded-md border border-accent/40 px-4 py-2 text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
         >
           {isLoading ? 'Loading…' : 'Generate'}
         </button>
       </div>
 
       {errorMessage ? (
-        <div className="text-red-600 mb-3">{errorMessage}</div>
+        <div className="mb-3 text-red-400">{errorMessage}</div>
       ) : null}
 
       {original.content ? (
         <div className="grid gap-3 text-center md:text-left">
-          <blockquote className="rounded-md border border-black/10 bg-black/[0.02] p-4">
+          <blockquote className="rounded-md border border-white/[.08] bg-white/[.03] p-4">
             <p className="m-0 text-lg">&ldquo;{original.content}&rdquo;</p>
             {original.author ? (
-              <cite className="block mt-2 not-italic text-black/70">
+              <cite className="mt-2 block not-italic text-muted">
                 — {original.author}
               </cite>
             ) : null}
           </blockquote>
 
           {translatedContent && targetLanguage !== 'none' ? (
-            <blockquote className="rounded-md border border-black/10 bg-black/[0.01] p-4">
+            <blockquote className="rounded-md border border-white/[.08] bg-white/[.015] p-4">
               <p className="m-0 text-lg">&ldquo;{translatedContent}&rdquo;</p>
               {original.author ? (
-                <cite className="block mt-2 not-italic text-black/70">
+                <cite className="mt-2 block not-italic text-muted">
                   — {original.author}
                 </cite>
               ) : null}

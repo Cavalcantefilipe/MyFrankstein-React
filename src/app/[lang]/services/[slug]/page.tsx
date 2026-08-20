@@ -62,11 +62,11 @@ export default async function ServiceDetailPage({
     <>
       <JsonLd data={buildFaqJsonLd(service.faq, locale)} />
       <Header locale={locale} dict={dict} alternatePath={routePaths.pt} />
-      <main className="bg-white text-black with-header-offset">
+      <main className="bg-grid with-header-offset">
         <div className="page-container py-16">
           <Link
             href="/services"
-            className="text-sm text-black/60 hover:text-black"
+            className="text-sm text-faint hover:text-accent"
           >
             &larr; All services
           </Link>
@@ -74,7 +74,7 @@ export default async function ServiceDetailPage({
           <h1 className="mt-4 text-4xl lg:text-5xl !leading-tight max-w-4xl">
             {service.heading[locale]}
           </h1>
-          <p className="mt-6 max-w-3xl text-lg text-black/80">
+          <p className="mt-6 max-w-3xl text-lg text-muted">
             {service.intro[locale]}
           </p>
           <div className="mt-8">
@@ -82,7 +82,7 @@ export default async function ServiceDetailPage({
           </div>
 
           <h2 className="mt-16 text-3xl font-semibold">Sound familiar?</h2>
-          <ul className="mt-6 max-w-3xl space-y-3 text-black/80">
+          <ul className="mt-6 max-w-3xl space-y-3 text-muted">
             {service.problems[locale].map((problem) => (
               <li key={problem} className="flex gap-3">
                 <span aria-hidden="true">–</span>
@@ -92,7 +92,7 @@ export default async function ServiceDetailPage({
           </ul>
 
           <h2 className="mt-16 text-3xl font-semibold">What you get</h2>
-          <ul className="mt-6 max-w-3xl space-y-3 text-black/80">
+          <ul className="mt-6 max-w-3xl space-y-3 text-muted">
             {service.deliverables[locale].map((deliverable) => (
               <li key={deliverable} className="flex gap-3">
                 <span aria-hidden="true">–</span>
@@ -103,7 +103,7 @@ export default async function ServiceDetailPage({
 
           <section className="mt-16 rounded-lg bg-black/5 p-8">
             <h2 className="text-2xl font-semibold">Real result</h2>
-            <p className="mt-3 max-w-2xl text-black/80">
+            <p className="mt-3 max-w-2xl text-muted">
               {service.proof[locale]}
             </p>
           </section>
@@ -117,7 +117,7 @@ export default async function ServiceDetailPage({
                 <h3 className="text-xl font-semibold">
                   {item.question[locale]}
                 </h3>
-                <p className="mt-2 text-black/80">{item.answer[locale]}</p>
+                <p className="mt-2 text-muted">{item.answer[locale]}</p>
               </div>
             ))}
           </div>
@@ -126,7 +126,7 @@ export default async function ServiceDetailPage({
             <h2 className="text-3xl font-semibold">
               {dict.services.contactHeading}
             </h2>
-            <p className="mt-3 max-w-2xl text-black/80">
+            <p className="mt-3 max-w-2xl text-muted">
               {dict.services.contactBody}
             </p>
             <div className="mt-6">

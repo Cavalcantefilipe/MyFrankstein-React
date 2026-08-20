@@ -39,12 +39,12 @@ export default async function ServicosPage({
     <>
       <JsonLd data={buildProfessionalServiceJsonLd('pt')} />
       <Header locale="pt" dict={dict} alternatePath={paths.en} />
-      <main className="bg-white text-black with-header-offset">
+      <main className="bg-grid with-header-offset">
         <div className="page-container py-16">
           <h1 className="text-4xl lg:text-5xl !leading-tight max-w-4xl">
             {dict.services.heading}
           </h1>
-          <p className="mt-6 max-w-3xl text-lg text-black/80">
+          <p className="mt-6 max-w-3xl text-lg text-muted">
             {dict.services.intro}
           </p>
           <div className="mt-8">
@@ -64,7 +64,7 @@ export default async function ServicosPage({
             <h2 className="text-3xl font-semibold">
               {dict.services.contactHeading}
             </h2>
-            <p className="mt-3 max-w-2xl text-black/80">
+            <p className="mt-3 max-w-2xl text-muted">
               {dict.services.contactBody}
             </p>
             <div className="mt-6">

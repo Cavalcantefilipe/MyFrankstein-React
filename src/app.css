@@ -1,5 +1,38 @@
 @import 'tailwindcss';
 
+/* ---------------------------------------------------------------------------
+   Design tokens — extraídos do redesign do Claude Design (canvas FilipeLab).
+   Direção: terminal/dev escuro, acento verde, grid sutil de fundo.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Superfícies, do mais escuro ao mais claro */
+  --color-ink: #0b0d0c; /* fundo da página */
+  --color-surface: #0e1110; /* header, footer, painel lateral */
+  --color-raised: #111514; /* cards */
+
+  /* Texto */
+  --color-fg: #e8ece9; /* texto principal */
+  --color-fg-strong: #c3ccc6; /* corpo em superfícies elevadas */
+  --color-muted: #9aa59e; /* texto secundário */
+  --color-faint: #5b665f; /* metadados, labels */
+
+  /* Acento */
+  --color-accent: #34d28f;
+  --color-accent-hover: #6fe3b0;
+
+  /* Tipografia */
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', monospace;
+}
+
+/* Grid sutil de fundo — assinatura visual do redesign */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
 /* Shared max-width container for consistent page alignment */
 .page-container {
   max-width: 1300px;
@@ -15,12 +48,19 @@ html {
   scroll-behavior: smooth;
 }
 
+::selection {
+  background: rgba(52, 210, 143, 0.3);
+}
+
 /* Offset for fixed header height (approx 76px) */
 :root {
   --header-height: 76px;
 }
 
-main, .with-header-offset {
+/* Aplicado apenas em .with-header-offset. Antes o seletor incluía `main`
+   também, e como as páginas aninham .with-header-offset dentro de <main>
+   o offset era somado duas vezes (152px). */
+.with-header-offset {
   padding-top: var(--header-height);
 }
 
@@ -33,7 +73,9 @@ main, .with-header-offset {
 .reveal {
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 600ms ease, transform 600ms ease;
+  transition:
+    opacity 600ms ease,
+    transform 600ms ease;
 }
 
 .reveal.is-visible {

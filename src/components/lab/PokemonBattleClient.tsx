@@ -6,6 +6,7 @@ import {
   fetchPokemonDetails,
   simulateBattle,
   getTypeColor,
+  getTypeTextColor,
 } from '@/api/pokemon';
 import type {
   BattleResult,
@@ -22,8 +23,8 @@ function TypeBadge({ type }: { type: string }) {
   const color = getTypeColor(type);
   return (
     <span
-      className="px-2 py-1 rounded-md text-xs font-semibold text-white uppercase"
-      style={{ backgroundColor: color }}
+      className="rounded-md px-2 py-1 text-xs font-semibold uppercase"
+      style={{ backgroundColor: color, color: getTypeTextColor(type) }}
     >
       {type}
     </span>
@@ -46,14 +47,14 @@ function PokemonCard({
   onAddToTeam: (team: 'blue' | 'red') => void;
 }) {
   return (
-    <div className="border border-black/10 rounded-lg p-4 bg-white shadow-sm">
+    <div className="rounded-lg border border-white/[.08] bg-raised p-4">
       <div className="flex flex-col items-center">
         <img
           src={getSprite(pokemon)}
           alt={pokemon.name}
           className="w-32 h-32 object-contain"
         />
-        <h3 className="text-lg font-semibold capitalize mt-2">
+        <h3 className="mt-2 text-lg font-semibold capitalize text-fg">
           {pokemon.name}
         </h3>
         <div className="flex gap-2 mt-2 flex-wrap justify-center">
@@ -99,21 +100,21 @@ function TeamPokemonCard({
   isFirst: boolean;
   isLast: boolean;
 }) {
-  const bgColor = teamColor === 'blue' ? 'bg-blue-50' : 'bg-red-50';
+  const bgColor = teamColor === 'blue' ? 'bg-blue-500/10' : 'bg-red-500/10';
   const borderColor =
-    teamColor === 'blue' ? 'border-blue-200' : 'border-red-200';
+    teamColor === 'blue' ? 'border-blue-500/30' : 'border-red-500/30';
 
   return (
     <div
       className={`border ${borderColor} rounded-lg p-3 ${bgColor} flex flex-col items-center relative`}
     >
-      <div className="absolute top-1 left-1 bg-black/70 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+      <div className="absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-ink/80 text-xs font-bold text-fg ring-1 ring-white/15">
         #{position}
       </div>
 
       <button
         onClick={onRemove}
-        className="absolute top-1 right-1 bg-black/30 hover:bg-black/60 text-white rounded-full w-6 h-6 flex items-center justify-center transition-colors"
+        className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-fg transition-colors hover:bg-white/20"
         title="Remove Pokemon"
       >
         ✕
@@ -126,15 +127,18 @@ function TeamPokemonCard({
           className="w-full h-full object-contain"
         />
       </div>
-      <h4 className="font-semibold capitalize text-sm text-center truncate w-full">
+      <h4 className="w-full truncate text-center text-sm font-semibold capitalize text-fg">
         {pokemon.name}
       </h4>
       <div className="flex gap-1 mt-2 flex-wrap justify-center">
         {pokemon.types.map((t) => (
           <span
             key={t.type.name}
-            className="px-2 py-0.5 rounded text-xs font-semibold text-white uppercase"
-            style={{ backgroundColor: getTypeColor(t.type.name) }}
+            className="rounded px-2 py-0.5 text-xs font-semibold uppercase"
+            style={{
+                    backgroundColor: getTypeColor(t.type.name),
+                    color: getTypeTextColor(t.type.name),
+                  }}
           >
             {t.type.name}
           </span>
@@ -145,7 +149,7 @@ function TeamPokemonCard({
         <button
           onClick={onMoveLeft}
           disabled={isFirst}
-          className="bg-gray-200 hover:bg-gray-300 disabled:opacity-30 disabled:cursor-not-allowed text-gray-700 rounded px-3 py-1 text-xs font-medium transition-colors"
+          className="rounded bg-white/10 px-3 py-1 text-xs font-medium text-fg transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-30"
           title="Move left"
         >
           ←
@@ -153,7 +157,7 @@ function TeamPokemonCard({
         <button
           onClick={onMoveRight}
           disabled={isLast}
-          className="bg-gray-200 hover:bg-gray-300 disabled:opacity-30 disabled:cursor-not-allowed text-gray-700 rounded px-3 py-1 text-xs font-medium transition-colors"
+          className="rounded bg-white/10 px-3 py-1 text-xs font-medium text-fg transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-30"
           title="Move right"
         >
           →
@@ -365,7 +369,7 @@ export function PokemonBattleClient() {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="max-w-md mx-auto mb-8">
-        <label className="block text-sm font-medium mb-2">Search Pokemon</label>
+        <label className="mb-2 block text-sm font-medium text-fg">Search Pokemon</label>
         <div className="relative" ref={dropdownRef}>
           <input
             type="text"
@@ -373,16 +377,16 @@ export function PokemonBattleClient() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setIsDropdownOpen(true)}
-            className="w-full border border-black/20 rounded-lg px-4 py-3 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full rounded-lg border border-white/[.12] bg-raised px-4 py-3 text-fg placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
           />
           {isDropdownOpen && filteredPokemon.length > 0 && (
-            <div className="absolute z-20 mt-2 w-full rounded-lg border border-black/20 bg-white shadow-lg max-h-64 overflow-auto">
+            <div className="absolute z-20 mt-2 max-h-64 w-full overflow-auto rounded-lg border border-white/[.08] bg-raised shadow-lg">
               {filteredPokemon.slice(0, MAX_SEARCH_RESULTS).map((pokemon) => (
                 <button
                   key={pokemon.name}
                   type="button"
                   onClick={() => handleSelectPokemon(pokemon)}
-                  className="block w-full text-left px-4 py-3 hover:bg-purple-50 capitalize border-b border-black/5 last:border-b-0"
+                  className="block w-full border-b border-white/[.06] px-4 py-3 text-left capitalize text-fg transition-colors last:border-b-0 hover:bg-accent/10"
                 >
                   {pokemon.name}
                 </button>
@@ -400,7 +404,7 @@ export function PokemonBattleClient() {
 
       {selectedPokemon && !isLoading && (
         <div className="max-w-sm mx-auto mb-8">
-          <h2 className="text-xl font-semibold mb-3 text-center">
+          <h2 className="mb-3 text-center text-xl font-semibold text-fg">
             Selected Pokemon
           </h2>
           <PokemonCard pokemon={selectedPokemon} onAddToTeam={addToTeam} />
@@ -408,11 +412,11 @@ export function PokemonBattleClient() {
       )}
 
       <div className="grid md:grid-cols-2 gap-6 mt-8">
-        <div className="bg-white rounded-xl shadow-md p-6 border-2 border-blue-500">
+        <div className="rounded-xl border-2 border-blue-500/60 bg-raised p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-2xl font-bold text-blue-600">Blue Team</h2>
-              <span className="text-sm font-medium text-gray-600">
+              <h2 className="text-2xl font-bold text-blue-400">Blue Team</h2>
+              <span className="text-sm font-medium text-muted">
                 {blueTeam.length}/6
               </span>
             </div>
@@ -420,7 +424,7 @@ export function PokemonBattleClient() {
               <button
                 onClick={() => clearTeam('blue')}
                 disabled={blueTeam.length === 0}
-                className="px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 disabled:opacity-50 text-sm font-medium transition-colors"
+                className="rounded-md bg-white/10 px-3 py-2 text-sm font-medium text-fg transition-colors hover:bg-white/20 disabled:opacity-50"
                 title="Clear team"
               >
                 Clear
@@ -435,7 +439,7 @@ export function PokemonBattleClient() {
             </div>
           </div>
           {blueTeam.length === 0 ? (
-            <p className="text-gray-400 text-center py-8">No Pokemon yet</p>
+            <p className="py-8 text-center text-faint">No Pokemon yet</p>
           ) : (
             <div className="grid grid-cols-3 gap-3">
               {blueTeam.map((pokemon, index) => (
@@ -455,11 +459,11 @@ export function PokemonBattleClient() {
           )}
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-6 border-2 border-red-500">
+        <div className="rounded-xl border-2 border-red-500/60 bg-raised p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-2xl font-bold text-red-600">Red Team</h2>
-              <span className="text-sm font-medium text-gray-600">
+              <h2 className="text-2xl font-bold text-red-400">Red Team</h2>
+              <span className="text-sm font-medium text-muted">
                 {redTeam.length}/6
               </span>
             </div>
@@ -467,7 +471,7 @@ export function PokemonBattleClient() {
               <button
                 onClick={() => clearTeam('red')}
                 disabled={redTeam.length === 0}
-                className="px-3 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 disabled:opacity-50 text-sm font-medium transition-colors"
+                className="rounded-md bg-white/10 px-3 py-2 text-sm font-medium text-fg transition-colors hover:bg-white/20 disabled:opacity-50"
                 title="Clear team"
               >
                 Clear
@@ -482,7 +486,7 @@ export function PokemonBattleClient() {
             </div>
           </div>
           {redTeam.length === 0 ? (
-            <p className="text-gray-400 text-center py-8">No Pokemon yet</p>
+            <p className="py-8 text-center text-faint">No Pokemon yet</p>
           ) : (
             <div className="grid grid-cols-3 gap-3">
               {redTeam.map((pokemon, index) => (
@@ -522,49 +526,49 @@ export function PokemonBattleClient() {
             disabled={
               isSimulating || blueTeam.length === 0 || redTeam.length === 0
             }
-            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-pink-600 text-white text-lg font-bold rounded-full shadow-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+            className="rounded-full border border-accent/50 px-6 py-3 text-lg font-bold text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-50"
           >
             🎮 Play Battle
           </button>
         </div>
-        <p className="text-xs text-gray-500 text-center max-w-md">
+        <p className="max-w-md text-center text-xs text-muted">
           <strong>Auto Simulate:</strong> the whole battle is resolved at once.{' '}
           <strong>Play Battle:</strong> you control the Blue team turn by turn
           against an AI playing the Red team you picked.
         </p>
 
         {battleError && (
-          <p className="text-red-600 font-medium">{battleError}</p>
+          <p className="font-medium text-red-400">{battleError}</p>
         )}
 
         {battleResult && !isPlaying && (
-          <div className="w-full bg-white rounded-xl shadow-md p-6 border border-black/10">
+          <div className="w-full rounded-xl border border-white/[.08] bg-raised p-6">
             <div className="text-center mb-4">
               {battleResult.winner === 'tie' ? (
-                <h2 className="text-3xl font-bold text-gray-700">
+                <h2 className="text-3xl font-bold text-fg">
                   It&apos;s a tie!
                 </h2>
               ) : (
                 <h2
                   className={`text-3xl font-bold ${
                     battleResult.winner === 'blue'
-                      ? 'text-blue-600'
-                      : 'text-red-600'
+                      ? 'text-blue-400'
+                      : 'text-red-400'
                   }`}
                 >
                   {battleResult.winner === 'blue' ? 'Blue' : 'Red'} Team wins!
                 </h2>
               )}
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="mt-1 text-sm text-muted">
                 Battle #{battleResult.id} · {battleResult.turns} turns
               </p>
             </div>
 
-            <details className="border-t border-black/10 pt-4">
-              <summary className="cursor-pointer font-medium text-sm text-gray-700 hover:text-gray-900">
+            <details className="border-t border-white/[.08] pt-4">
+              <summary className="cursor-pointer text-sm font-medium text-muted transition-colors hover:text-fg">
                 Show battle log ({battleResult.log?.length || 0} events)
               </summary>
-              <pre className="mt-3 text-xs bg-gray-50 rounded-md p-3 max-h-96 overflow-auto whitespace-pre-wrap break-all">
+              <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap break-all rounded-md bg-ink p-3 text-xs text-muted">
                 {(battleResult.log || []).join('\n')}
               </pre>
             </details>
@@ -573,8 +577,8 @@ export function PokemonBattleClient() {
       </div>
 
       {isPlaying && (
-        <div className="mt-10 pt-8 border-t-2 border-indigo-200">
-          <h2 className="text-2xl font-bold text-center mb-6 text-indigo-700">
+        <div className="mt-10 border-t border-white/[.08] pt-8">
+          <h2 className="mb-6 text-center text-2xl font-bold text-accent">
             Battle Arena
           </h2>
           <BattleArena

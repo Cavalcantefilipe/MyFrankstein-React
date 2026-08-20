@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, type ReactNode } from 'react';
-import { useInView } from 'framer-motion';
+import { useInView, useReducedMotion } from 'framer-motion';
 
 type Props = {
   children: ReactNode;
@@ -12,19 +12,30 @@ type Props = {
 export function AnimatedSection({ children, className = '', id }: Props) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '0px 0px -10% 0px' });
+  const prefersReducedMotion = useReducedMotion();
+
+  // A animação vai na própria <section>. Antes havia um <span display:block>
+  // entre a section e os filhos, o que colapsava qualquer grid/flex declarado
+  // no className — as colunas viravam uma coluna só.
+  const animate = !prefersReducedMotion;
+  const hidden = animate && !isInView;
 
   return (
-    <section ref={ref} className={className} id={id}>
-      <span
-        style={{
-          transform: isInView ? 'none' : 'translateY(24px)',
-          opacity: isInView ? 1 : 0,
-          transition: 'all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.15s',
-          display: 'block',
-        }}
-      >
-        {children}
-      </span>
+    <section
+      ref={ref}
+      id={id}
+      className={className}
+      style={
+        animate
+          ? {
+              transform: hidden ? 'translateY(24px)' : 'none',
+              opacity: hidden ? 0 : 1,
+              transition: 'all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.15s',
+            }
+          : undefined
+      }
+    >
+      {children}
     </section>
   );
 }

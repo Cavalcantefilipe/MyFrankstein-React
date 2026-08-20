@@ -39,9 +39,9 @@ export default async function PokemonBattlePage({
     <>
       <Header locale={lang} dict={dict} alternatePath={alternatePath} />
       <main>
-      <div className="with-header-offset bg-gradient-to-br from-purple-50 to-blue-50 text-black">
+      <div className="with-header-offset bg-grid">
         <div className="page-container py-10 min-h-[calc(90dvh-var(--header-height))]">
-          <h1 className="mb-6 text-4xl font-bold text-center bg-gradient-to-r from-blue-600 to-red-600 bg-clip-text text-transparent">
+          <h1 className="mb-6 text-center text-4xl font-bold tracking-[-0.02em] text-fg">
             Pokemon Battle Simulator
           </h1>
           <PokemonBattleClient />

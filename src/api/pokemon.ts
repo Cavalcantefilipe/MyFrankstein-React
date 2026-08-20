@@ -98,3 +98,21 @@ const TYPE_COLORS: Record<string, string> = {
 export function getTypeColor(type: string): string {
   return TYPE_COLORS[type.toLowerCase()] || '#777777';
 }
+
+/**
+ * Cor de texto legível sobre a cor do tipo. As cores canônicas variam muito em
+ * luminância — `electric` (#F8D030) e `ice` (#98D8D8) davam menos de 2:1 com
+ * texto branco. Escolhemos preto ou branco pela luminância relativa (WCAG),
+ * sem alterar a cor do tipo em si, que é a identidade do dado.
+ */
+export function getTypeTextColor(type: string): string {
+  const hex = getTypeColor(type).replace('#', '');
+  const channel = (i: number) => {
+    const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  };
+  const luminance =
+    0.2126 * channel(0) + 0.7152 * channel(2) + 0.0722 * channel(4);
+  // Contraste com branco = 1.05 / (L + 0.05); com preto = (L + 0.05) / 0.05.
+  return luminance > 0.183 ? '#0b0d0c' : '#ffffff';
+}

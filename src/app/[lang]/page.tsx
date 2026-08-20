@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { cloneElement, isValidElement } from 'react';
 import type { ReactElement, ReactNode } from 'react';
 import {
@@ -6,9 +7,6 @@ import {
   FaCloud,
   FaCogs,
   FaDatabase,
-  FaEnvelope,
-  FaFilePdf,
-  FaLinkedin,
   FaPuzzlePiece,
   FaSitemap,
 } from 'react-icons/fa';
@@ -36,6 +34,8 @@ import {
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { ProjectGrid } from '@/components/lab/ProjectGrid';
+import { projects } from '@/data/projects';
 import { buildMetadata } from '@/seo/metadata';
 import { site } from '@/seo/site';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -45,41 +45,59 @@ import filipe from '@/assets/filipe.webp';
 
 const paths = { en: '/', pt: '/pt' } as const;
 
-const skills: string[] = [
-  'Node.js',
-  'Nest.js',
-  'TypeScript',
-  'PHP',
-  'Laravel',
-  'Vue.js',
-  'React',
-  'Next.js',
-  'JavaScript',
-  'MySQL',
-  'SQL Server',
-  'Postgresql',
-  'RESTful',
-  'Tailwind',
-  'Redis',
-  'Azure Cloud',
-  'HTML/CSS',
-  'Docker',
-  'Unit Tests (PHPUnit, Jest)',
-  'TDD',
-  'DDD',
-  'Git',
-  'Jira/Azure Devops',
-  'Postman',
-  'Agile Methodologies',
-  'SQL Azure',
-  'S3',
-  'SQS',
-  'Azure Storage',
-  'Design patterns',
-  'SOLID principle',
-  'AWS',
-  'Lambda',
-  'DynamoDB',
+/**
+ * As mesmas skills de antes, agora agrupadas nas 4 categorias do redesign.
+ * Nenhuma foi removida: iconFor/linkFor continuam recebendo os mesmos rótulos.
+ */
+const skillGroups: { label: Record<Locale, string>; items: string[] }[] = [
+  {
+    label: { pt: 'Backend', en: 'Backend' },
+    items: [
+      'Node.js',
+      'Nest.js',
+      'TypeScript',
+      'JavaScript',
+      'PHP',
+      'Laravel',
+      'RESTful',
+    ],
+  },
+  {
+    label: { pt: 'Frontend', en: 'Frontend' },
+    items: ['React', 'Next.js', 'Vue.js', 'Tailwind', 'HTML/CSS'],
+  },
+  {
+    label: { pt: 'Cloud & Dados', en: 'Cloud & Data' },
+    items: [
+      'AWS',
+      'Lambda',
+      'SQS',
+      'S3',
+      'DynamoDB',
+      'Azure Cloud',
+      'Azure Storage',
+      'SQL Azure',
+      'Postgresql',
+      'MySQL',
+      'SQL Server',
+      'Redis',
+    ],
+  },
+  {
+    label: { pt: 'Práticas', en: 'Practices' },
+    items: [
+      'TDD',
+      'DDD',
+      'Design patterns',
+      'SOLID principle',
+      'Unit Tests (PHPUnit, Jest)',
+      'Docker',
+      'Git',
+      'Jira/Azure Devops',
+      'Postman',
+      'Agile Methodologies',
+    ],
+  },
 ];
 
 function iconForRaw(skill: string): ReactNode {
@@ -188,16 +206,29 @@ export async function generateMetadata({
 }) {
   const { lang } = await params;
   const isPt = lang === 'pt';
+
   return buildMetadata({
     locale: lang,
     title: isPt
-      ? 'Filipe Cavalcante — Desenvolvedor Web e Criação de Sites'
-      : 'Filipe Cavalcante — Software Engineer Portfolio',
+      ? 'Filipe Cavalcante — Engenheiro de Software Full-Stack'
+      : 'Filipe Cavalcante — Full-Stack Software Engineer',
     description: isPt
-      ? 'Desenvolvedor web com mais de 6 anos de experiência em criação de sites, sistemas sob medida e integrações. Atendimento remoto para todo o Brasil.'
-      : 'Software engineer with 6+ years building reliable web products with Node.js, TypeScript, Laravel and React. Available for remote work worldwide.',
+      ? 'Engenheiro full-stack com 6+ anos construindo sistemas web do banco de dados ao deploy. Node.js, TypeScript, React, Laravel e AWS.'
+      : 'Full-stack engineer with 6+ years building web systems from the database to the deploy. Node.js, TypeScript, React, Laravel and AWS.',
     pathByLocale: paths,
   });
+}
+
+/** Rótulo de seção numerado, como no redesign (001, 002, ...). */
+function SectionLabel({ n, children }: { n: string; children: ReactNode }) {
+  return (
+    <div className="mb-7 flex items-baseline gap-4">
+      <span className="font-mono text-xs text-accent">{n}</span>
+      <h2 className="text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
+        {children}
+      </h2>
+    </div>
+  );
 }
 
 export default async function HomePage({
@@ -208,157 +239,214 @@ export default async function HomePage({
   const { lang } = await params;
   const dict = getDictionary(lang);
   const alternatePath = lang === 'en' ? paths.pt : paths.en;
-  const servicesPath = lang === 'pt' ? '/pt/servicos' : '/services';
+  const labPath = lang === 'pt' ? '/pt/lab' : '/lab';
+  const featured = projects.filter((p) => p.featured);
 
   return (
     <>
       <Header locale={lang} dict={dict} alternatePath={alternatePath} />
-      <main>
-        <div className="with-header-offset bg-white text-black">
-          <AnimatedSection className="page-container grid min-h-[calc(100dvh-var(--header-height))] w-full place-content-center">
-            <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 sm:gap-12">
-              <div className="order-2 lg:order-1 justify-self-center lg:justify-self-start max-w-2xl text-center lg:text-left">
-                <h1 className="mb-2 lg:text-6xl !leading-tight text-4xl">
-                  {site.authorName}
-                </h1>
-                <p className="mb-3 text-xl lg:text-2xl text-gray-700">
-                  {dict.home.role}
-                </p>
-                <div className="flex flex-col items-center gap-2 sm:flex-row sm:flex-wrap lg:justify-start justify-center">
-                  <a
-                    href={`mailto:${site.email}`}
-                    className="px-4 py-2 rounded-md w-full border border-black sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/5"
-                  >
-                    <FaEnvelope /> {dict.home.email}
-                  </a>
-                  <a
-                    href={site.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 rounded-md border border-black text-black w-full sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/5"
-                  >
-                    <FaLinkedin /> LinkedIn
-                  </a>
-                  <a
-                    href="/filipe-cavalcante-en.pdf"
-                    download="Filipe_Cavalcante_CV.pdf"
-                    className="px-4 py-2 rounded-md bg-black text-white w-full sm:w-auto text-center flex items-center justify-center gap-2 hover:bg-black/80"
-                  >
-                    <FaFilePdf /> {dict.home.resume}
-                  </a>
-                </div>
-                <p className="mt-6 text-center lg:text-left">
-                  <a href={servicesPath} className="underline hover:opacity-70">
-                    {dict.services.heading}
-                  </a>
-                </p>
-              </div>
-              <div className="order-1 lg:order-2 justify-self-center lg:justify-self-end">
-                <Image
-                  alt={site.authorName}
-                  src={filipe}
-                  width={384}
-                  height={384}
-                  // priority já gera o <link rel="preload">, mas sem
-                  // fetchpriority="high" o navegador trata a imagem LCP com
-                  // prioridade padrão e ela concorre com os scripts.
-                  priority
-                  fetchPriority="high"
-                  className="h-[16rem] w-[16rem] sm:h-[20rem] sm:w-[20rem] lg:h-[24rem] lg:w-[24rem] rounded-full object-cover shadow-lg"
-                />
-              </div>
+      <main className="with-header-offset bg-grid">
+        {/* Hero */}
+        <AnimatedSection id="top" className="page-container pt-24 pb-20">
+          <div className="grid items-center gap-16 lg:grid-cols-[1fr_300px]">
+          <div className="flex flex-col gap-6">
+            <p className="flex items-center gap-2.5 font-mono text-xs text-accent">
+              <span
+                aria-hidden="true"
+                className="size-2 rounded-full bg-accent motion-safe:animate-pulse"
+              />
+              {dict.home.available}
+            </p>
+            {/* Mantém o nome canônico (site.authorName, o mesmo do JSON-LD e
+              dos metadados) e só quebra a linha visualmente, como no design.
+              e2e/seo.spec.ts compara este h1 com site.authorName. */}
+            <h1 className="text-5xl font-bold leading-[1.02] tracking-[-0.03em] sm:text-6xl lg:text-[64px]">
+              Filipe <span className="sm:block">Alves Cavalcante</span>
+            </h1>
+            <p className="max-w-[520px] font-mono text-[15px] leading-relaxed text-muted">
+              {dict.home.tagline}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={site.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded bg-accent px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-hover"
+              >
+                {dict.common.whatsappCta}
+              </a>
+              <a
+                href={`mailto:${site.email}`}
+                className="rounded border border-white/[.18] px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
+              >
+                {dict.home.email}
+              </a>
+              <a
+                href={site.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded border border-white/[.18] px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
+              >
+                LinkedIn
+              </a>
             </div>
-          </AnimatedSection>
-        </div>
+          </div>
 
-        <AnimatedSection
-          id="about"
-          className="bg-gradient-to-r from-indigo-500 to-purple-500"
-        >
-          <div className="page-container py-16 min-h-screen flex flex-col justify-center items-center text-center text-white">
-            <h2 className="text-4xl font-semibold mb-4">
-              {dict.home.aboutTitle}
-            </h2>
-            <div className="text-lg md:text-xl lg:text-2xl leading-relaxed">
-              <p className="text-white/90 text-left">{dict.home.aboutBody}</p>
-            </div>
+          <div className="relative justify-self-center lg:justify-self-end">
+            <div
+              aria-hidden="true"
+              className="absolute -inset-3 rounded-md border border-accent/35"
+            />
+            <Image
+              alt={site.authorName}
+              src={filipe}
+              width={300}
+              height={300}
+              priority
+              fetchPriority="high"
+              sizes="300px"
+              className="relative block w-[240px] rounded-md object-cover contrast-[1.05] grayscale-[35%] sm:w-[300px]"
+            />
+            <p className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded border border-white/10 bg-raised px-3 py-1.5 font-mono text-[11px] text-muted">
+              {site.city}/{site.region} · {site.country}
+            </p>
+          </div>
           </div>
         </AnimatedSection>
 
-        <AnimatedSection
-          id="skills"
-          className="bg-gradient-to-r from-emerald-500 to-teal-500"
-        >
-          <div className="page-container py-16 min-h-screen flex flex-col justify-center items-center text-white">
-            <h2 className="text-4xl font-semibold mb-6">
-              {dict.home.skillsTitle}
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {skills.map((skill) => {
-                const href = linkFor(skill);
-                const content = (
-                  <div className="rounded-md border border-white p-3 text-sm flex items-center gap-2 text-white/95">
-                    {/* O ícone é decorativo: o nome da skill já está no <span>
-                      ao lado. O react-icons emite role="img" por padrão, o que
-                      faz o leitor de tela anunciar um gráfico sem rótulo.
-                      aria-hidden o remove da árvore de acessibilidade sem
-                      mudar nada visualmente, e evita a leitura duplicada. */}
-                    <span className="text-lg" aria-hidden="true">
-                      {iconFor(skill)}
-                    </span>
-                    <span>{skill}</span>
-                  </div>
-                );
-                return href ? (
-                  <a
-                    key={skill}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:shadow-sm transition-shadow"
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  <div key={skill}>{content}</div>
-                );
-              })}
-            </div>
+        {/* 001 — Lab */}
+        <AnimatedSection id="lab" className="page-container pt-10 pb-20">
+          <SectionLabel n="001">{dict.home.labTitle}</SectionLabel>
+          <p className="mb-9 font-mono text-[13px] text-muted">
+            {dict.home.labIntro}
+          </p>
+          <ProjectGrid projects={featured} locale={lang} dict={dict} />
+          <Link
+            href={labPath}
+            className="mt-7 inline-flex items-center gap-2 rounded border border-accent/35 px-5 py-3 font-mono text-[13px] text-accent transition-colors hover:bg-accent/10 hover:text-accent-hover"
+          >
+            {dict.home.labViewAll} →
+          </Link>
+        </AnimatedSection>
+
+        {/* 002 — Sobre */}
+        <AnimatedSection id="about" className="page-container pt-10 pb-20">
+          <SectionLabel n="002">{dict.home.aboutTitle}</SectionLabel>
+          <p className="max-w-[760px] text-lg leading-[1.75] text-fg-strong">
+            {dict.home.aboutBody}
+          </p>
+        </AnimatedSection>
+
+        {/* 003 — Stack */}
+        <AnimatedSection id="skills" className="page-container pt-10 pb-20">
+          <SectionLabel n="003">{dict.home.skillsTitle}</SectionLabel>
+          <div className="grid gap-4 md:grid-cols-2">
+            {skillGroups.map((group) => (
+              <div
+                key={group.label.en}
+                className="flex flex-col gap-3 rounded-md border border-white/[.08] bg-raised px-6 py-5"
+              >
+                <h3 className="font-mono text-[11px] uppercase tracking-[.1em] text-accent">
+                  {group.label[lang]}
+                </h3>
+                <ul className="flex list-none flex-wrap gap-2 p-0">
+                  {group.items.map((skill) => {
+                    const href = linkFor(skill);
+                    const content = (
+                      <span className="flex items-center gap-2 rounded-sm border border-white/[.12] px-2.5 py-[5px] font-mono text-[13px] text-fg-strong transition-colors hover:border-accent/50">
+                        <span aria-hidden="true">{iconFor(skill)}</span>
+                        {skill}
+                      </span>
+                    );
+                    return (
+                      <li key={skill}>
+                        {href ? (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {content}
+                          </a>
+                        ) : (
+                          content
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
           </div>
         </AnimatedSection>
 
-        <AnimatedSection
-          id="experience"
-          className="bg-gradient-to-r from-fuchsia-500 to-rose-500"
-        >
-          <div className="page-container py-16 min-h-screen flex flex-col justify-center items-center text-white">
-            <h2 className="text-4xl font-semibold mb-6">
-              {dict.home.experienceTitle}
-            </h2>
-            <div className="space-y-6">
-              {experiences.map((exp) => (
-                <article
-                  key={`${exp.company}-${exp.period[lang]}`}
-                  className="rounded-lg border border-white p-5 text-white"
-                >
-                  <h3 className="font-semibold">
-                    {exp.title[lang]} · {exp.company}
+        {/* 004 — Experiência */}
+        <AnimatedSection id="experience" className="page-container pt-10 pb-20">
+          <SectionLabel n="004">{dict.home.experienceTitle}</SectionLabel>
+          <div className="flex flex-col">
+            {experiences.map((exp) => (
+              <article
+                key={`${exp.company}-${exp.period[lang]}`}
+                className="grid gap-4 border-t border-white/[.08] py-7 md:grid-cols-[200px_1fr] md:gap-8"
+              >
+                <p className="font-mono text-[13px] text-faint">
+                  {exp.period[lang]}
+                  <span className="block">{exp.location[lang]}</span>
+                </p>
+                <div className="flex flex-col gap-2.5">
+                  <h3 className="text-xl font-semibold">
+                    {exp.title[lang]}{' '}
+                    <span className="text-accent">· {exp.company}</span>
                   </h3>
-                  <p className="text-sm text-white/90">
-                    {exp.period[lang]} · {exp.location[lang]}
-                  </p>
                   {exp.context ? (
-                    <p className="mt-2 text-white/80 italic">
+                    <p className="text-sm italic leading-relaxed text-faint">
                       {exp.context[lang]}
                     </p>
                   ) : null}
-                  <ul className="list-disc pl-5 mt-3 space-y-1 text-white/90">
+                  <ul className="flex list-none flex-col gap-2 p-0">
                     {exp.responsibilities[lang].map((r) => (
-                      <li key={r}>{r}</li>
+                      <li key={r} className="text-sm leading-relaxed text-muted">
+                        <span className="text-accent">→ </span>
+                        {r}
+                      </li>
                     ))}
                   </ul>
-                </article>
-              ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* 006 — Contato. 005 (Depoimentos) fica de fora até haver texto real. */}
+        <AnimatedSection
+          id="contact"
+          className="border-t border-white/[.08] bg-surface"
+        >
+          <div className="page-container flex flex-col items-start gap-6 py-24">
+            <p className="font-mono text-xs text-accent">
+              006 — {dict.nav.contact.toLowerCase()}
+            </p>
+            <h2 className="text-4xl font-bold leading-[1.1] tracking-[-0.03em] sm:text-5xl">
+              {dict.home.contactTitle}
+            </h2>
+            <p className="max-w-[520px] text-base leading-relaxed text-muted">
+              {dict.services.contactBody}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={site.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded bg-accent px-6 py-3.5 text-[15px] font-semibold text-ink transition-colors hover:bg-accent-hover"
+              >
+                WhatsApp
+              </a>
+              <a
+                href={`mailto:${site.email}`}
+                className="rounded border border-white/[.18] px-6 py-3.5 text-[15px] transition-colors hover:border-accent hover:text-accent"
+              >
+                {site.email}
+              </a>
             </div>
           </div>
         </AnimatedSection>

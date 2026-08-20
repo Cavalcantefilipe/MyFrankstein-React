@@ -7,6 +7,7 @@ import {
   chooseMove,
   chooseSwitch,
   getTypeColor,
+  getTypeTextColor,
 } from '@/api/pokemon';
 import type {
   BattleEvent,
@@ -32,8 +33,11 @@ function capitalize(s = ''): string {
 function TypeBadge({ type }: { type: string }) {
   return (
     <span
-      className="px-2 py-0.5 rounded-md text-xs font-semibold text-white uppercase"
-      style={{ backgroundColor: getTypeColor(type) }}
+      className="rounded-md px-2 py-0.5 text-xs font-semibold uppercase"
+      style={{
+        backgroundColor: getTypeColor(type),
+        color: getTypeTextColor(type),
+      }}
     >
       {type}
     </span>
@@ -46,7 +50,7 @@ function HpBar({ hp, maxHp }: { hp: number; maxHp: number }) {
     pct > 50 ? 'bg-green-500' : pct > 20 ? 'bg-yellow-500' : 'bg-red-500';
   return (
     <div className="w-full">
-      <div className="h-3 bg-gray-200 rounded-full overflow-hidden border border-black/10">
+      <div className="h-3 overflow-hidden rounded-full border border-white/[.08] bg-white/[.08]">
         <motion.div
           initial={false}
           animate={{ width: `${pct}%` }}
@@ -54,7 +58,7 @@ function HpBar({ hp, maxHp }: { hp: number; maxHp: number }) {
           className={`h-full ${color}`}
         />
       </div>
-      <div className="text-xs text-gray-600 mt-1 text-right">
+      <div className="mt-1 text-right text-xs text-muted">
         {hp} / {maxHp}
       </div>
     </div>
@@ -85,14 +89,14 @@ function ActiveCard({
   const sprite = getSprite(teamMatch);
   const types = teamMatch?.types?.map((t) => t.type.name) || [];
   const label = side === 'p1' ? 'You' : 'Opponent';
-  const labelColor = side === 'p1' ? 'text-blue-600' : 'text-red-600';
+  const labelColor = side === 'p1' ? 'text-blue-400' : 'text-red-400';
 
   return (
-    <div className="flex-1 flex flex-col items-center p-4 bg-white rounded-xl border border-black/10 shadow-sm">
+    <div className="flex flex-1 flex-col items-center rounded-xl border border-white/[.08] bg-raised p-4">
       <p className={`text-xs font-bold uppercase tracking-wide ${labelColor}`}>
         {label}
       </p>
-      <h3 className="text-lg font-semibold capitalize mb-1">{active.name}</h3>
+      <h3 className="mb-1 text-lg font-semibold capitalize text-fg">{active.name}</h3>
       <div className="flex gap-1 mb-2 flex-wrap justify-center">
         {types.map((t) => (
           <TypeBadge key={t} type={t} />
@@ -142,14 +146,14 @@ function MoveButton({
       disabled={isDisabled}
       className={`px-3 py-3 rounded-lg border-2 font-semibold text-left transition-all ${
         isDisabled
-          ? 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
-          : 'bg-white border-indigo-300 hover:bg-indigo-50 hover:border-indigo-500'
+          ? 'cursor-not-allowed border-white/[.06] bg-white/[.03] text-faint'
+          : 'border-accent/40 bg-raised text-fg hover:border-accent hover:bg-accent/10'
       }`}
     >
       <div className="flex items-center justify-between">
         <span className="truncate">{label}</span>
         <span
-          className={`text-xs ml-2 ${ppLow ? 'text-red-500' : 'text-gray-500'}`}
+          className={`text-xs ml-2 ${ppLow ? 'text-red-400' : 'text-muted'}`}
         >
           {move.pp !== undefined ? `${move.pp}/${move.maxpp}` : ''}
         </span>
@@ -200,7 +204,7 @@ function EventLine({ event }: { event: BattleEvent }) {
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="text-sm py-1 border-b border-black/5 last:border-0"
+      className="border-b border-white/[.06] py-1 text-sm text-muted last:border-0"
     >
       {text}
     </motion.div>
@@ -344,7 +348,7 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
     <div>
       {turnNumber > 0 && !winner && (
         <div className="flex justify-center mb-3">
-          <div className="px-4 py-1 bg-indigo-600 text-white text-sm font-bold rounded-full shadow">
+          <div className="rounded-full bg-accent px-4 py-1 text-sm font-bold text-ink">
             Turn {turnNumber}
           </div>
         </div>
@@ -364,7 +368,7 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
         />
       </div>
 
-      <div className="bg-white rounded-xl border border-black/10 p-4 mb-4 h-48 overflow-auto font-mono">
+      <div className="mb-4 h-48 overflow-auto rounded-xl border border-white/[.08] bg-ink p-4 font-mono text-fg">
         <AnimatePresence initial={false}>
           {log.slice(-12).map((e, i) => (
             <EventLine
@@ -380,10 +384,10 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
           <h2
             className={`text-3xl font-bold ${
               winner === 'blue'
-                ? 'text-blue-600'
+                ? 'text-blue-400'
                 : winner === 'red'
-                  ? 'text-red-600'
-                  : 'text-gray-700'
+                  ? 'text-red-400'
+                  : 'text-muted'
             }`}
           >
             {winner === 'tie'
@@ -395,7 +399,7 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
           {onReset && (
             <button
               onClick={onReset}
-              className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700"
+              className="mt-4 rounded-full bg-accent px-6 py-2 font-semibold text-ink transition-colors hover:bg-accent-hover"
             >
               Close
             </button>
@@ -404,8 +408,8 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
       )}
 
       {!winner && needsSwitch && !isAnimating && (
-        <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4">
-          <p className="font-semibold mb-2">
+        <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
+          <p className="mb-2 font-semibold text-fg">
             Your Pokémon fainted. Choose the next one:
           </p>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
@@ -419,7 +423,7 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
                 <button
                   key={p.ident}
                   onClick={() => handleForceSwitch(idx)}
-                  className="p-2 bg-white border border-indigo-300 rounded-lg hover:bg-indigo-50"
+                  className="rounded-lg border border-accent/40 bg-raised p-2 transition-colors hover:border-accent hover:bg-accent/10"
                 >
                   {match && (
                     <img
@@ -428,7 +432,7 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
                       className="w-12 h-12 mx-auto object-contain"
                     />
                   )}
-                  <p className="text-xs capitalize text-center">{name}</p>
+                  <p className="text-center text-xs capitalize text-fg">{name}</p>
                 </button>
               );
             })}
@@ -449,10 +453,10 @@ export function BattleArena({ blueTeam, redTeam, onReset, token = 0 }: Props) {
       )}
 
       {!winner && isAnimating && (
-        <p className="text-center text-gray-600 italic">Battle in progress…</p>
+        <p className="text-center italic text-muted">Battle in progress…</p>
       )}
 
-      {error && <p className="text-red-600 text-center mt-3">{error}</p>}
+      {error && <p className="mt-3 text-center text-red-400">{error}</p>}
     </div>
   );
 }
