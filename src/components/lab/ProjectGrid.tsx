@@ -49,18 +49,24 @@ export function ProjectGrid({ projects, locale, dict }: Props) {
               className="group flex flex-col overflow-hidden rounded-md border border-white/[.08] bg-raised text-left transition-transform duration-200 hover:-translate-y-0.5 hover:border-accent/50 focus-visible:-translate-y-0.5 focus-visible:border-accent/50 focus-visible:outline-none"
             >
               {project.image ? (
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  width={640}
-                  height={200}
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="h-[200px] w-full border-b border-white/[.08] object-cover"
-                />
+                /* object-top: as capturas têm o conteúdo relevante no topo
+                   (a citação, os times). Ancorar no centro cortava as frases
+                   ao meio — a de Random Quotes é um print de celular (0.82)
+                   numa caixa de proporção 3.2. */
+                <div className="h-[240px] overflow-hidden border-b border-white/[.08] bg-ink/60">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={640}
+                    height={240}
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="h-full w-full object-cover object-top"
+                  />
+                </div>
               ) : (
                 /* Sem screenshot: em vez de expor a tela de um cliente,
                    mostramos o problema resolvido e a arquitetura usada. */
-                <div className="flex h-[200px] flex-col justify-between border-b border-white/[.08] bg-ink/60 p-5">
+                <div className="flex h-[240px] flex-col justify-between border-b border-white/[.08] bg-ink/60 p-5">
                   <div className="flex flex-col gap-2">
                     <span className="font-mono text-[10px] uppercase tracking-[.1em] text-faint">
                       {dict.lab.problemLabel}
