@@ -4,6 +4,9 @@ export const site = {
   url: 'https://filipelab.com',
   name: 'Filipe Lab',
   authorName: 'Filipe Alves Cavalcante',
+  // Nome exato do Google Business Profile. O JSON-LD e o rodapé usam este
+  // valor para o Google conectar o site ao perfil (consistência de NAP).
+  businessName: 'FA Cavalcante',
   email: 'filipe.alvescavalcante@gmail.com',
   linkedin: 'https://www.linkedin.com/in/cavalcante-filipe/',
   whatsapp: whatsappNumber,

@@ -33,6 +33,7 @@ export const en = {
     backHome: 'back to home',
     structure: 'structure',
     openDemo: 'Open demo',
+    visitSite: 'Visit the site',
     close: 'esc',
     caseStudy: 'case study',
     experiment: 'experiment · online',

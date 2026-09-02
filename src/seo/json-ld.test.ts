@@ -14,6 +14,17 @@ describe('buildPersonJsonLd', () => {
 });
 
 describe('buildProfessionalServiceJsonLd', () => {
+  // O nome precisa ser idêntico ao do Google Business Profile: é a chave que
+  // o Google usa para conectar o site ao perfil local.
+  it('usa o nome do Google Business Profile', () => {
+    const data = buildProfessionalServiceJsonLd('pt') as Record<
+      string,
+      unknown
+    >;
+    expect(data.name).toBe('FA Cavalcante');
+    expect(data.alternateName).toBe('Filipe Alves Cavalcante');
+  });
+
   it('lista os 5 serviços no catálogo', () => {
     const data = buildProfessionalServiceJsonLd('pt') as {
       '@type': string;

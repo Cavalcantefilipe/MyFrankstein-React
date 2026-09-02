@@ -97,6 +97,74 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 'temaqui',
+    kind: 'caseStudy',
+    date: { pt: '2026', en: '2026' },
+    title: 'Tem Aqui Achadinhos',
+    href: 'https://temaquiachadinhos.com.br',
+    summary: {
+      pt: 'Lojinha de afiliados do Mercado Livre com encurtador de links próprio, painel admin e estúdio de artes de divulgação.',
+      en: 'Mercado Livre affiliate storefront with its own link shortener, admin panel and a promo-art studio.',
+    },
+    stack: ['Go', 'Next.js', 'PostgreSQL', 'Tailwind'],
+    problem: {
+      pt: 'Afiliada divulgando produtos sem vitrine própria nem métricas de clique',
+      en: 'An affiliate promoting products with no storefront of her own and no click metrics',
+    },
+    body: {
+      pt: 'Vitrine de achadinhos em domínio próprio: ela cola o link de afiliada no painel e título, imagem e preço se autopreenchem. Todo clique passa por um link curto do domínio (/r/{code}), que conta o acesso e redireciona para o Mercado Livre com a URL de afiliada intacta. Tem ainda um estúdio que gera as artes de divulgação (story, feed, banner) com a identidade da marca.',
+      en: 'A storefront on her own domain: she pastes the affiliate link into the panel and title, image and price auto-fill. Every click goes through a short link on the domain (/r/{code}) that counts the visit and redirects to Mercado Livre with the affiliate URL untouched. There is also a studio that generates promo art (story, feed, banner) with the brand identity.',
+    },
+    arch: {
+      pt: [
+        'Backend em Go (chi + pgx/sqlc) e PostgreSQL',
+        'Next.js na frente, reescrevendo /api e /r para o Go',
+        'Encurtador próprio com contagem de cliques',
+        'Deploy na Railway com DNS no Cloudflare',
+      ],
+      en: [
+        'Go backend (chi + pgx/sqlc) with PostgreSQL',
+        'Next.js in front, rewriting /api and /r to Go',
+        'In-house shortener with click counting',
+        'Deployed on Railway with DNS on Cloudflare',
+      ],
+    },
+  },
+  {
+    id: 'orthoneuro',
+    kind: 'caseStudy',
+    date: { pt: '2026', en: '2026' },
+    title: 'Clínica Ortho Neuro',
+    href: 'https://clinicaorthoneuro.com.br',
+    summary: {
+      pt: 'Site institucional de uma clínica de fisioterapia e Pilates em Caraguatatuba, focado em SEO local e agendamento via WhatsApp.',
+      en: 'Institutional site for a physiotherapy and Pilates clinic in Caraguatatuba, focused on local SEO and WhatsApp scheduling.',
+    },
+    stack: ['Next.js', 'React', 'TypeScript'],
+    problem: {
+      pt: 'Clínica local sem presença na busca do Google além do perfil no Maps',
+      en: 'A local clinic with no Google search presence beyond its Maps profile',
+    },
+    body: {
+      pt: 'Site de página única para a Ortho Neuro Fisioterapia e Pilates: especialidades, equipe, localização e chamada de agendamento pelo WhatsApp. Por baixo, SEO local completo — dados estruturados de clínica (schema.org), sitemap, Open Graph e Google Tag Manager medindo de onde vêm os pacientes.',
+      en: 'Single-page site for Ortho Neuro Fisioterapia e Pilates: specialties, team, location and a WhatsApp scheduling call to action. Under the hood, full local SEO — clinic structured data (schema.org), sitemap, Open Graph and Google Tag Manager measuring where patients come from.',
+    },
+    arch: {
+      pt: [
+        'Next.js App Router + TypeScript',
+        'Dados estruturados MedicalClinic (schema.org)',
+        'Google Tag Manager + SEO local',
+        'Deploy na Railway',
+      ],
+      en: [
+        'Next.js App Router + TypeScript',
+        'MedicalClinic structured data (schema.org)',
+        'Google Tag Manager + local SEO',
+        'Deployed on Railway',
+      ],
+    },
+  },
+  {
     id: 'pokemon',
     kind: 'experiment',
     date: { pt: 'Est. 2025', en: 'Est. 2025' },

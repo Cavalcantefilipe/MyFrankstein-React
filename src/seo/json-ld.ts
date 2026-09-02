@@ -22,7 +22,18 @@ export function buildProfessionalServiceJsonLd(locale: Locale) {
     // bloco já satisfaz os requisitos de LocalBusiness (name + address) sem
     // precisar declarar um segundo tipo.
     '@type': 'ProfessionalService',
-    name: site.authorName,
+    // Mesmo nome do Google Business Profile: é assim que o Google liga o site
+    // ao perfil e dá mais destaque ao card local.
+    '@id': `${site.url}/#fa-cavalcante`,
+    name: site.businessName,
+    alternateName: site.authorName,
+    founder: {
+      '@type': 'Person',
+      name: site.authorName,
+      sameAs: [site.linkedin],
+    },
+    image: `${site.url}/icon.svg`,
+    sameAs: [site.linkedin],
     url: `${site.url}${locale === 'pt' ? '/pt/servicos' : '/services'}`,
     telephone: `+${site.whatsapp}`,
     email: `mailto:${site.email}`,

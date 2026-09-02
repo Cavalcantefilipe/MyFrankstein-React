@@ -34,8 +34,14 @@ export function ProjectGrid({ projects, locale, dict }: Props) {
   const kindLabel = (p: Project) =>
     p.kind === 'caseStudy' ? dict.lab.caseStudy : dict.lab.experiment;
 
+  // URLs externas (sites de clientes no ar) não recebem o prefixo /pt.
+  const isExternal = (href: string) => href.startsWith('http');
   const localizedHref = (p: Project) =>
-    p.href ? (locale === 'pt' ? `/pt${p.href}` : p.href) : undefined;
+    p.href
+      ? isExternal(p.href) || locale !== 'pt'
+        ? p.href
+        : `/pt${p.href}`
+      : undefined;
 
   return (
     <>
@@ -178,9 +184,15 @@ export function ProjectGrid({ projects, locale, dict }: Props) {
             {localizedHref(detail) ? (
               <a
                 href={localizedHref(detail)}
+                {...(detail.href && isExternal(detail.href)
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
                 className="self-start rounded bg-accent px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-hover"
               >
-                {dict.lab.openDemo} →
+                {detail.href && isExternal(detail.href)
+                  ? dict.lab.visitSite
+                  : dict.lab.openDemo}{' '}
+                →
               </a>
             ) : null}
           </aside>

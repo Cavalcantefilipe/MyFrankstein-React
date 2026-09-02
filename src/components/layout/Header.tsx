@@ -28,6 +28,13 @@ export function Header({ locale, dict, alternatePath }: Props) {
   const base = locale === 'pt' ? '/pt' : '';
   const servicesPath = locale === 'pt' ? '/pt/servicos' : '/services';
   const labPath = locale === 'pt' ? '/pt/lab' : '/lab';
+  // CV no idioma da página: quem navega em PT baixa o currículo em português.
+  const cvHref =
+    locale === 'pt' ? '/filipe-cavalcante-pt.pdf' : '/filipe-cavalcante-en.pdf';
+  const cvFileName =
+    locale === 'pt'
+      ? 'Filipe_Cavalcante_CV_PT.pdf'
+      : 'Filipe_Cavalcante_CV.pdf';
 
   const links = [
     { href: labPath, label: dict.nav.lab },
@@ -89,8 +96,8 @@ export function Header({ locale, dict, alternatePath }: Props) {
                 {locale === 'pt' ? 'EN' : 'PT'}
               </Link>
               <a
-                href="/filipe-cavalcante-en.pdf"
-                download="Filipe_Cavalcante_CV.pdf"
+                href={cvHref}
+                download={cvFileName}
                 className="rounded bg-accent px-3.5 py-[7px] font-semibold text-ink transition-colors hover:bg-accent-hover"
               >
                 cv.pdf
@@ -123,8 +130,8 @@ export function Header({ locale, dict, alternatePath }: Props) {
                 {dict.common.switchLanguage}
               </Link>
               <a
-                href="/filipe-cavalcante-en.pdf"
-                download="Filipe_Cavalcante_CV.pdf"
+                href={cvHref}
+                download={cvFileName}
                 onClick={close}
                 className="mt-3 rounded bg-accent px-4 py-2.5 text-center font-semibold text-ink"
               >

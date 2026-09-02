@@ -61,7 +61,8 @@ ${serviceLinksEn}
 
 ## Opcional
 
-- [Currículo em PDF](${site.url}/filipe-cavalcante-en.pdf): versão em inglês, para download.
+- [Currículo em PDF (PT)](${site.url}/filipe-cavalcante-pt.pdf): versão em português, para download.
+- [Currículo em PDF (EN)](${site.url}/filipe-cavalcante-en.pdf): versão em inglês, para download.
 - [LinkedIn](${site.linkedin}): perfil profissional.
 - [Sitemap](${site.url}/sitemap.xml): todas as URLs públicas, com alternates por idioma.
 `;

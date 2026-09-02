@@ -33,6 +33,7 @@ export const pt = {
     backHome: 'voltar para a home',
     structure: 'estrutura',
     openDemo: 'Abrir demo',
+    visitSite: 'Visitar o site',
     close: 'esc',
     caseStudy: 'case study',
     experiment: 'experimento · online',
