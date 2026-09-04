@@ -2,6 +2,8 @@ import type { StaticImageData } from 'next/image';
 import type { Locale } from '@/i18n/config';
 import battlepokemon from '@/assets/battlepokemon.png';
 import randomquotes from '@/assets/randomquotes.png';
+import orthoneuro from '@/assets/orthoneuro.png';
+import temaqui from '@/assets/temaqui.png';
 
 /**
  * Projetos do Lab. Os números aqui (usuários, matrículas, % de ganho) repetem
@@ -27,7 +29,7 @@ export type Project = {
   featured?: boolean;
 };
 
-export const projects: Project[] = [
+const projectsSource: Project[] = [
   {
     id: 'brasiltec',
     kind: 'caseStudy',
@@ -102,6 +104,7 @@ export const projects: Project[] = [
     date: { pt: '2026', en: '2026' },
     title: 'Tem Aqui Achadinhos',
     href: 'https://temaquiachadinhos.com.br',
+    image: temaqui,
     summary: {
       pt: 'Lojinha de afiliados do Mercado Livre com encurtador de links próprio, painel admin e estúdio de artes de divulgação.',
       en: 'Mercado Livre affiliate storefront with its own link shortener, admin panel and a promo-art studio.',
@@ -136,6 +139,7 @@ export const projects: Project[] = [
     date: { pt: '2026', en: '2026' },
     title: 'Clínica Ortho Neuro',
     href: 'https://clinicaorthoneuro.com.br',
+    image: orthoneuro,
     summary: {
       pt: 'Site institucional de uma clínica de fisioterapia e Pilates em Caraguatatuba, focado em SEO local e agendamento via WhatsApp.',
       en: 'Institutional site for a physiotherapy and Pilates clinic in Caraguatatuba, focused on local SEO and WhatsApp scheduling.',
@@ -223,3 +227,23 @@ export const projects: Project[] = [
     },
   },
 ];
+
+/** Ano de `date` ("2026", "Est. 2025") para ordenação. Sem ano legível, vai
+ *  para o fim em vez de embaralhar a lista. */
+function year(project: Project): number {
+  const match = project.date.pt.match(/\d{4}/);
+  return match ? Number(match[0]) : 0;
+}
+
+/**
+ * Lab ordenado do mais recente para o mais antigo, com case studies antes dos
+ * experimentos dentro do mesmo ano. Ordenar aqui — e não na ordem literal do
+ * array — evita que um projeto novo apareça no lugar errado só porque foi
+ * escrito no fim do arquivo.
+ */
+export const projects: Project[] = [...projectsSource].sort((a, b) => {
+  const byYear = year(b) - year(a);
+  if (byYear !== 0) return byYear;
+  if (a.kind !== b.kind) return a.kind === 'caseStudy' ? -1 : 1;
+  return 0;
+});
