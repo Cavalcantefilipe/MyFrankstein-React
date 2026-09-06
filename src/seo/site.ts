@@ -9,6 +9,7 @@ export const site = {
   businessName: 'FA Cavalcante',
   email: 'filipe.alvescavalcante@gmail.com',
   linkedin: 'https://www.linkedin.com/in/cavalcante-filipe/',
+  github: 'https://github.com/Cavalcantefilipe',
   whatsapp: whatsappNumber,
   whatsappUrl: `https://wa.me/${whatsappNumber}`,
 

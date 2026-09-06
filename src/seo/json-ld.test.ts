@@ -11,6 +11,27 @@ describe('buildPersonJsonLd', () => {
       'https://www.linkedin.com/in/cavalcante-filipe/'
     );
   });
+
+  // GitHub e LinkedIn no sameAs são o que liga a entidade do site aos perfis
+  // externos — sem isso, buscadores e IAs não confirmam que é a mesma pessoa.
+  it('conecta o GitHub à entidade', () => {
+    const data = buildPersonJsonLd() as Record<string, unknown>;
+    expect(data.sameAs).toContain('https://github.com/Cavalcantefilipe');
+  });
+
+  it('declara especialidades e localização no Brasil', () => {
+    const data = buildPersonJsonLd() as {
+      jobTitle: string;
+      knowsAbout: string[];
+      address: Record<string, string>;
+      nationality: Record<string, string>;
+    };
+    expect(data.jobTitle).toBe('Full-Stack Software Engineer');
+    expect(data.knowsAbout).toContain('Laravel');
+    expect(data.knowsAbout).toContain('React');
+    expect(data.address.addressCountry).toBe('BR');
+    expect(data.nationality.name).toBe('Brazil');
+  });
 });
 
 describe('buildProfessionalServiceJsonLd', () => {

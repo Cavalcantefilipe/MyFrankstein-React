@@ -9,9 +9,36 @@ export function buildPersonJsonLd() {
     '@type': 'Person',
     name: site.authorName,
     url: site.url,
-    jobTitle: 'Software Engineer',
+    jobTitle: 'Full-Stack Software Engineer',
     email: `mailto:${site.email}`,
-    sameAs: [site.linkedin],
+    // sameAs liga esta entidade aos perfis externos: é o que permite a
+    // buscadores e assistentes de IA confirmar que o autor do site, o
+    // Cavalcantefilipe do GitHub e o perfil do LinkedIn são a mesma pessoa.
+    sameAs: [site.linkedin, site.github],
+    // knowsAbout + localização dão à entidade os atributos que consultas como
+    // "desenvolvedor full-stack no Brasil" precisam cruzar.
+    knowsAbout: [
+      'PHP',
+      'Laravel',
+      'TypeScript',
+      'JavaScript',
+      'Node.js',
+      'NestJS',
+      'React',
+      'Next.js',
+      'Vue.js',
+      'PostgreSQL',
+      'MySQL',
+      'AWS',
+      'Docker',
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: site.city,
+      addressRegion: site.region,
+      addressCountry: site.country,
+    },
+    nationality: { '@type': 'Country', name: 'Brazil' },
   };
 }
 
@@ -30,10 +57,10 @@ export function buildProfessionalServiceJsonLd(locale: Locale) {
     founder: {
       '@type': 'Person',
       name: site.authorName,
-      sameAs: [site.linkedin],
+      sameAs: [site.linkedin, site.github],
     },
     image: `${site.url}/icon.svg`,
-    sameAs: [site.linkedin],
+    sameAs: [site.linkedin, site.github],
     url: `${site.url}${locale === 'pt' ? '/pt/servicos' : '/services'}`,
     telephone: `+${site.whatsapp}`,
     email: `mailto:${site.email}`,
