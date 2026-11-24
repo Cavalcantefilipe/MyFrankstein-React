@@ -92,11 +92,11 @@ test.describe('HTML servido ao crawler', () => {
     request,
   }) => {
     const pt = await (await request.get('/pt')).text();
-    expect(pt).toContain('Reconstruí a plataforma edtech');
-    expect(pt).not.toContain('Rebuilt BrasilTec');
+    expect(pt).toContain('Reconstruí a plataforma de cursos');
+    expect(pt).not.toContain('Rebuilt the learning platform');
 
     const en = await (await request.get('/')).text();
-    expect(en).toContain('Rebuilt BrasilTec');
+    expect(en).toContain('Rebuilt the learning platform');
     expect(en).not.toContain('Reconstruí a plataforma');
   });
 });

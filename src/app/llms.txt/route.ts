@@ -1,3 +1,4 @@
+import { caseStudies } from '@/data/case-studies';
 import { services } from '@/data/services';
 import { site } from '@/seo/site';
 
@@ -32,7 +33,7 @@ function buildLlmsTxt(): string {
 
   return `# ${site.authorName}
 
-> Engenheiro de software full-stack com mais de 6 anos de experiência, atendendo remotamente de todo o Brasil. Trabalha com PHP/Laravel, Node.js, TypeScript, NestJS, React, Next.js, Vue.js e AWS. Este site é ao mesmo tempo portfólio profissional e página de contratação de serviços.
+> Engenheiro de software sênior com experiência desde 2018 em backend e full stack, com desenvolvimento seguro e AppSec como diferenciais, atendendo remotamente de todo o Brasil. Trabalha com PHP/Laravel, Node.js, TypeScript, NestJS, React, Next.js, Vue.js e AWS. Este site é ao mesmo tempo portfólio profissional e página de contratação de serviços.
 
 O site é bilíngue: o português fica sob /pt e o inglês na raiz. Cada par de páginas
 se referencia por hreflang. Contato por WhatsApp (${site.whatsappUrl}) ou
@@ -52,6 +53,10 @@ ${serviceLinks}
 ## Services (EN)
 
 ${serviceLinksEn}
+
+## Casos técnicos / Engineering case studies
+
+${caseStudies.map((item) => `- [${item.title.pt}](${site.url}/pt/cases/${item.slug}) / [${item.title.en}](${site.url}/cases/${item.slug})`).join('\n')}
 
 ## Lab
 

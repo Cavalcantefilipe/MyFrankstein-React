@@ -10,16 +10,16 @@ export const en = {
     downloadCv: 'Download CV',
   },
   home: {
-    role: 'Senior Full-Stack Software Engineer',
+    role: "Senior Software Engineer",
     tagline:
-      'senior full-stack engineer · building software since 2018 — most of it shipped alone, from database design to deployment',
-    available: 'open to senior full-stack roles · remote',
+      "Backend & Full Stack · Node.js, TypeScript, PHP · Secure Development & AppSec",
+    available: "open to senior backend and full-stack roles · remote",
     aboutTitle: 'About me',
     aboutBody:
-      "I've been building software since 2018, most of it through my own consultancy, F A Cavalcante. Most of what I've shipped, I've shipped alone: database design, back-end, front-end, deployment. That was true of the university platform I rebuilt from scratch in 6 weeks, and it was true at the agency where I covered 13 clients at once.\n\nThe work I'm proudest of usually isn't the code. At Gran Cursos — a platform that grew from 300,000 to 800,000 paying students while I was there — I shipped the Black Friday campaign in 5 days against a 10-day deadline, and it closed its first day at R$16M against a R$10M target. The part that mattered more was building the re-skin as a theming layer, so marketing and design could keep changing things without engineering.\n\nLately a lot of my work is performance and multi-tenant infrastructure: cutting the heaviest query from 1.21s to 47ms, removing up to 99.7% of database round-trips, tuning PostgreSQL across 6 tenant databases. Plus AI in production — transcription with OpenAI Whisper across three languages, search over transcripts, and captions that made every lesson usable by deaf and hard-of-hearing students.\n\nTech I work with daily: TypeScript, NestJS, React, Next.js, Node.js, PHP, Laravel, Go, PostgreSQL, AWS, Docker.",
+      "I am a senior software engineer with experience since 2018 building web applications, APIs, and platforms for education, media, and e-commerce. I work with Node.js, TypeScript, NestJS, PHP/Laravel, and React, from architecture and databases to deployment and production maintenance.\n\nAt BrasilTec, I rebuilt a learning platform and contributed to a multi-tenant ERP and B2B marketplace. At Gran Cursos, I led a MySQL-to-PostgreSQL migration and published a shared React component library.\n\nApplication Security strengthens my work as a developer. I remediated a SQL injection vulnerability in legacy PHP and implemented authentication and session controls in personal projects. My case studies explain decisions, results, and measurement limits.\n\nI am seeking Senior Software Engineer, Backend Developer, and Full Stack Developer opportunities focused on product development, performance, and secure development.",
     skillsTitle: 'Skills',
     experienceTitle: 'Work experience',
-    labTitle: 'The Lab',
+    labTitle: 'Projects and technical cases',
     labIntro: 'lab highlights — click a card to see the structure behind it',
     labViewAll: 'see the full lab',
     contactTitle: "Let's talk.",
@@ -42,7 +42,7 @@ export const en = {
   services: {
     heading: 'Web Developer for Custom Sites, Systems and Integrations',
     intro:
-      'I build websites, web systems and integrations for companies that need software that actually works. Over 6 years of experience, remote, across Brazil.',
+      'I build websites, web systems and integrations for companies that need software that actually works. Experience since 2018, remote, across Brazil.',
     whatIDo: 'What I do',
     contactHeading: "Let's talk",
     contactBody:

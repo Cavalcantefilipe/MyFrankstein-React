@@ -181,6 +181,12 @@ export function ProjectGrid({ projects, locale, dict }: Props) {
               </ul>
             </div>
 
+            {detail.caseSlug ? (
+              <a href={`${locale === 'pt' ? '/pt' : ''}/cases/${detail.caseSlug}`} className="self-start rounded border border-accent px-5 py-3 text-base text-accent">
+                {locale === 'pt' ? 'Ler caso técnico' : 'Read technical case'}
+              </a>
+            ) : null}
+
             {localizedHref(detail) ? (
               <a
                 href={localizedHref(detail)}

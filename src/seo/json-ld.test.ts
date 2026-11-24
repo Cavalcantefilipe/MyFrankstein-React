@@ -26,7 +26,7 @@ describe('buildPersonJsonLd', () => {
       address: Record<string, string>;
       nationality: Record<string, string>;
     };
-    expect(data.jobTitle).toBe('Full-Stack Software Engineer');
+    expect(data.jobTitle).toBe('Senior Software Engineer');
     expect(data.knowsAbout).toContain('Laravel');
     expect(data.knowsAbout).toContain('React');
     expect(data.address.addressCountry).toBe('BR');

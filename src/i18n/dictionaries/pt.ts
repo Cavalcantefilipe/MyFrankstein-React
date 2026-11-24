@@ -10,16 +10,16 @@ export const pt = {
     downloadCv: 'Baixar CV',
   },
   home: {
-    role: 'Engenheiro de Software Full-Stack Sênior',
+    role: "Engenheiro de Software Sênior",
     tagline:
-      'engenheiro full-stack sênior · construindo software desde 2018 — quase sempre sozinho, do desenho do banco ao deploy',
-    available: 'aberto a vagas full-stack sênior · remoto',
+      "Backend e Full Stack · Node.js, TypeScript e PHP · Desenvolvimento Seguro e AppSec",
+    available: "aberto a vagas sênior de backend e full stack · remoto",
     aboutTitle: 'Sobre mim',
     aboutBody:
-      'Construo software desde 2018, a maior parte pela minha própria consultoria, a F A Cavalcante. Quase tudo que entreguei, entreguei sozinho: desenho do banco, backend, frontend, deploy. Foi assim na plataforma universitária que reconstruí do zero em 6 semanas, e foi assim na agência onde atendi 13 clientes ao mesmo tempo.\n\nO trabalho de que mais me orgulho normalmente não é o código. No Gran Cursos — uma plataforma que passou de 300 mil para 800 mil alunos pagantes no período em que estive lá — entreguei a campanha de Black Friday em 5 dias, contra um prazo de 10, e ela fechou o primeiro dia em R$16 milhões, ante uma meta de R$10 milhões. O que importou mais foi construir o re-skin como uma camada de temas, para que marketing e design pudessem continuar mudando as coisas sem depender de engenharia.\n\nUltimamente trabalho bastante com performance e infraestrutura multi-tenant: baixei a query mais pesada de 1,21s para 47ms, eliminei até 99,7% das idas ao banco e fiz tuning de PostgreSQL em 6 bancos de tenants. Além de IA em produção — transcrição com OpenAI Whisper em três idiomas, busca dentro das transcrições e legendas que tornaram todas as aulas acessíveis a alunos surdos e com deficiência auditiva.\n\nTecnologias do dia a dia: TypeScript, NestJS, React, Next.js, Node.js, PHP, Laravel, Go, PostgreSQL, AWS, Docker.',
+      "Sou engenheiro de software sênior, com experiência desde 2018 em aplicações web, APIs e plataformas de educação, mídia e comércio eletrônico. Trabalho com Node.js, TypeScript, NestJS, PHP/Laravel e React, da arquitetura e do banco de dados ao deploy e à manutenção em produção.\n\nNa BrasilTec, reconstruí uma plataforma de cursos e atuei na evolução de um ERP e marketplace B2B. No Gran Cursos, conduzi uma migração de MySQL para PostgreSQL e publiquei uma biblioteca compartilhada de componentes React.\n\nSegurança de Aplicações é um diferencial da minha atuação em desenvolvimento. Corrigi uma vulnerabilidade de SQL injection em PHP legado e implementei controles de autenticação e sessão em projetos próprios. Meus casos técnicos explicam decisões, resultados e limites das medições.\n\nBusco oportunidades como Engenheiro de Software Sênior, Desenvolvedor Backend ou Full Stack, contribuindo com construção de produtos, performance e desenvolvimento seguro.",
     skillsTitle: 'Tecnologias',
     experienceTitle: 'Experiência profissional',
-    labTitle: 'O Laboratório',
+    labTitle: 'Projetos e casos técnicos',
     labIntro: 'destaques do laboratório — clique num card para ver a estrutura',
     labViewAll: 'ver o lab completo',
     contactTitle: 'Vamos conversar.',
@@ -42,7 +42,7 @@ export const pt = {
   services: {
     heading: 'Desenvolvedor Web para Criação de Sites, Sistemas e Integrações',
     intro:
-      'Faço criação de sites, sistemas web sob medida e integrações para empresas que precisam de software que funciona. Mais de 6 anos de experiência, atendimento remoto para todo o Brasil.',
+      'Faço criação de sites, sistemas web sob medida e integrações para empresas que precisam de software que funciona. Experiência desde 2018, atendimento remoto para todo o Brasil.',
     whatIDo: 'O que eu faço',
     contactHeading: 'Vamos conversar',
     contactBody:

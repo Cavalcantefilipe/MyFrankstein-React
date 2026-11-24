@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { site } from '@/seo/site';
 import { services } from '@/data/services';
+import { caseStudies } from '@/data/case-studies';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const pages = [
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })),
     { en: '/lab', pt: '/pt/lab', priority: 0.7 },
+    ...caseStudies.map(({ slug }) => ({ en: `/cases/${slug}`, pt: `/pt/cases/${slug}`, priority: 0.8 })),
     { en: '/random-quote', pt: '/pt/random-quote', priority: 0.6 },
     { en: '/pokemon-battle', pt: '/pt/pokemon-battle', priority: 0.6 },
   ];

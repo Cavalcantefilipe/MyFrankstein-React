@@ -19,7 +19,7 @@ export async function generateMetadata() {
     title: 'Desenvolvedor Web e Criação de Sites | Filipe Cavalcante',
     // 146 caracteres
     description:
-      'Criação de sites, sistemas web sob medida, integrações e automação com IA. Mais de 6 anos de experiência. Atendimento remoto para todo o Brasil.',
+      'Criação de sites, sistemas web sob medida, integrações e automação com IA. Experiência desde 2018. Atendimento remoto para todo o Brasil.',
     pathByLocale: paths,
   });
 }

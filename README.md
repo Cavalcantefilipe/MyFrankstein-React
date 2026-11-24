@@ -26,6 +26,7 @@ Inglês na raiz, português sob `/pt`.
 | `/lab` | `/pt/lab` |
 | `/random-quote` | `/pt/random-quote` |
 | `/pokemon-battle` | `/pt/pokemon-battle` |
+| `/cases/[slug]` | `/pt/cases/[slug]` |
 
 `/en` e `/en/*` redirecionam (308) para a versão sem prefixo. Caminhos cruzados entre idiomas (`/servicos`, `/pt/services`) retornam 404 de propósito, para não criar URLs duplicadas.
 
@@ -53,7 +54,7 @@ As rotas ficam em `src/app/`, não em `app/` — ambos são suportados pelo Next
 ## Regras que os testes garantem
 
 - **O HTML servido ao crawler contém o conteúdo.** O site anterior entregava `<div id="root"></div>` (685 bytes) e nada era indexável. `e2e/seo.spec.ts` falha se isso voltar a acontecer.
-- **Nenhuma métrica inventada.** Todo número no texto de marketing precisa corresponder a uma frase real em `src/data/experience.ts`. `src/data/services-claim-guard.ts` faz essa checagem, e o teste rejeita afirmações fabricadas.
+- **Consistência das métricas.** `src/data/services-claim-guard.ts` verifica se as afirmações de marketing correspondem a `src/data/experience.ts`. Isso confere consistência textual; a comprovação dos fatos depende das evidências profissionais. Resultados de produção e de validação devem permanecer identificados.
 - **Toda URL do sitemap responde 200.** Sitemap não deve apontar o crawler para página morta.
 - **Um `<h1>` por página, com texto.** H1 vazio desperdiça o principal sinal de SEO.
 - **Sem `LocalBusiness` no JSON-LD.** O atendimento é remoto; o schema reflete a realidade.
@@ -75,3 +76,7 @@ AWS Amplify Hosting, com `amplify.yml` na raiz (`baseDirectory: .next`, conforme
 **A versão do Next.js importa:** o Amplify documenta suporte às versões 12–15. O projeto está fixado na 15.x de propósito. Subir para a 16 antes de a AWS anunciar suporte pode quebrar o deploy.
 
 Após o deploy, no Google Search Console: verificar o domínio (registro TXT no DNS), enviar `https://filipelab.com/sitemap.xml` e pedir indexação de `/pt/servicos`.
+
+## Casos técnicos
+
+`src/data/case-studies.ts` reúne quatro casos em português e inglês: integrações de terceiros (exemplo sintético com código público), PostgreSQL, autenticação do TEM AQUI e arquitetura do simulador Pokémon. Cada caso identifica contribuição, decisões, evidências e limites. O código privado do produto permanece privado.

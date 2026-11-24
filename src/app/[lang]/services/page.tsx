@@ -19,7 +19,7 @@ export async function generateMetadata() {
     title: 'Web Developer for Custom Sites and Systems | Filipe',
     // 142 caracteres
     description:
-      'Custom websites, web systems, third-party integrations and AI automation. 6+ years of experience. Remote work for clients in Brazil and abroad.',
+      'Custom websites, web systems, third-party integrations and AI automation. Experience since 2018. Remote work for clients in Brazil and abroad.',
     pathByLocale: paths,
   });
 }

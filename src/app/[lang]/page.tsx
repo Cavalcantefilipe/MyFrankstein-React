@@ -36,6 +36,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ProjectGrid } from '@/components/lab/ProjectGrid';
 import { projects } from '@/data/projects';
+import { caseStudies } from '@/data/case-studies';
 import { buildMetadata } from '@/seo/metadata';
 import { site } from '@/seo/site';
 import { getDictionary } from '@/i18n/get-dictionary';
@@ -210,11 +211,11 @@ export async function generateMetadata({
   return buildMetadata({
     locale: lang,
     title: isPt
-      ? 'Filipe Cavalcante — Engenheiro de Software Full-Stack'
-      : 'Filipe Cavalcante — Full-Stack Software Engineer',
+      ? 'Filipe Cavalcante — Engenheiro de Software Sênior'
+      : 'Filipe Cavalcante — Senior Software Engineer',
     description: isPt
-      ? 'Engenheiro full-stack com 6+ anos construindo sistemas web do banco de dados ao deploy. Node.js, TypeScript, React, Laravel e AWS.'
-      : 'Full-stack engineer with 6+ years building web systems from the database to the deploy. Node.js, TypeScript, React, Laravel and AWS.',
+      ? 'Engenheiro de Software Sênior desde 2018. Backend e full stack com Node.js, TypeScript, PHP e React. Desenvolvimento seguro e AppSec.'
+      : 'Senior Software Engineer building since 2018. Backend and full stack with Node.js, TypeScript, PHP, and React. Secure development and AppSec.',
     pathByLocale: paths,
   });
 }
@@ -328,6 +329,22 @@ export default async function HomePage({
             {dict.home.labViewAll} →
           </Link>
         </AnimatedSection>
+
+        <section id="cases" className="page-container pb-20">
+          <h2 className="mb-4 text-3xl font-semibold">{lang === 'pt' ? 'Decisões de engenharia na prática' : 'Engineering decisions in practice'}</h2>
+          <p className="mb-8 max-w-3xl text-base leading-7 text-muted">{lang === 'pt' ? 'Contexto, contribuição, decisões e evidências. Resultados de produção, validação e exemplos didáticos identificados em cada caso.' : 'Context, contribution, decisions, and evidence. Production results, validation tests, and educational examples are identified in each case.'}</p>
+          <ul className="grid list-none gap-5 p-0 md:grid-cols-2">
+            {caseStudies.map((study) => (
+              <li key={study.slug}>
+                <Link href={`${lang === 'pt' ? '/pt' : ''}/cases/${study.slug}`} className="block h-full rounded-md border border-white/15 bg-raised p-6 transition-colors hover:border-accent focus-visible:outline-accent">
+                  <p className="mb-3 text-sm text-accent">{study.kind[lang]}</p>
+                  <h3 className="text-xl font-semibold">{study.title[lang]}</h3>
+                  <p className="mt-3 text-base leading-7 text-muted">{study.summary[lang]}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {/* 002 — Sobre */}
         <AnimatedSection id="about" className="page-container pt-10 pb-20">

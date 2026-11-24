@@ -9,7 +9,7 @@ export function buildPersonJsonLd() {
     '@type': 'Person',
     name: site.authorName,
     url: site.url,
-    jobTitle: 'Full-Stack Software Engineer',
+    jobTitle: 'Senior Software Engineer',
     email: `mailto:${site.email}`,
     // sameAs liga esta entidade aos perfis externos: é o que permite a
     // buscadores e assistentes de IA confirmar que o autor do site, o

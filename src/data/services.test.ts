@@ -109,11 +109,11 @@ describe('services data', () => {
     // frase nova (não presente em services.ts) quando o número e uma
     // palavra distintiva realmente correspondem à mesma frase do histórico.
     const legitimateClaim =
-      'The edtech platform now has 5,143 users and 6,983 enrollments.';
+      'Recovered 82 GB of disk space on a production host.';
     const fixtureExperiences: Experience[] = experiences;
 
     const result = numberHasCorroboratingBullet(
-      '5,143',
+      '82',
       legitimateClaim,
       fixtureExperiences
     );

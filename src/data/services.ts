@@ -31,8 +31,8 @@ export const services: Service[] = [
       en: 'Fast, responsive sites built to rank. Semantic structure, performance and technical SEO from day one, not bolted on later.',
     },
     proof: {
-      pt: 'Reconstruí o site de marketing da Gran Cursos Online: Lighthouse saiu de 7 para 76 em performance e de 28 para 95 em SEO.',
-      en: 'Rebuilt Gran Cursos Online marketing site: Lighthouse went from 7 to 76 on performance and 28 to 95 on SEO.',
+      pt: 'Reconstruí o site institucional do Gran Cursos e criei um CMS para dar autonomia de publicação ao marketing.',
+      en: 'Rebuilt the Gran Cursos corporate website and created a CMS so marketing could publish independently.',
     },
     metaTitle: {
       pt: 'Site Institucional para Empresa | Filipe Cavalcante',
@@ -134,8 +134,8 @@ export const services: Service[] = [
       en: 'Platforms, admin panels and REST APIs built around your process, not a generic template. Backend, frontend and database.',
     },
     proof: {
-      pt: 'Reconstruí uma plataforma edtech do zero em 6 semanas. Hoje tem 5.143 usuários e 6.983 matrículas. Também desenhei mais de 30 endpoints REST para tráfego alto.',
-      en: 'Rebuilt an edtech platform from scratch in 6 weeks. It now has 5,143 users and 6,983 enrollments. Also designed 30+ REST endpoints for high-volume traffic.',
+      pt: 'Reconstruí a plataforma de cursos da BrasilTec com NestJS, React e TypeScript, incluindo APIs, painel administrativo e migração de dados.',
+      en: 'Rebuilt BrasilTec’s learning platform with NestJS, React, and TypeScript, including APIs, administration, and data migration.',
     },
     metaTitle: {
       pt: 'Sistema Web Sob Medida com NestJS | Filipe Cavalcante',
@@ -237,8 +237,8 @@ export const services: Service[] = [
       en: 'Campaign pages that load fast and convert. I also fix slow sites, indexing errors and pages that never show up in search.',
     },
     proof: {
-      pt: 'Páginas de Black Friday que ajudaram a chegar a R$10 milhões em vendas. No Grupo Estado, reduzi em mais de 50% os erros do Google Search Console.',
-      en: 'Black Friday campaign pages that helped reach R$10 million in sales. At Grupo Estado, cut Google Search Console errors by more than 50%.',
+      pt: 'Atuei na campanha de Black Friday do Gran Cursos e na investigação e correção de erros de indexação no Grupo Estado.',
+      en: 'Contributed to the Gran Cursos Black Friday campaign and investigated and fixed indexing errors at Grupo Estado.',
     },
     metaTitle: {
       pt: 'Otimizar Site Lento: Consultoria SEO Técnico | Filipe',
@@ -303,8 +303,8 @@ export const services: Service[] = [
           en: 'How long until the site shows up in Google again?',
         },
         answer: {
-          pt: 'A correção técnica costuma ser rápida, mas o Google leva tempo para re-rastrear e reindexar as páginas. No Grupo Estado, reduzir os erros do Search Console em mais de 50% foi um trabalho de rastrear cada erro e corrigir um por um no código.',
-          en: 'The technical fix itself is usually quick, but Google takes time to recrawl and reindex pages. At Grupo Estado, cutting Search Console errors by more than 50% meant tracing each error and fixing the underlying code one by one.',
+          pt: 'A correção técnica costuma ser rápida, mas o Google leva tempo para re-rastrear e reindexar as páginas. No Grupo Estado, investigar os erros do Search Console foi um trabalho de rastrear cada erro e corrigir um por um no código.',
+          en: 'The technical fix itself is usually quick, but Google takes time to recrawl and reindex pages. At Grupo Estado, investigating Search Console errors meant tracing each error and fixing the underlying code one by one.',
         },
       },
       {
@@ -423,8 +423,8 @@ export const services: Service[] = [
       en: 'I connect your system to what you already use: payment providers, marketplaces, Instagram, TikTok and third-party APIs.',
     },
     proof: {
-      pt: 'Integrações com Stripe, Instagram Graph API, TikTok API e Google APIs. Numa integração antifraude, os estornos caíram 40%.',
-      en: 'Integrations with Stripe, Instagram Graph API, TikTok API and Google APIs. On one anti-fraud integration, chargebacks dropped 40%.',
+      pt: 'Integrações com Stripe, Instagram Graph API, TikTok API e Google APIs. Também implementei integração antifraude em uma plataforma de doações.',
+      en: 'Integrations with Stripe, Instagram Graph API, TikTok API and Google APIs. Also implemented an anti-fraud integration in a donations platform.',
     },
     metaTitle: {
       pt: 'Integração com API: Instagram e Pagamentos | Filipe',
@@ -499,8 +499,8 @@ export const services: Service[] = [
           en: 'What happens if the third-party API goes down or changes?',
         },
         answer: {
-          pt: 'A integração é construída com tratamento de erro e retentativa, então uma falha temporária não derruba o seu sistema. Numa integração antifraude que fiz, esse cuidado ajudou a derrubar os estornos em 40%.',
-          en: "The integration is built with error handling and retry logic, so a temporary failure doesn't take down your system. On an anti-fraud integration I built, that care helped cut chargebacks by 40%.",
+          pt: 'A integração é construída com tratamento de erro e retentativa, então uma falha temporária não derruba o seu sistema. Esse cuidado ajuda a tratar falhas sem perder o estado da operação.',
+          en: "The integration is built with error handling and retry logic, so a temporary failure doesn't take down your system. This helps handle failures without losing the operation state.",
         },
       },
       {
